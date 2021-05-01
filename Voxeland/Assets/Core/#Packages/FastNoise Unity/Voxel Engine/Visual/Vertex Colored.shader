@@ -1,60 +1,41 @@
-Shader "Custom/Vertex Colored" {
-
-	Properties {
-	
+Shader "Custom/Vertex Colored" 
+{
+	Properties 
+	{
 	    _Color ("Main Color", Color) = (1,1,1,1)
 	}
-	
-	 
-	
-	SubShader {
-	
+	SubShader 
+	{
 	    Tags { "RenderType"="Opaque" }
-	
 	    LOD 150
-	
-	 
-	
+		
 	CGPROGRAM
 	
 	#pragma surface surf Lambert vertex:vert
 	
-	fixed4 _Color;
 	
-	 
-	
-	struct Input {	
+	struct Input 
+	{	
 	    float3 vertColor;
-	
 	};
 	
 	 
 	
-	void vert (inout appdata_full v, out Input o) {
-	
+	void vert (inout appdata_full v, out Input o) 
+	{
 	    UNITY_INITIALIZE_OUTPUT(Input, o);
-	
 	    o.vertColor = v.color;
-	
 	}
 	
-	 
+	fixed4 _Color;
 	
-	void surf (Input IN, inout SurfaceOutput o) {
-	
+	void surf (Input IN, inout SurfaceOutput o) 
+	{
 	    fixed4 c = _Color;
-	
 	    o.Albedo = c.rgb * IN.vertColor;
-	
 	    o.Alpha = c.a;	
 	}
-	
 	ENDCG
-	
 	}
-	
-	 
-	
 	Fallback "Diffuse"
-
 }
