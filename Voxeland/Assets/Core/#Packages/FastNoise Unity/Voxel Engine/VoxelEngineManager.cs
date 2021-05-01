@@ -55,6 +55,7 @@ namespace VoxelEngine
 		// Draw debug info and terrain generator buttons
 		void OnGUI()
 		{
+			return;
 			int labelSpacing = 18;
 			Rect rect = new Rect(4, 0, 300, 20);
 

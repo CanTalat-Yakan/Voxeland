@@ -10,7 +10,7 @@ namespace VoxelEngine
 		public const int BIT_SIZE = 5;
 
 		// Create mesh colliders on chunk game objects
-		public const bool GENERATE_COLLIDERS = false;
+		public const bool GENERATE_COLLIDERS = true;
 
 		// Use gradient adjustment to smooth mesh (Not blocky)
 		public const bool GRADIENT_MESH = false;
