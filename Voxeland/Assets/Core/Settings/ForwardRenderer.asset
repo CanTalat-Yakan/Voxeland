@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
+    Event: 300
     color: {r: 0.7490196, g: 0.8901961, b: 1, a: 1}
     sunColor: {r: 0.8773585, g: 0.8098478, b: 0.6911268, a: 1}
     fogDensity: 0.01
