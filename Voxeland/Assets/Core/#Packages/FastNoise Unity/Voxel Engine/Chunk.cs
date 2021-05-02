@@ -301,6 +301,8 @@ namespace VoxelEngine
 			if (GENERATE_COLLIDERS)
 				chunkGameObject.meshCollider.sharedMesh = mesh;
 #pragma warning restore 0162
+
+			mesh.UploadMeshData(true);
 		}
 	}
 }

@@ -168,13 +168,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainGenerator: {fileID: 237638297}
   targetTransform: {fileID: 85392130}
-  loadDistance: 400
+  loadDistance: 100
   unloadDistanceModifier: 1.2
   yDistanceModifier: 1.5
   maxThreads: 8
   targetFPS: 100
   meshMaterial: {fileID: 2100000, guid: 66be8612cd4bdfe44a37b802bd1dd4d0, type: 2}
-  showDebugInfo: 0
+  showDebugInfo: 1
   directionalLight: {fileID: 1170508917}
   cameraLight: {fileID: 0}
 --- !u!1 &237638294
