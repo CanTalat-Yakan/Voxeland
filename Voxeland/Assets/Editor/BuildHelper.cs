@@ -90,7 +90,7 @@ public class BuildScript
         BuildSummary summary = report.summary;
 
         if (summary.result == BuildResult.Succeeded)
-            UnityEngine.Debug.Log($"{_bpo.target.ToString()} -{_buildType}build succeeded: {printMB(summary.totalSize)} in {summary.totalTime.TotalSeconds.ToString("0.00")} Seconds");
+            UnityEngine.Debug.Log($"{_bpo.target.ToString()} -{_buildType}build succeeded: {printMB(summary.totalSize)} in {summary.totalTime.TotalSeconds.ToString("0")} Seconds");
 
         if (summary.result == BuildResult.Failed)
             UnityEngine.Debug.Log($"Build failed with {summary.totalWarnings} Warnings!");
