@@ -9,7 +9,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
-/'#Packages'/**
+/Voxeland/Assets/Core/'#Packages'/**
 /'#Packages.meta'/**
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
