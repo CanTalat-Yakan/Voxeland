@@ -580,6 +580,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 408149186}
     m_Modifications:
+    - target: {fileID: 2235384052035966520, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235384052035966520, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235384052035966520, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235384052035966520, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2235384052917656388, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -667,6 +683,22 @@ PrefabInstance:
     - target: {fileID: 2235384052917656389, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235384053184789573, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235384053184789573, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235384053184789573, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235384053184789573, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbb2446c9f6aeb149b995f57fc11b327, type: 3}
