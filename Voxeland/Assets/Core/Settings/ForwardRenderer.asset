@@ -67,7 +67,7 @@ MonoBehaviour:
     extraFogHeightPower: 0.5
     directionalIntesity: 1
     directionalPower: 1
---- !u!114 &-702547013244603305
+--- !u!114 &-2540348111937312876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,18 +77,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
-  m_Name: AO
+  m_Name: SSAO
   m_EditorClassIdentifier: 
   m_Active: 1
   m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
   m_Settings:
-    Downsample: 0
-    Source: 1
+    Downsample: 1
+    Source: 0
     NormalSamples: 1
-    Intensity: 0.8
-    DirectLightingStrength: 0.596
-    Radius: 0.15
-    SampleCount: 7
+    Intensity: 0.51
+    DirectLightingStrength: 0.114
+    Radius: 0.19
+    SampleCount: 4
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,11 +102,11 @@ MonoBehaviour:
   m_Name: ForwardRenderer
   m_EditorClassIdentifier: 
   m_RendererFeatures:
-  - {fileID: -702547013244603305}
+  - {fileID: -2540348111937312876}
   - {fileID: -5688809853220478843}
   - {fileID: 1771393824380239912}
   - {fileID: -9076684269036682006}
-  m_RendererFeatureMap: 57348bb5360d40f685200d4094490db12840814b4c419518ea44b165bf230982
+  m_RendererFeatureMap: 946724fed9debedc85200d4094490db12840814b4c419518ea44b165bf230982
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
