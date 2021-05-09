@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2565500189049374913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3510001889307709074}
+  - component: {fileID: 7903374510214679050}
+  - component: {fileID: 4633927913703609383}
+  m_Layer: 0
+  m_Name: Noise 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3510001889307709074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565500189049374913}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7903374510214679050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565500189049374913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d544a8f97afb74fa7511402afc2703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fastNoiseSIMDUnity:
+  - {fileID: 4633927913703609383}
+  caveRatio: 0.88
+  stoneMinColor:
+    serializedVersion: 2
+    rgba: 4288059030
+  stoneMaxColor:
+    serializedVersion: 2
+    rgba: 4284769380
+--- !u!114 &4633927913703609383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565500189049374913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7826176e38e08409e4f3effeb8a2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noiseName: Cave Noise
+  seed: 1337
+  frequency: 0.003
+  noiseType: 7
+  axisScales: {x: 2, y: 2, z: 2}
+  octaves: 3
+  lacunarity: 2
+  gain: 0.5
+  fractalType: 0
+  cellularDistanceFunction: 0
+  cellularReturnType: 8
+  cellularNoiseLookupType: 4
+  cellularNoiseLookupFrequency: 0.2
+  cellularDistanceIndex0: 0
+  cellularDistanceIndex1: 1
+  cellularJitter: 0.3
+  perturbType: 2
+  perturbAmp: 0.3
+  perturbFrequency: 3
+  perturbNormaliseLength: 1
+  perturbOctaves: 2
+  perturbLacunarity: 12
+  perturbGain: 0.08
+  generalSettingsFold: 1
+  fractalSettingsFold: 1
+  cellularSettingsFold: 1
+  perturbSettingsFold: 1
