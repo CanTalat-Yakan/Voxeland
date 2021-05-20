@@ -1,17 +1,18 @@
 using System.Diagnostics;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 
 public class BuildScript
 {
-    [MenuItem("Build/Open Folder", false, 10)]
+    [MenuItem("Build/Open Folder", false, 0)]
     public static void OpenFolder()
     {
         Process.Start(@"Builds");
     }
 
-    [MenuItem("Build/Build All")]
+    [MenuItem("Build/Build All", false, 100)]
     public static void BuildAll()
     {
         BuildWindowsServer();
@@ -20,22 +21,14 @@ public class BuildScript
         BuildWebGLClient();
     }
 
-    #region ----- Functions
-    [MenuItem("Build/Build Client (Windows)")]
-    public static void BuildWindowsClient()
-    {
-        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = GetBuildScenes();
-        buildPlayerOptions.locationPathName = "Builds/Windows/Client/Client.exe";
-        buildPlayerOptions.target = BuildTarget.StandaloneWindows;
-        buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
-        BuildPlayer(buildPlayerOptions);
-    }
-    [MenuItem("Build/Build Client (WebGL)")]  
+
+    [MenuItem("Build/Client (WebGL)", false, 20)]
     public static void BuildWebGLClient()
     {
         if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
+
+        SetVersion();
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = GetBuildScenes();
@@ -46,12 +39,17 @@ public class BuildScript
 
         EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
     }
-    void OnActiveBuildTargetChanged(BuildTarget _previousTarget, BuildTarget _newTarget)
+    [MenuItem("Build/Client (Windows)", false, 21)]
+    public static void BuildWindowsClient()
     {
-        if (_newTarget == BuildTarget.WebGL)
-            BuildWebGLClient();
+        BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+        buildPlayerOptions.scenes = GetBuildScenes();
+        buildPlayerOptions.locationPathName = "Builds/Windows/Client/Client.exe";
+        buildPlayerOptions.target = BuildTarget.StandaloneWindows;
+        buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+        BuildPlayer(buildPlayerOptions);
     }
-    [MenuItem("Build/Build Server (Windows)")]  
+    [MenuItem("Build/Server (Windows)", false, 50)]
     public static void BuildWindowsServer()
     {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -61,7 +59,7 @@ public class BuildScript
         buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.EnableHeadlessMode;
         BuildPlayer(buildPlayerOptions, "Server");
     }
-    [MenuItem("Build/Build Server (Linux)")]
+    [MenuItem("Build/Server (Linux)", false, 51)]
     public static void BuildLinuxServer()
     {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -71,11 +69,10 @@ public class BuildScript
         buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.EnableHeadlessMode;
         BuildPlayer(buildPlayerOptions, "Server");
     }
-    #endregion
 
 
-    #region ----- Utilities
-    public static string[] GetBuildScenes()
+    #region ----- Helper
+    static string[] GetBuildScenes()
     {
         List<string> scenes = new List<string>();
         foreach (EditorBuildSettingsScene scene in EditorBuildSettings.scenes)
@@ -84,21 +81,26 @@ public class BuildScript
 
         return scenes.ToArray();
     }
-    public static void BuildPlayer(BuildPlayerOptions _bpo, string _buildType = "Client")
+    static void BuildPlayer(BuildPlayerOptions _bpo, string _buildType = "Client")
     {
         BuildReport report = BuildPipeline.BuildPlayer(_bpo);
         BuildSummary summary = report.summary;
 
         if (summary.result == BuildResult.Succeeded)
-            UnityEngine.Debug.Log($"{_bpo.target.ToString()} -{_buildType}build succeeded: {printMB(summary.totalSize)} in {summary.totalTime.TotalSeconds.ToString("0")} Seconds");
+            UnityEngine.Debug.Log($"{_bpo.target.ToString()} - {_buildType}build succeeded: {PrintMB(summary.totalSize)} in {summary.totalTime.TotalSeconds.ToString("0")} Seconds");
 
         if (summary.result == BuildResult.Failed)
             UnityEngine.Debug.Log($"Build failed with {summary.totalWarnings} Warnings!");
     }
-    public static string printMB(ulong sizekB)
+    static string PrintMB(ulong sizekB)
     {
         double sizeMB = (double)sizekB / 1048576;
         return sizeMB.ToString("0.000") + " MB";
+    }
+    static void SetVersion()
+    {
+        string[] vn = Application.version.Split('.');
+        PlayerSettings.bundleVersion = $"{vn[0]}.{vn[1]}.{(int.Parse(vn[2]) + 1).ToString()}";
     }
     #endregion
 }
