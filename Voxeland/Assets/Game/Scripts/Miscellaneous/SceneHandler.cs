@@ -74,11 +74,14 @@ public class SceneHandler : MonoBehaviour
     public static void Quit()
     {
 #if UNITY_EDITOR
-        // UnityEditor.EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
-        // Application.Quit();
-        // if (Application.platform == RuntimePlatform.WebGLPlayer)
+        Application.Quit();
 #endif
+    }
+
+    public static void Leave()
+    {
         NetworkManager.singleton.StopClient();
     }
 }
