@@ -8,6 +8,8 @@ using UnityEngine.Rendering;
 
 public class SettingsManager : MonoBehaviour
 {
+    [SerializeField] private ForwardRendererData m_rendererData;
+    [SerializeField] private VolumeProfile m_postprocessingData;
     [SerializeField] private GameObject m_quit;
     [SerializeField] private Settings_Container m_settings;
     [SerializeField] private RenderTexture m_renderTexture;
@@ -18,7 +20,8 @@ public class SettingsManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI
     m_masterVolumeTMPro, m_musicVolumeTMPro, m_ambientVolumeTMPro,
-    m_fieldOfViewTMPro, m_renderDistanceTMPro, m_renderScaleTMPro, m_currentGraphicsTierTMPro;
+    m_fieldOfViewTMPro, m_renderDistanceTMPro, m_renderScaleTMPro, m_currentGraphicsTierTMPro,
+    m_ssaoTMPro, m_fogTMPro, m_bloomTMPro, m_depthOfFieldTMPro;
     [SerializeField] private Button m_currentGraphicsTier;
 
 
@@ -32,20 +35,24 @@ public class SettingsManager : MonoBehaviour
 
     void ResetAll()
     {
-        m_fieldOfView.value = m_settings.FOV;
-
-        m_renderDistance.value = m_settings.RenderDistance;
-        m_renderScale.value = m_settings.RenderScale;
-        m_currentGraphicsTierTMPro.SetText($"Graphics: {m_graphicsTierString[m_settings.CurrentPipelineAssetIndex].ToString()}");
-
         m_masterVolume.value = AudioListener.volume * 100;
-
-
-        SetFOV();
         SetMasterVolume();
+        m_musicVolume.value = AudioManager.Instance.GetMainMusicVolume() * 100;
         SetMusicVolume();
         SetAmbientVolume();
+
+        m_fieldOfView.value = m_settings.FOV;
+        SetFOV();
+        m_renderDistance.value = m_settings.RenderDistance;
         SetRenderDistance();
+        m_renderScale.value = m_settings.RenderScale;
+        SetRenderScale();
+
+        m_currentGraphicsTierTMPro.SetText($"Graphics: {m_graphicsTierString[m_settings.CurrentPipelineAssetIndex].ToString()}");
+        m_ssaoTMPro.SetText($"SSAO: {(m_settings.SSAO ? "ON" : "OFF")}");
+        m_fogTMPro.SetText($"Fog: {(m_settings.Fog ? "ON" : "OFF")}");
+        m_bloomTMPro.SetText($"Bloom: {(m_settings.Bloom ? "ON" : "OFF")}");
+        m_depthOfFieldTMPro.SetText($"Depth of Field: {(m_settings.DepthOfField ? "ON" : "OFF")}");
     }
 
     public void SetFOV()
@@ -61,6 +68,7 @@ public class SettingsManager : MonoBehaviour
     }
     public void SetMusicVolume()
     {
+        AudioManager.Instance.SetMainMusicVolume(m_musicVolume.value * 0.01f);
         m_musicVolumeTMPro.SetText($"Music: {m_musicVolume.value.ToString()}%");
     }
     public void SetAmbientVolume()
@@ -76,8 +84,8 @@ public class SettingsManager : MonoBehaviour
     public void SetRenderScale()
     {
         if (GameManager.Instance)
-            if (GameManager.Instance.m_MainCamera != null)
-                if (GameManager.Instance.m_MainCamera.targetTexture != null)
+            if (GameManager.Instance.m_MainCamera)
+                if (GameManager.Instance.m_MainCamera.targetTexture)
                     GameManager.Instance.m_MainCamera.targetTexture.Release();
 
         m_settings.RenderScale = Mathf.RoundToInt(m_renderScale.value);
@@ -87,7 +95,7 @@ public class SettingsManager : MonoBehaviour
         m_renderTexture.height = Mathf.RoundToInt(r.height * 0.01f * m_renderScale.value);
 
         if (GameManager.Instance)
-            if (GameManager.Instance.m_MainCamera != null)
+            if (GameManager.Instance.m_MainCamera)
                 GameManager.Instance.m_MainCamera.targetTexture = m_renderTexture;
 
         m_renderScaleTMPro.SetText($"Render Scale: {m_renderScale.value.ToString()}%");
@@ -102,14 +110,46 @@ public class SettingsManager : MonoBehaviour
                 break;
             }
 
-
         currentIndex++;
         if (currentIndex == m_graphicsTier.Length)
             currentIndex = 0;
 
         m_settings.CurrentPipelineAssetIndex = currentIndex;
         GraphicsSettings.renderPipelineAsset = m_graphicsTier[currentIndex];
+        QualitySettings.renderPipeline = m_graphicsTier[currentIndex];
 
         m_currentGraphicsTierTMPro.SetText($"Graphics: {m_graphicsTierString[currentIndex].ToString()}");
+    }
+
+    public void SetSSAO()
+    {
+        m_settings.SSAO = !m_settings.SSAO;
+        m_rendererData.rendererFeatures[0].SetActive(m_settings.SSAO);
+        m_ssaoTMPro.SetText($"SSAO: {(m_settings.SSAO ? "ON" : "OFF")}");
+    }
+
+    public void SetFog()
+    {
+        m_settings.Fog = !m_settings.Fog;
+        m_rendererData.rendererFeatures[1].SetActive(m_settings.Fog);
+        m_fogTMPro.SetText($"Fog: {(m_settings.Fog ? "ON" : "OFF")}");
+    }
+
+    public void SetBloom()
+    {
+        m_settings.Bloom = !m_settings.Bloom;
+        Bloom bloom;
+        m_postprocessingData.TryGet(out bloom);
+        bloom.active = m_settings.Bloom;
+        m_bloomTMPro.SetText($"Bloom: {(m_settings.Bloom ? "ON" : "OFF")}");
+    }
+
+    public void SetDepthOfField()
+    {
+        m_settings.DepthOfField = !m_settings.DepthOfField;
+        DepthOfField depth;
+        m_postprocessingData.TryGet(out depth);
+        depth.active = m_settings.DepthOfField;
+        m_depthOfFieldTMPro.SetText($"Depth of Field: {(m_settings.DepthOfField ? "ON" : "OFF")}");
     }
 }
