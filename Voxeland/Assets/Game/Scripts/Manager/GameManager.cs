@@ -33,16 +33,28 @@ public class GameManager : MonoBehaviour
     }
     void OnDestroy()
     {
+        SceneHandler.UnloadScene("Chat");
         Instance = null;
+    }
+
+    void Start()
+    {
+        SceneHandler.AddScene("Chat");
     }
 
     void Update()
     {
-        if (m_MainCamera != null)
+        if (m_MainCamera)
             m_MainCamera.fieldOfView = m_Settings.FOV;
 
         if (Input.GetButtonDown("Cancel"))
             OptionsOverlay();
+
+        if (m_Player)
+            if (m_Player.transform.position.y <= -130)
+                m_Player.transform.position = m_Player.transform.position + Vector3.up * 256;
+
+        // Time.timeScale = LOCKED ? 0 : 1;
     }
     void OptionsOverlay()
     {
