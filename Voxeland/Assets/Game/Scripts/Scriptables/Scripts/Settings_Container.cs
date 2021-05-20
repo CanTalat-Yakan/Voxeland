@@ -20,5 +20,11 @@ public class Settings_Container : ScriptableObject
     public int RenderScale;
     public int CurrentPipelineAssetIndex;
     [Space]
+    public bool SSAO;
+    public bool Fog;
+    public bool Bloom;
+    public bool DepthOfField;
+    [Space]
     public Font BlockFont;
+    public Texture2D[] SkinTextures;
 }

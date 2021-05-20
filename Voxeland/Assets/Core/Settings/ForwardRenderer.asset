@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: Players Behind
+  m_Name: Visible Behind
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: Players Behind
+    passTag: Visible Behind
     Event: 300
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
-        m_Bits: 64
+        m_Bits: 256
       PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: 6dc92c0832906d74998882d96c287557, type: 2}
+    overrideMaterial: {fileID: 2100000, guid: 1c7527c3013cdda41a126fe9c5e7d2a8, type: 2}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
     depthCompareFunction: 5
@@ -39,6 +39,20 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 108
+--- !u!114 &-7114936492833761350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76c1c937ea3d84687c80c89385f2e1, type: 3}
+  m_Name: NewBlitMaterialFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings: {material: {fileID: 0}, materialPassIndex: -1, renderEvent: 300}
 --- !u!114 &-5688809853220478843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,11 +67,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    Event: 300
+    Event: 500
     color: {r: 0.7490196, g: 0.8901961, b: 1, a: 1}
     sunColor: {r: 0.8773585, g: 0.8098478, b: 0.6911268, a: 1}
     fogDensity: 0.01
-    fogDensityPower: 3.8
+    fogDensityPower: 3
     skyAlpha: 1
     useHeightFog: 1
     fogHeightStart: 0
@@ -79,16 +93,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: SSAO
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
   m_Settings:
-    Downsample: 1
+    Downsample: 0
     Source: 0
     NormalSamples: 1
-    Intensity: 0.51
-    DirectLightingStrength: 0.114
-    Radius: 0.19
-    SampleCount: 4
+    Intensity: 0.64
+    DirectLightingStrength: 0.38
+    Radius: 0.63
+    SampleCount: 6
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,9 +118,9 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -2540348111937312876}
   - {fileID: -5688809853220478843}
-  - {fileID: 1771393824380239912}
   - {fileID: -9076684269036682006}
-  m_RendererFeatureMap: 946724fed9debedc85200d4094490db12840814b4c419518ea44b165bf230982
+  - {fileID: 4715126325161221041}
+  m_RendererFeatureMap: 946724fed9debedc85200d4094490db1ea44b165bf230982b1db5332697e6f41
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
@@ -121,7 +135,7 @@ MonoBehaviour:
     materialErrorPS: {fileID: 4800000, guid: 5fd9a8feb75a4b5894c241777f519d4e, type: 3}
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 247
   m_TransparentLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -135,7 +149,7 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
   m_AccurateGbufferNormals: 0
---- !u!114 &1771393824380239912
+--- !u!114 &4715126325161221041
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,22 +159,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: Player Opaque
+  m_Name: Client Opaque
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: Player Opaque
+    passTag: Client Opaque
     Event: 300
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
-        m_Bits: 64
+        m_Bits: 256
       PassNames: []
     overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
-    overrideDepthState: 1
-    depthCompareFunction: 2
+    overrideDepthState: 0
+    depthCompareFunction: 4
     enableWrite: 1
     stencilSettings:
       overrideStencilState: 0
@@ -174,3 +188,16 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 60
+--- !u!114 &7160778331162151056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66860fc7525453443be7af607eef8ec9, type: 3}
+  m_Name: Outline
+  m_EditorClassIdentifier: 
+  m_Active: 1
