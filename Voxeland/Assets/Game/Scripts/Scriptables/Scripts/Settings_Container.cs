@@ -16,6 +16,7 @@ public class Settings_Container : ScriptableObject
 
     [Space]
     public int FOV;
+    public float MouseSensitivity;
     public int RenderDistance;
     public int RenderScale;
     public int CurrentPipelineAssetIndex;

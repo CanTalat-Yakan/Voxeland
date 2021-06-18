@@ -867,8 +867,9 @@ MonoBehaviour:
   _rootMotionRotation: 0
   _forwardSpeed: 4.5
   _backwardSpeed: 1.75
-  _strafeSpeed: 2
+  _strafeSpeed: 3
   _runSpeedMultiplier: 1.5
+  _crouchSpeedMultiplier: 0.4
 --- !u!114 &7651581805089940026
 MonoBehaviour:
   m_ObjectHideFlags: 0

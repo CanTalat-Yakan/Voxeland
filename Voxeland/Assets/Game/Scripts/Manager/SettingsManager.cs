@@ -5,24 +5,40 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
+using System;
 
 public class SettingsManager : MonoBehaviour
 {
+    [Header("Quality Settings")]
     [SerializeField] private ForwardRendererData m_rendererData;
+    [SerializeField] private UniversalRenderPipelineAsset[] m_graphicsTier;
+    [SerializeField] private string[] m_graphicsTierString = new string[4] { "Low", "Medium", "High", "Epic" };
+    [SerializeField] private Button m_currentGraphicsTier;
+
+    [Header("Other Settings")]
     [SerializeField] private VolumeProfile m_postprocessingData;
     [SerializeField] private GameObject m_quit;
     [SerializeField] private Settings_Container m_settings;
     [SerializeField] private RenderTexture m_renderTexture;
-    [SerializeField] private UniversalRenderPipelineAsset[] m_graphicsTier;
-    [SerializeField] private string[] m_graphicsTierString = new string[4] { "Low", "Medium", "High", "Epic" };
-    [SerializeField] private Slider m_masterVolume, m_musicVolume, m_ambientVolume;
-    [SerializeField] private Slider m_fieldOfView, m_renderDistance, m_renderScale;
+    [Header("Music")]
+    [SerializeField] private Slider m_masterVolume;
+    [SerializeField] private Slider m_musicVolume, m_ambientVolume;
+    [Header("Video")]
+    [SerializeField] private Slider m_renderDistance;
+    [SerializeField] private Slider m_renderScale;
+    [Header("Gameplay")]
+    [SerializeField] private Slider m_fieldOfView;
+    [SerializeField] private Slider m_mouseSensitivity;
+
+    [Space]
+    [Header("Text Mesh Pro's")]
+    [SerializeField]
+    private TextMeshProUGUI m_masterVolumeTMPro; 
     [SerializeField]
     private TextMeshProUGUI
-    m_masterVolumeTMPro, m_musicVolumeTMPro, m_ambientVolumeTMPro,
-    m_fieldOfViewTMPro, m_renderDistanceTMPro, m_renderScaleTMPro, m_currentGraphicsTierTMPro,
+    m_musicVolumeTMPro, m_ambientVolumeTMPro,
+    m_fieldOfViewTMPro, m_mouseSensitivityTMPro, m_renderDistanceTMPro, m_renderScaleTMPro, m_currentGraphicsTierTMPro,
     m_ssaoTMPro, m_fogTMPro, m_bloomTMPro, m_depthOfFieldTMPro;
-    [SerializeField] private Button m_currentGraphicsTier;
 
 
     void Start()
@@ -43,6 +59,8 @@ public class SettingsManager : MonoBehaviour
 
         m_fieldOfView.value = m_settings.FOV;
         SetFOV();
+        m_mouseSensitivity.value = m_settings.MouseSensitivity;
+        SetMouseSensitivity();
         m_renderDistance.value = m_settings.RenderDistance;
         SetRenderDistance();
         m_renderScale.value = m_settings.RenderScale;
@@ -59,6 +77,12 @@ public class SettingsManager : MonoBehaviour
     {
         m_settings.FOV = (int)m_fieldOfView.value;
         m_fieldOfViewTMPro.text = "FOV: " + m_settings.FOV.ToString();
+    }
+
+    public void SetMouseSensitivity()
+    {
+        m_settings.MouseSensitivity = (float)Math.Round((double)m_mouseSensitivity.value, 2);
+        m_mouseSensitivityTMPro.text = "MouseSensitivity: " + m_settings.MouseSensitivity.ToString() + "x";
     }
 
     public void SetMasterVolume()
