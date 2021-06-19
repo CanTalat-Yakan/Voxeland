@@ -701,6 +701,7 @@ GameObject:
   - component: {fileID: 7651581805089940021}
   - component: {fileID: 5918094275215580171}
   - component: {fileID: 6626020152996040066}
+  - component: {fileID: -1121710074929719197}
   m_Layer: 6
   m_Name: ECM_Player
   m_TagString: Untagged
@@ -771,7 +772,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   _groundLimit: 60
-  _stepOffset: 0.07
+  _stepOffset: 0.1
   _ledgeOffset: 0
   _castDistance: 0.5
   _triggerInteraction: 1
@@ -949,6 +950,19 @@ MonoBehaviour:
   - {fileID: 5005289635065214299}
   m_canvas: {fileID: 2613177194079179881}
   m_nameTMPro: {fileID: 2999505666332417603}
+--- !u!114 &-1121710074929719197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7651581805089940020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cde6e6119dda61946b89240da52cfcdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectionBox: {fileID: 1002431069189283277, guid: 248c47e43777d35419b6b60793da616f, type: 3}
 --- !u!1 &7651581805975974738
 GameObject:
   m_ObjectHideFlags: 0
