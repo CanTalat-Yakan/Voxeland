@@ -8,12 +8,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public bool LOCKED;
+    public bool LOCKED = false;
     public Camera m_MainCamera;
     public GameObject m_Player;
     public LayerMask m_PlayerLayer;
     public LayerMask m_EntityLayer;
     public Settings_Container m_Settings;
+    public bool m_ShowDebugInfo = false;
 
     void Awake()
     {
@@ -56,6 +57,8 @@ public class GameManager : MonoBehaviour
                 m_Player.transform.position = m_Player.transform.position + Vector3.up * 256;
 
         // Time.timeScale = LOCKED ? 0 : 1;
+        if (Input.GetKeyDown(KeyCode.F2))
+            m_ShowDebugInfo = !m_ShowDebugInfo;
     }
     void OptionsOverlay()
     {

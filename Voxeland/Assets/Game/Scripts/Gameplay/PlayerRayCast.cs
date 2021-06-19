@@ -8,6 +8,7 @@ public class PlayerRayCast : MonoBehaviour
     [SerializeField] GameObject SelectionBox;
     Vector3Int? FocusedBlockPos, PlacementBlockPos;
     Chunk FocusedChunk;
+    Chunk WalkingChunk;
     Voxel? FocusedVoxel;
     void Start()
     {
@@ -28,11 +29,48 @@ public class PlayerRayCast : MonoBehaviour
 
         GetBlockPos();
 
-        if (!OnHit())
-            if (FocusedChunk != null)
-                Debug.Log(FocusedChunk.chunkGameObject.gameObject.name);
+        OnHit();
     }
 
+    void OnGUI()
+    {
+        if (!GameManager.Instance.m_ShowDebugInfo) return;
+
+
+        int labelSpacing = 33;
+        Rect rect = new Rect(Screen.width - 400, 0, 400, 30);
+
+        var TextStyle = new GUIStyle();
+        TextStyle.fontSize = 24;
+        TextStyle.normal.textColor = Color.white;
+        TextStyle.normal.background = Texture2D.grayTexture;
+        TextStyle.font = GameManager.Instance.m_Settings.BlockFont;
+
+
+        if (FocusedBlockPos != null)
+            GUI.Box(rect, " Focused Block Pos: " + FocusedBlockPos, TextStyle);
+        else
+            GUI.Box(rect, " Focused Block Pos: None", TextStyle);
+        rect.y += labelSpacing;
+
+        if (FocusedVoxel != null)
+            GUI.Box(rect, " Focused Voxel: " + FocusedVoxel, TextStyle);
+        else
+            GUI.Box(rect, " Focused Voxel: None", TextStyle);
+        rect.y += labelSpacing;
+
+        if (FocusedChunk != null)
+            GUI.Box(rect, " Focused Chunk: " + (Vector3Int)FocusedChunk.chunkPos, TextStyle);
+        else
+            GUI.Box(rect, " Focused Chunk: None", TextStyle);
+        rect.y += labelSpacing;
+
+        if (WalkingChunk != null)
+            GUI.Box(rect, " Walking Chunk: " + (Vector3Int)WalkingChunk.chunkPos, TextStyle);
+        else
+            GUI.Box(rect, " Walking Chunk: None", TextStyle);
+        rect.y += labelSpacing;
+    }
 
     Vector3Int GetLocalChunkPos(Vector3Int _worldPos)
     {
@@ -51,6 +89,13 @@ public class PlayerRayCast : MonoBehaviour
 
         return localPos;
     }
+    Vector3Int GetLocalChunkPos(Vector3 _worldPos)
+    {
+        return GetLocalChunkPos(new Vector3Int(
+            (int)_worldPos.x,
+            (int)_worldPos.y,
+            (int)_worldPos.z));
+    }
 
     void GetBlockPos()
     {
@@ -60,9 +105,9 @@ public class PlayerRayCast : MonoBehaviour
             8);
 
         FocusedBlockPos = new Vector3Int(
-                    Mathf.RoundToInt(hit.point.x - hit.normal.x * 0.4f),
-                    Mathf.RoundToInt(hit.point.y - hit.normal.y * 0.4f),
-                    Mathf.RoundToInt(hit.point.z - hit.normal.z * 0.4f));
+            Mathf.RoundToInt(hit.point.x - hit.normal.x * 0.4f),
+            Mathf.RoundToInt(hit.point.y - hit.normal.y * 0.4f),
+            Mathf.RoundToInt(hit.point.z - hit.normal.z * 0.4f));
 
         PlacementBlockPos = new Vector3Int(
             Mathf.RoundToInt(hit.point.x + hit.normal.x * 0.4f),
@@ -72,7 +117,12 @@ public class PlayerRayCast : MonoBehaviour
         FocusedChunk = VoxelEngineManager.Instance.GetChunk(
             (Vector3i)GetLocalChunkPos(FocusedBlockPos.Value));
 
-        SelectionBox.transform.position = FocusedBlockPos.Value;
+        WalkingChunk = VoxelEngineManager.Instance.GetChunk(
+            (Vector3i)GetLocalChunkPos(gameObject.transform.position));
+
+        SelectionBox.SetActive(FocusedBlockPos != null);
+        if (FocusedBlockPos != null)
+            SelectionBox.transform.position = FocusedBlockPos.Value;
     }
 
     bool OnHit()
@@ -88,6 +138,7 @@ public class PlayerRayCast : MonoBehaviour
             PlacementBlockPos = null;
             FocusedVoxel = null;
             FocusedChunk = null;
+            WalkingChunk = null;
         }
         return false;
     }
