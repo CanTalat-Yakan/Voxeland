@@ -38,21 +38,11 @@ public class GameManager : MonoBehaviour
         Instance = null;
     }
 
-    GameObject SelectionBox;
-    Vector3Int FocusedBlockPos;
-    Chunk FocusedChunk;
-    GameObject ChunkGameObject;
-    Voxel FocusedVoxel;
-    Vector3Int PlacementBlockPos;
     void Start()
     {
         SceneHandler.AddScene("Chat");
-        SelectionBox = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        SelectionBox.GetComponent<BoxCollider>().enabled = false;
-        SelectionBox.transform.localScale *= 1.1f;
     }
 
-    bool a = false;
     void Update()
     {
         if (m_MainCamera)
@@ -66,41 +56,6 @@ public class GameManager : MonoBehaviour
                 m_Player.transform.position = m_Player.transform.position + Vector3.up * 256;
 
         // Time.timeScale = LOCKED ? 0 : 1;
-        RaycastHit hit = HitRayCast(m_MainCamera.transform.position, m_MainCamera.transform.forward, 8);
-        Vector3 pos = hit.point;
-        FocusedBlockPos = new Vector3Int(
-            Mathf.RoundToInt(pos.x - hit.normal.x * 0.4f),
-            Mathf.RoundToInt(pos.y - hit.normal.y * 0.4f),
-            Mathf.RoundToInt(pos.z - hit.normal.z * 0.4f));
-
-        PlacementBlockPos = new Vector3Int(
-            Mathf.RoundToInt(pos.x + hit.normal.x * 0.4f),
-            Mathf.RoundToInt(pos.y + hit.normal.y * 0.4f),
-            Mathf.RoundToInt(pos.z + hit.normal.z * 0.4f));
-
-        if (Input.GetMouseButtonDown(1))
-            a = !a;
-
-        SelectionBox.transform.position = a ? FocusedBlockPos : PlacementBlockPos;
-
-        FocusedChunk = VoxelEngineManager.Instance.GetChunk((Vector3i)GetLocalChunkPos(FocusedBlockPos));
-    }
-    Vector3Int GetLocalChunkPos(Vector3Int _worldPos)
-    {
-        _worldPos += Vector3Int.one; //offset
-        Vector3Int localPos = new Vector3Int(
-            _worldPos.x / 16,
-            _worldPos.y / 16,
-            _worldPos.z / 16);
-
-        if (_worldPos.x < 0)
-            localPos.x -= 1;
-        if (_worldPos.y < 0)
-            localPos.y -= 1;
-        if (_worldPos.z < 0)
-            localPos.z -= 1;
-
-        return localPos;
     }
     void OptionsOverlay()
     {
