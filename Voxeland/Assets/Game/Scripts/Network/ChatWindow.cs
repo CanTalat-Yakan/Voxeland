@@ -7,6 +7,8 @@ namespace Mirror
 {
     public class ChatWindow : MonoBehaviour
     {
+        public static ChatWindow Instance { get; private set; }
+
         public GameObject chatBox;
         public TMP_InputField chatMessage;
         public TextMeshProUGUI chatHistory;
@@ -16,10 +18,20 @@ namespace Mirror
         void Awake()
         {
             Player.OnMessage += OnPlayerMessage;
+
+            if (Instance is null)
+                Instance = this;
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
         }
         void OnDestroy()
         {
             Player.OnMessage -= OnPlayerMessage;
+
+            Instance = null;
         }
         void Start()
         {
@@ -38,6 +50,11 @@ namespace Mirror
             AppendMessage(prettyMessage);
 
             // Debug.Log(message);
+        }
+        public void OnServerMessage(string message)
+        {
+            string prettyMessage = $"Server: {message}";
+            AppendMessage(prettyMessage);
         }
 
         public void OnSend()
