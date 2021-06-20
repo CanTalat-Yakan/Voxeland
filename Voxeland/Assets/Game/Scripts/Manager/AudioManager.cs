@@ -17,10 +17,17 @@ public class AudioManager : MonoBehaviour
         if (Instance is null)
             Instance = this;
         else
+        {
             Destroy(gameObject);
+            return;
+        }
 
         StartCoroutine(StreamMainMusic("http://voxeland.xyz/bgmusic/minecraft-background-music.mp3", AudioType.MPEG));
         // StartCoroutine(StreamMainMusic("http://voxeland.xyz/bgmusic/minecraft-background-music.ogg"));
+    }
+    void OnDestroy()
+    {
+        Instance = null;
     }
 
     IEnumerator StreamMainMusic(string _link, AudioType _type = AudioType.OGGVORBIS)
