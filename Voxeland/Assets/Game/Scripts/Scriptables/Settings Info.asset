@@ -22,6 +22,12 @@ MonoBehaviour:
   Bloom: 0
   DepthOfField: 0
   BlockFont: {fileID: 12800000, guid: fcdf482817c441d47a7b7d7509f78af2, type: 3}
-  SkinTextures:
-  - {fileID: 2800000, guid: 06c328d8f9b9e9f4697ed68d56a4cb99, type: 3}
-  - {fileID: 2800000, guid: f56a59a448ecd13428fdb6a359eb409d, type: 3}
+  SkinHeadTextures:
+  - {fileID: 2800000, guid: ebaffeffd2135ca4eb55f0f02d1471d6, type: 3}
+  - {fileID: 2800000, guid: 05a42cf16e667754d908a88bd0f18838, type: 3}
+  SkinTopTextures:
+  - {fileID: 2800000, guid: c4e915c0c5ea5e54cbae13d73ddac6ce, type: 3}
+  - {fileID: 2800000, guid: 4e728e77190da754fa89fb190c9536dd, type: 3}
+  SkinBottomTextures:
+  - {fileID: 2800000, guid: dfcd274369be7454b937ddda31ea10e7, type: 3}
+  - {fileID: 2800000, guid: a0f7cd582ae3b854b9946e68aabd5cf5, type: 3}

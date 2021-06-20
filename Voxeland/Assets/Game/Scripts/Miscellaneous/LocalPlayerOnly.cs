@@ -18,6 +18,7 @@ public class LocalPlayerOnly : Mirror.NetworkBehaviour
                 GameManager.Instance.m_Player = gameObject;
             }
             player.SetShadowCastOnly();
+            m_camera.GetComponent<AudioListener>().enabled = true;
 
             return;
         }
@@ -33,5 +34,7 @@ public class LocalPlayerOnly : Mirror.NetworkBehaviour
         m_camera.gameObject.SetActive(false);
 
         GetComponent<NetworkTransform>().enabled = true;
+        GetComponent<AnimationController>().enabled = true;
+        GetComponent<NetworkAnimator>().enabled = true;
     }
 }

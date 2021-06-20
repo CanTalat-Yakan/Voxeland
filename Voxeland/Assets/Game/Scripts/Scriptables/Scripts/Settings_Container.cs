@@ -27,5 +27,7 @@ public class Settings_Container : ScriptableObject
     public bool DepthOfField;
     [Space]
     public Font BlockFont;
-    public Texture2D[] SkinTextures;
+    public Texture2D[] SkinHeadTextures;
+    public Texture2D[] SkinTopTextures;
+    public Texture2D[] SkinBottomTextures;
 }

@@ -23,11 +23,16 @@ namespace Mirror
         {
             ColorUtility.TryParseHtmlString(playerColor, out Color newCol);
             if (!string.IsNullOrEmpty(playerColor))
-                foreach (var item in m_renderer)
-                {
-                    item.material.SetTexture("_BaseMap", GameManager.Instance.m_Settings.SkinTextures[playerTexture]);
-                    item.material.SetColor("_BaseColor", newCol);
-                }
+            {
+                m_renderer[0].material.SetTexture("_BaseMap", GameManager.Instance.m_Settings.SkinHeadTextures[playerTexture]);
+                m_renderer[0].material.SetColor("_BaseColor", newCol);
+                
+                m_renderer[1].material.SetTexture("_BaseMap", GameManager.Instance.m_Settings.SkinTopTextures[playerTexture]);
+                m_renderer[1].material.SetColor("_BaseColor", newCol);
+
+                m_renderer[2].material.SetTexture("_BaseMap", GameManager.Instance.m_Settings.SkinBottomTextures[playerTexture]);
+                m_renderer[2].material.SetColor("_BaseColor", newCol);
+            }
         }
         public void SetupLayer(GameObject go, int layerNumber)
         {
