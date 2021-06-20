@@ -47,7 +47,7 @@ public class PlayerRayCast : MonoBehaviour
         TextStyle.font = GameManager.Instance.m_Settings.BlockFont;
 
 
-        rect.y += labelSpacing;
+        rect.y += 3;
         if (m_TargetBlockPos != null)
         {
             GUI.Box(rect, " Target Voxel: " + m_TargetVoxel.Value.IsSolid(), TextStyle);
