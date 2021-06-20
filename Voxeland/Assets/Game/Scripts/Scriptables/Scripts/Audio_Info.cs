@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class Audio_Info : ScriptableObject
 {
     [Header("Music")]
-    public AudioClip MainMusic;
+    public AudioClip[] MainMusic;
     [Header("Menu")]
     public AudioClip ButtonSelect;
     public AudioClip ButtonMove;

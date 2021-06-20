@@ -22,12 +22,10 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(StreamMainMusic("http://voxeland.xyz/bgmusic/minecraft-background-music.mp3", AudioType.MPEG));
-        // StartCoroutine(StreamMainMusic("http://voxeland.xyz/bgmusic/minecraft-background-music.ogg"));
-    }
-    void OnDestroy()
-    {
-        Instance = null;
+        if (m_AudioInfo.MainMusic is null)
+            StartCoroutine(StreamMainMusic("http://voxeland.xyz/bgmusic/minecraft-background-music.mp3", AudioType.MPEG)); //alternative: .ogg")
+        else
+            PlayMainMusic(0.69f);
     }
 
     IEnumerator StreamMainMusic(string _link, AudioType _type = AudioType.OGGVORBIS)
@@ -102,19 +100,13 @@ public class AudioManager : MonoBehaviour
 
         AudioSource audioSource = gameObject.AddComponent<AudioSource>();
 
-        audioSource.rolloffMode = AudioRolloffMode.Custom;
-        audioSource.spatialBlend = 0.1f;
-        audioSource.maxDistance = 130;
-        audioSource.spread = 1;
-        audioSource.dopplerLevel = 0;
-        audioSource.reverbZoneMix = 1;
-        audioSource.clip = m_AudioInfo.MainMusic;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.clip = PlayRandomFromList(ref m_AudioInfo.MainMusic);
         audioSource.volume = m_tmpVolume = _volume;
         audioSource.pitch = 1;
         audioSource.loop = true;
         audioSource.Play();
         m_mainMusicSource = audioSource;
-        Destroy(audioSource, m_AudioInfo.MainMusic.length);
     }
     public void StopMainMusic()
     {
@@ -127,10 +119,12 @@ public class AudioManager : MonoBehaviour
     }
     public float GetMainMusicVolume()
     {
-        return m_mainMusicSource ? m_mainMusicSource.volume : 0.71f;
+        return m_mainMusicSource ? m_mainMusicSource.volume : 0.69f;
     }
     public void ResetMainMusicVolume()
     {
         m_mainMusicSource.volume = m_tmpVolume;
     }
+
+    T PlayRandomFromList<T>(ref T[] _list) { return _list[Random.Range(0, _list.Length - 1)]; }
 }

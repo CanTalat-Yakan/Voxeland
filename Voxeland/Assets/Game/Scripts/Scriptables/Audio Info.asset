@@ -12,3 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed5d60fa94eee34a91b5bad941a7fde, type: 3}
   m_Name: Audio Info
   m_EditorClassIdentifier: 
+  MainMusic:
+  - {fileID: 8300000, guid: 316a6fc48c47549f681634025e2089f5, type: 3}
+  - {fileID: 8300000, guid: 104b723ea70c24acb9451e1370268cbc, type: 3}
+  - {fileID: 8300000, guid: 6933804eec4774dad9c659df297109b7, type: 3}
+  - {fileID: 8300000, guid: 27ed4d8dd32354599bb329b9a84ab671, type: 3}
+  - {fileID: 8300000, guid: 0f5fd1585f4014b5f980a114a320acfe, type: 3}
+  ButtonSelect: {fileID: 0}
+  ButtonMove: {fileID: 0}
+  Joined: {fileID: 0}
+  Attack: {fileID: 0}
+  Fall: {fileID: 0}
+  BlockAdded:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BlockRemoved:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
