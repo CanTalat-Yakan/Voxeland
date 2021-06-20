@@ -78,7 +78,7 @@ namespace Mirror
 
         void HandleInput()
         {
-            if ((!chatMessage.interactable && Input.GetKeyDown(KeyCode.T)))
+            if ((!chatMessage.interactable && Input.GetKeyDown(KeyCode.Y)))
             {
                 SetChatAcitve(false);
                 chatBox.SetActive(!chatBox.activeSelf);
