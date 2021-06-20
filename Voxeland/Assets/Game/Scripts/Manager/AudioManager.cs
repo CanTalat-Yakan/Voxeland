@@ -37,7 +37,11 @@ public class AudioManager : MonoBehaviour
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.ConnectionError)
+            {
+                if (Mirror.ChatWindow.Instance)
+                    Mirror.ChatWindow.Instance.OnServerMessage("Music downloaded failed!");
                 Debug.Log(www.error);
+            }
             else
                 m_mainMusicSource = Play(DownloadHandlerAudioClip.GetContent(www), true, 0.71f);
         }
@@ -58,7 +62,6 @@ public class AudioManager : MonoBehaviour
         audioSource.pitch = 1;
         audioSource.Play();
         Destroy(audioSource, _clip.length);
-
 
         return audioSource;
     }
