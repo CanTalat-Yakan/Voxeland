@@ -10,7 +10,7 @@ public class PlayerRayCast : MonoBehaviour
     internal Vector3Int? m_TargetBlockPos, m_ToPlaceBlockPos;
     internal Chunk m_TargetChunk, m_CurrentChunk;
     internal Voxel? m_TargetVoxel, m_ToPlaceVoxel;
-    Vector3 localPos = new Vector3();
+    Vector3Int m_localVoxelPos = new Vector3Int();
 
 
     void Update()
@@ -22,6 +22,15 @@ public class PlayerRayCast : MonoBehaviour
         m_createdBox = true;
 
         if (OnHit()) SetupRayInformation();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            m_TargetChunk.voxelData[Chunk.VoxelDataIndex((Vector3i)m_localVoxelPos)] = new Voxel(0);
+            m_TargetChunk.dirtyMesh = true;
+            m_TargetChunk.BuildMesh();
+            foreach (var item in m_TargetChunk.adjChunks)
+                item.BuildMesh();
+        }
     }
 
     void OnGUI()
@@ -46,7 +55,7 @@ public class PlayerRayCast : MonoBehaviour
             rect.y += labelSpacing;
             GUI.Box(rect, "     Voxel Pos: " + m_TargetBlockPos, TextStyle);
             rect.y += labelSpacing;
-            GUI.Box(rect, "     Voxel Pos: " + (Vector3Int)(Vector3i)localPos + " local", TextStyle);
+            GUI.Box(rect, "     Voxel Pos: " + (Vector3Int)(Vector3i)m_localVoxelPos + " local", TextStyle);
         }
         else
             GUI.Box(rect, " Target Voxel: None", TextStyle);
@@ -92,13 +101,13 @@ public class PlayerRayCast : MonoBehaviour
 
     Vector3i GetLocalVoxelPos(Vector3i _chunkPos)
     {
-        localPos = m_selectionBox.transform.InverseTransformPoint((Vector3)(_chunkPos * 16));
+        m_localVoxelPos = (Vector3Int)(Vector3i)m_selectionBox.transform.InverseTransformPoint((Vector3)(_chunkPos * 16));
 
-        localPos.x = Mathf.Abs(localPos.x);
-        localPos.y = Mathf.Abs(localPos.y);
-        localPos.z = Mathf.Abs(localPos.z);
+        m_localVoxelPos.x = Mathf.Abs(m_localVoxelPos.x);
+        m_localVoxelPos.y = Mathf.Abs(m_localVoxelPos.y);
+        m_localVoxelPos.z = Mathf.Abs(m_localVoxelPos.z);
 
-        return (Vector3i)localPos;
+        return (Vector3i)m_localVoxelPos;
     }
 
     void SetupRayInformation()
@@ -146,7 +155,7 @@ public class PlayerRayCast : MonoBehaviour
             m_ToPlaceVoxel = null;
         }
         m_selectionBox.SetActive(b);
-        
+
         m_CurrentChunk = VoxelEngineManager.Instance.GetChunk(
             GetLocalChunkPos(gameObject.transform.position));
 
