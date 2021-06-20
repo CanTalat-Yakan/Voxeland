@@ -19,7 +19,7 @@ MonoBehaviour:
   CurrentPipelineAssetIndex: 2
   SSAO: 0
   Fog: 0
-  Bloom: 0
+  Bloom: 1
   DepthOfField: 0
   BlockFont: {fileID: 12800000, guid: fcdf482817c441d47a7b7d7509f78af2, type: 3}
   SkinHeadTextures:
