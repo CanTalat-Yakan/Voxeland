@@ -59,6 +59,20 @@ public class GameManager : MonoBehaviour
         // Time.timeScale = LOCKED ? 0 : 1;
         if (Input.GetKeyDown(KeyCode.F2))
             m_ShowDebugInfo = !m_ShowDebugInfo;
+
+        if (!LOCKED)
+        {
+            if (Input.GetKey(KeyCode.F2))
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
     }
     void OptionsOverlay()
     {
