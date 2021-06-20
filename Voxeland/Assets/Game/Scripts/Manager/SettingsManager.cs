@@ -112,11 +112,11 @@ public class SettingsManager : MonoBehaviour
                 if (GameManager.Instance.m_MainCamera.targetTexture)
                     GameManager.Instance.m_MainCamera.targetTexture.Release();
 
-        m_settings.RenderScale = Mathf.RoundToInt(m_renderScale.value);
-
         Resolution r = Screen.currentResolution;
         m_renderTexture.width = Mathf.RoundToInt(r.width * 0.01f * m_renderScale.value);
         m_renderTexture.height = Mathf.RoundToInt(r.height * 0.01f * m_renderScale.value);
+
+        m_settings.RenderScale = Mathf.RoundToInt(m_renderScale.value);
 
         if (GameManager.Instance)
             if (GameManager.Instance.m_MainCamera)
