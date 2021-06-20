@@ -1010,6 +1010,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   anim: {fileID: 8639936329736371560}
+  rigidbody: {fileID: 7651581805089940030}
   run: 0
 --- !u!114 &803301626500356667
 MonoBehaviour:

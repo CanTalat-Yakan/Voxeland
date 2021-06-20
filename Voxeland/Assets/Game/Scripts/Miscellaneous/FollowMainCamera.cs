@@ -11,6 +11,5 @@ public class FollowMainCamera : MonoBehaviour
     {
         if (GameManager.Instance.m_MainCamera)
             transform.position = GameManager.Instance.m_MainCamera.transform.position + m_initialPos;
-
     }
 }
