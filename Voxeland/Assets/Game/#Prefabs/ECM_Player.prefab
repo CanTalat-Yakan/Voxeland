@@ -858,6 +858,7 @@ MonoBehaviour:
   _crouchKey: 306
   _standingHeight: 1.8
   _crouchingHeight: 1.1
+  _holdJump: 1
   _baseJumpHeight: 1
   _extraJumpTime: 0.5
   _extraJumpPower: 20
@@ -962,7 +963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde6e6119dda61946b89240da52cfcdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectionBox: {fileID: 1002431069189283277, guid: 248c47e43777d35419b6b60793da616f, type: 3}
+  m_selectionBox: {fileID: 1002431069189283277, guid: 248c47e43777d35419b6b60793da616f, type: 3}
 --- !u!1 &7651581805975974738
 GameObject:
   m_ObjectHideFlags: 0
