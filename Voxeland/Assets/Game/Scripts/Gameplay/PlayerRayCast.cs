@@ -5,31 +5,31 @@ using VoxelEngine;
 
 public class PlayerRayCast : MonoBehaviour
 {
-    [SerializeField] GameObject SelectionBox;
-    Vector3Int? FocusedBlockPos, PlacementBlockPos;
-    Chunk FocusedChunk;
-    Chunk WalkingChunk;
-    Voxel? FocusedVoxel;
+    [SerializeField] GameObject m_selectionBox;
+    internal Vector3Int? m_TargetBlockPos, m_ToPlaceBlockPos;
+    internal Chunk m_TargetChunk, m_CurrentChunk;
+    internal Voxel? m_TargetVoxel, m_ToPlaceVoxel;
+
+
     void Start()
     {
-        if (!SelectionBox)
+        if (!m_selectionBox)
         {
-            SelectionBox = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            SelectionBox.GetComponent<BoxCollider>().enabled = false;
-            SelectionBox.transform.localScale *= 1.02f;
+            m_selectionBox = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            m_selectionBox.GetComponent<BoxCollider>().enabled = false;
+            m_selectionBox.transform.localScale *= 1.02f;
         }
         else
-            SelectionBox = GameObject.Instantiate(SelectionBox, Vector3.zero, Quaternion.identity);
+            m_selectionBox = GameObject.Instantiate(m_selectionBox, Vector3.zero, Quaternion.identity);
+
+        tmpGO = GameObject.Instantiate(m_selectionBox, Vector3.zero, Quaternion.identity);
     }
 
     void Update()
     {
-        if (!GameManager.Instance.m_MainCamera)
-            return;
+        if (!GameManager.Instance.m_MainCamera) return;
 
-        GetBlockPos();
-
-        OnHit();
+        if (!ResetOnHitFalse()) SetupInformation();
     }
 
     void OnGUI()
@@ -47,35 +47,36 @@ public class PlayerRayCast : MonoBehaviour
         TextStyle.font = GameManager.Instance.m_Settings.BlockFont;
 
 
-        if (FocusedBlockPos != null)
-            GUI.Box(rect, " Focused Block Pos: " + FocusedBlockPos, TextStyle);
+        rect.y += labelSpacing;
+        if (m_TargetBlockPos != null)
+        {
+            GUI.Box(rect, " Target Voxel: " + m_TargetVoxel.Value.IsSolid(), TextStyle);
+            rect.y += labelSpacing;
+            GUI.Box(rect, "     Voxel Pos: " + m_TargetBlockPos, TextStyle);
+            rect.y += labelSpacing;
+            GUI.Box(rect, "     Voxel Pos: " + (Vector3Int)(Vector3i)localPos + " local", TextStyle);
+        }
         else
-            GUI.Box(rect, " Focused Block Pos: None", TextStyle);
+            GUI.Box(rect, " Target Block: None", TextStyle);
         rect.y += labelSpacing;
 
-        if (FocusedVoxel != null)
-            GUI.Box(rect, " Focused Voxel: " + FocusedVoxel, TextStyle);
-        else
-            GUI.Box(rect, " Focused Voxel: None", TextStyle);
-        rect.y += labelSpacing;
-
-        if (FocusedChunk != null)
-            GUI.Box(rect, " Focused Chunk: " + (Vector3Int)FocusedChunk.chunkPos, TextStyle);
+        if (m_TargetChunk != null)
+            GUI.Box(rect, " Focused Chunk: " + (Vector3Int)m_TargetChunk.chunkPos, TextStyle);
         else
             GUI.Box(rect, " Focused Chunk: None", TextStyle);
         rect.y += labelSpacing;
 
-        if (WalkingChunk != null)
-            GUI.Box(rect, " Walking Chunk: " + (Vector3Int)WalkingChunk.chunkPos, TextStyle);
+        if (m_CurrentChunk != null)
+            GUI.Box(rect, " Walking Chunk: " + (Vector3Int)m_CurrentChunk.chunkPos, TextStyle);
         else
             GUI.Box(rect, " Walking Chunk: None", TextStyle);
         rect.y += labelSpacing;
     }
 
-    Vector3Int GetLocalChunkPos(Vector3Int _worldPos)
+    Vector3i GetLocalChunkPos(Vector3Int _worldPos)
     {
         _worldPos += Vector3Int.one; //offset
-        Vector3Int localPos = new Vector3Int(
+        var localPos = new Vector3i(
             _worldPos.x / 16,
             _worldPos.y / 16,
             _worldPos.z / 16);
@@ -89,7 +90,7 @@ public class PlayerRayCast : MonoBehaviour
 
         return localPos;
     }
-    Vector3Int GetLocalChunkPos(Vector3 _worldPos)
+    Vector3i GetLocalChunkPos(Vector3 _worldPos)
     {
         return GetLocalChunkPos(new Vector3Int(
             (int)_worldPos.x,
@@ -97,49 +98,68 @@ public class PlayerRayCast : MonoBehaviour
             (int)_worldPos.z));
     }
 
-    void GetBlockPos()
+    GameObject tmpGO;
+    Vector3 localPos = new Vector3();
+    Vector3i GetLocalVoxelPos(Vector3i _chunkPos)
+    {
+        tmpGO.transform.position = (Vector3)m_TargetBlockPos.Value;
+        localPos = tmpGO.transform.InverseTransformPoint((Vector3)(_chunkPos * 16));
+
+        localPos.x = Mathf.Abs(localPos.x);
+        localPos.y = Mathf.Abs(localPos.y);
+        localPos.z = Mathf.Abs(localPos.z);
+
+        return (Vector3i)localPos;
+    }
+
+    void SetupInformation()
     {
         RaycastHit hit = GameManager.Instance.HitRayCast(
             GameManager.Instance.m_MainCamera.transform.position,
             GameManager.Instance.m_MainCamera.transform.forward,
             8);
 
-        FocusedBlockPos = new Vector3Int(
+        m_TargetBlockPos = new Vector3Int(
             Mathf.RoundToInt(hit.point.x - hit.normal.x * 0.4f),
             Mathf.RoundToInt(hit.point.y - hit.normal.y * 0.4f),
             Mathf.RoundToInt(hit.point.z - hit.normal.z * 0.4f));
 
-        PlacementBlockPos = new Vector3Int(
+        m_ToPlaceBlockPos = new Vector3Int(
             Mathf.RoundToInt(hit.point.x + hit.normal.x * 0.4f),
             Mathf.RoundToInt(hit.point.y + hit.normal.y * 0.4f),
             Mathf.RoundToInt(hit.point.z + hit.normal.z * 0.4f));
 
-        FocusedChunk = VoxelEngineManager.Instance.GetChunk(
-            (Vector3i)GetLocalChunkPos(FocusedBlockPos.Value));
+        m_TargetChunk = VoxelEngineManager.Instance.GetChunk(
+            GetLocalChunkPos(m_TargetBlockPos.Value));
 
-        WalkingChunk = VoxelEngineManager.Instance.GetChunk(
-            (Vector3i)GetLocalChunkPos(gameObject.transform.position));
+        m_CurrentChunk = VoxelEngineManager.Instance.GetChunk(
+            GetLocalChunkPos(gameObject.transform.position));
 
-        SelectionBox.SetActive(FocusedBlockPos != null);
-        if (FocusedBlockPos != null)
-            SelectionBox.transform.position = FocusedBlockPos.Value;
+        if (m_TargetChunk != null)
+            m_TargetVoxel = m_TargetChunk.GetVoxel(
+                GetLocalVoxelPos(m_TargetChunk.chunkPos));
+
+        m_selectionBox.SetActive(m_TargetBlockPos != null);
+        if (m_TargetBlockPos != null)
+            m_selectionBox.transform.position = m_TargetBlockPos.Value;
     }
 
-    bool OnHit()
+    bool ResetOnHitFalse()
     {
         if (GameManager.Instance.BoolRayCast(
             GameManager.Instance.m_MainCamera.transform.position,
             GameManager.Instance.m_MainCamera.transform.forward,
             8))
-            return true;
+            return false;
         else
         {
-            FocusedBlockPos = null;
-            PlacementBlockPos = null;
-            FocusedVoxel = null;
-            FocusedChunk = null;
-            WalkingChunk = null;
+            m_TargetBlockPos = null;
+            m_ToPlaceBlockPos = null;
+            m_TargetChunk = null;
+            m_CurrentChunk = null;
+            m_TargetVoxel = null;
+            m_ToPlaceVoxel = null;
+            return true;
         }
-        return false;
     }
 }
