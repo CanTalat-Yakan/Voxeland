@@ -126,5 +126,5 @@ public class AudioManager : MonoBehaviour
         m_mainMusicSource.volume = m_tmpVolume;
     }
 
-    T PlayRandomFromList<T>(ref T[] _list) { return _list[Random.Range(0, _list.Length - 1)]; }
+    T PlayRandomFromList<T>(ref T[] _list) { return _list[Random.Range(0, _list.Length)]; }
 }
