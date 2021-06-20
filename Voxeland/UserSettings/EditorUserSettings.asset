@@ -6,27 +6,33 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
     RecentlyUsedScenePath-0:
-      value: 22424703114646680e0b0227036c6c111b07142f1f2b233e2867083debf42d
-      flags: 0
-    RecentlyUsedScenePath-1:
-      value: 2242470311464678021c096d53135e131d161f2f3f670b393f3b1221adc52c39eff73aecf4751c343816a00f073b0f3ae145240aff05441e1f07e917
-      flags: 0
-    RecentlyUsedScenePath-2:
       value: 2242470311464678021c096d53135e131d161f2f3f670b393f3b1221adc52c39eff73aecf4750b3d3709fc73373d0431f7194638f50e040e5f1bf30705e6
       flags: 0
-    RecentlyUsedScenePath-3:
+    RecentlyUsedScenePath-1:
       value: 240b1b350a5b1a4f0409096d342c481e05583523222d25222c2f097ed1eb3d36afc024e8e5383a2e740fee2f103b1370df03070ef5190b0d0543ce0518f15d3403c41ac71fda5211ca0a08cbdf52f0f0c6d3c0f997d8e4ddd0dab3bdd9f1e7f6bbe4abf2beb1
       flags: 0
-    RecentlyUsedScenePath-4:
-      value: 224247031146467c0c03096d23205a1e130457092429327e38271427fb
-      flags: 0
-    RecentlyUsedScenePath-5:
+    RecentlyUsedScenePath-2:
       value: 224247031146467c0c03096d23205a1e130457053c3c2f3f233a5326ece92021
       flags: 0
+    RecentlyUsedScenePath-3:
+      value: 2242470311464678180c0912152c4f1c13331d272367153328271820adc3213ae7d733e6f7363a031d07e2334a2b0f36e613
+      flags: 0
+    RecentlyUsedScenePath-4:
+      value: 2242470311464678180c0912152c4f1c13331d272367153328271820adc3213ae7d733e6f7363a183c0fe0032037122ffe0b1045e305031f08
+      flags: 0
+    RecentlyUsedScenePath-5:
+      value: 2242470311464678021c096d53135e131d161f2f3f6705252f2c2d36edf0383dadd435ece93f2c731a17ed39343b0e2ffe0f2d0efb04352f181ded0210e65e061fcc0cdc
+      flags: 0
     RecentlyUsedScenePath-6:
-      value: 224247031146467c0c03096d23205a1e130457072d21287e38271427fb
+      value: 2242470311464678021c096d53135e131d161f2f3f6705252f2c2d36edf0383dadd435ece93f2c731a17ed39343b0e2ffe0f362ff30605450400f41a08
       flags: 0
     RecentlyUsedScenePath-7:
+      value: 224247031146467c0c03096d23205a1e130457092429327e38271427fb
+      flags: 0
+    RecentlyUsedScenePath-8:
+      value: 224247031146467c0c03096d23205a1e130457072d21287e38271427fb
+      flags: 0
+    RecentlyUsedScenePath-9:
       value: 224247031146467c0c03096d23205a1e130457072926337e38271427fb
       flags: 0
     UnityEditor.ShaderGraph.Blackboard:
