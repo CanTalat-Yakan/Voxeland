@@ -125,4 +125,12 @@ public class GameManager : MonoBehaviour
             _maxDistance,
             ~m_PlayerLayer & ~m_EntityLayer);
     }
+    internal float Map(float _oldValue, float _oldMin, float _oldMax, float _newMin, float _newMax)
+    {
+        float oldRange = _oldMax - _oldMin;
+        float newRange = _newMax - _newMin;
+        float newValue = ((_oldValue - _oldMin) * newRange / oldRange) + _newMin;
+
+        return Mathf.Clamp(newValue, _newMin, _newMax);
+    }
 }
