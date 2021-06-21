@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 20528344}
   - component: {fileID: 20528346}
   - component: {fileID: 20528345}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Water Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2188,17 +2188,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.35940352, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.09402759, g: 0.23918009, b: 0.42343584, a: 1}
+  shallowColor: {r: 0.35940236, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.09402648, g: 0.23917893, b: 0.42343467, a: 1}
   colorDepth: 0.8
-  horizonColor: {r: 0.3171943, g: 0.61869127, b: 0.8301887, a: 0}
+  horizonColor: {r: 0.31719315, g: 0.61869127, b: 0.8301887, a: 0}
   horizonDistance: 9.9
   shoreFade: 1
-  shoreColor: {r: 0.39390558, g: 0.62264144, b: 0.19076526, a: 0}
+  shoreColor: {r: 0.39390442, g: 0.62264144, b: 0.19076416, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.047062367, g: 0.046395183, b: 0.046395183, a: 0}
+  waveColor: {r: 0.047061503, g: 0.046394326, b: 0.046394326, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
@@ -7072,7 +7072,7 @@ GameObject:
   - component: {fileID: 7935316409073316865}
   - component: {fileID: 4405471858131945720}
   - component: {fileID: 194953031508110175}
-  m_Layer: 2
+  m_Layer: 4
   m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7183,7 +7183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noiseName: Default Noise
-  seed: 420887
+  seed: 2147483647
   frequency: 0.007
   interp: 2
   noiseType: 5
@@ -7380,7 +7380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noiseName: Default Noise
-  seed: 420887
+  seed: 2147483647
   frequency: 0.012
   interp: 2
   noiseType: 4
