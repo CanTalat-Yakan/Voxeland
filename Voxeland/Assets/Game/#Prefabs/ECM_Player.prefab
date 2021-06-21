@@ -830,7 +830,7 @@ MonoBehaviour:
   _slideOnSteepSlope: 0
   _slopeLimit: 45
   _slideGravityMultiplier: 1
-  _snapToGround: 1
+  _snapToGround: 0
   _snapStrength: 0.5
 --- !u!114 &7651581805089940029
 MonoBehaviour:
