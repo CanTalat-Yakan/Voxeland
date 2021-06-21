@@ -55,7 +55,9 @@ public class PlayerRayCast : MonoBehaviour
 
 
         rect.y += 4;
-
+        if (GameManager.Instance)
+            GUI.Box(rect, " Player Pos: " + (Vector3Int)(Vector3i)(GameManager.Instance.m_Player.gameObject.transform.position + Vector3.up * 0.02f), TextStyle);
+        rect.y += labelSpacing;
         if (m_CurrentChunk != null)
             GUI.Box(rect, " Walking Chunk: " + (Vector3Int)m_CurrentChunk.chunkPos, TextStyle);
         else

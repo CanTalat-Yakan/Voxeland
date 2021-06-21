@@ -6941,7 +6941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noiseName: Default Noise
-  seed: 1337
+  seed: 420887
   frequency: 0.007
   interp: 2
   noiseType: 5
@@ -7130,7 +7130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noiseName: Default Noise
-  seed: 1337
+  seed: 420887
   frequency: 0.012
   interp: 2
   noiseType: 4
