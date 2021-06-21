@@ -6889,6 +6889,7 @@ GameObject:
   - component: {fileID: 143480209590797251}
   - component: {fileID: 1514252140586660712}
   - component: {fileID: 1102427069579198798}
+  - component: {fileID: 4051484449519723732}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -6896,6 +6897,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &4051484449519723732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4051484449519723731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30dedb5020644f4cbeec67425017005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6599335771277294391
 GameObject:
   m_ObjectHideFlags: 0
