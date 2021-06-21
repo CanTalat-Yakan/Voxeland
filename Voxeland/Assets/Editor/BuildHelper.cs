@@ -12,7 +12,23 @@ public class BuildScript
         Process.Start(@"Builds");
     }
 
-    [MenuItem("Build/Build All", false, 100)]
+    [MenuItem("Build/Build Clients Only", false, 101)]
+    public static void BuildClientsOnly()
+    {
+        BuildWindowsServer();
+        BuildLinuxServer();
+        BuildWindowsClient();
+        BuildWebGLClient();
+    }
+    [MenuItem("Build/Build Server Only", false, 102)]
+    public static void BuildServerOnly()
+    {
+        BuildWindowsServer();
+        BuildLinuxServer();
+        BuildWindowsClient();
+        BuildWebGLClient();
+    }
+    [MenuItem("Build/Build All", false, 200)]
     public static void BuildAll()
     {
         BuildWindowsServer();
