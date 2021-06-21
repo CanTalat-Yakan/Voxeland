@@ -6,6 +6,7 @@ public class DayTimeHandler : MonoBehaviour
 {
     [SerializeField] ParticleSystem m_sky;
     [SerializeField] GameObject m_sun;
+    [SerializeField] GameObject m_moon;
     [SerializeField] Light m_directionalLight;
     [Range(0, 1440)]
     [SerializeField] double m_dayTime = 846;
@@ -13,11 +14,12 @@ public class DayTimeHandler : MonoBehaviour
 
     void Update()
     {
-        if(!GameManager.Instance) return;
-        if(!GameManager.Instance.m_MainCamera) return;
-        if(GameManager.Instance.LOCKED) return;
+        if (!GameManager.Instance) return;
+        if (!GameManager.Instance.m_MainCamera) return;
+        if (GameManager.Instance.LOCKED) return;
 
-        m_sun.transform.position = m_directionalLight.transform.forward * -500;
+        m_sun.transform.position = m_directionalLight.transform.forward * -400;
+        m_moon.transform.position = m_directionalLight.transform.forward * 400;
 
         m_dayTime = System.DateTime.Now.TimeOfDay.TotalMinutes;
         m_directionalLight.transform.rotation = Quaternion.Euler((float)(m_dayTime - 360) * 0.25f, -30, 0);
