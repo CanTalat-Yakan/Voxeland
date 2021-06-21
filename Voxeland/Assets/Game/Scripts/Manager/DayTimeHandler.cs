@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SunPosition : MonoBehaviour
+public class DayTimeHandler : MonoBehaviour
 {
     [SerializeField] ParticleSystem m_sky;
     [SerializeField] GameObject m_sun;
