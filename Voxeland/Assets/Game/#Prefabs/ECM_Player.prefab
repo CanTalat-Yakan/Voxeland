@@ -786,7 +786,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 176724f165ed631408775764c436d474, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.08
+  m_Radius: 0.1
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -805,8 +805,8 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 1
-  _groundLimit: 60
-  _stepOffset: 0.08
+  _groundLimit: 89
+  _stepOffset: 0.1
   _ledgeOffset: 0
   _castDistance: 0.5
   _triggerInteraction: 1
@@ -887,11 +887,11 @@ MonoBehaviour:
   _useBrakingFriction: 0
   _brakingFriction: 8
   _airFriction: 0
-  _airControl: 0.2
+  _airControl: 0.4
   _canCrouch: 1
   _crouchKey: 99
   _standingHeight: 1.8
-  _crouchingHeight: 1.1
+  _crouchingHeight: 0.9
   _holdJump: 1
   _baseJumpHeight: 1
   _extraJumpTime: 0.5
