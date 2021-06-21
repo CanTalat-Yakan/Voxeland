@@ -9,7 +9,7 @@ public class PlayerRayCast : MonoBehaviour
     bool m_createdBox = false;
     internal Vector3Int? m_TargetBlockPos, m_TargetBlockNormal;
     internal Chunk m_TargetChunk, m_CurrentChunk;
-    internal Voxel? m_TargetVoxel, m_ToPlaceVoxel;
+    internal Voxel? m_TargetVoxel;
     Vector3Int m_localVoxelPos = new Vector3Int();
 
 
@@ -24,6 +24,7 @@ public class PlayerRayCast : MonoBehaviour
 
         if (OnHit()) SetupRayInformation();
 
+        if (m_TargetVoxel is null) return;
         if (Input.GetMouseButtonDown(0))
         {
             m_TargetChunk.voxelData[Chunk.VoxelDataIndex((Vector3i)m_localVoxelPos)] = new Voxel(0);
@@ -55,18 +56,18 @@ public class PlayerRayCast : MonoBehaviour
 
         rect.y += 4;
 
+        if (m_CurrentChunk != null)
+            GUI.Box(rect, " Walking Chunk: " + (Vector3Int)m_CurrentChunk.chunkPos, TextStyle);
+        else
+            GUI.Box(rect, " Walking Chunk: None", TextStyle);
+        rect.y += labelSpacing;
+
         if (m_TargetChunk != null)
             GUI.Box(rect, " Focused Chunk: " + (Vector3Int)m_TargetChunk.chunkPos, TextStyle);
         else
             GUI.Box(rect, " Focused Chunk: None", TextStyle);
         rect.y += labelSpacing;
 
-        if (m_CurrentChunk != null)
-            GUI.Box(rect, " Walking Chunk: " + (Vector3Int)m_CurrentChunk.chunkPos, TextStyle);
-        else
-            GUI.Box(rect, " Walking Chunk: None", TextStyle);
-        rect.y += labelSpacing;
-        
         if (m_TargetBlockPos != null)
         {
             GUI.Box(rect, " Target Voxel: " + m_TargetVoxel.Value.IsSolid(), TextStyle);
@@ -88,7 +89,7 @@ public class PlayerRayCast : MonoBehaviour
 
     bool IsPlayerInBlock()
     {
-        return m_TargetBlockPos + m_TargetBlockNormal == (Vector3Int)(Vector3i)(GameManager.Instance.m_Player.gameObject.transform.position + Vector3.up * 0.02f) 
+        return m_TargetBlockPos + m_TargetBlockNormal == (Vector3Int)(Vector3i)(GameManager.Instance.m_Player.gameObject.transform.position + Vector3.up * 0.02f)
                 || m_TargetBlockPos + m_TargetBlockNormal == (Vector3Int)(Vector3i)(GameManager.Instance.m_Player.gameObject.transform.position + Vector3.up * 1.02f);
     }
 
@@ -164,7 +165,6 @@ public class PlayerRayCast : MonoBehaviour
             m_TargetChunk = null;
             m_CurrentChunk = null;
             m_TargetVoxel = null;
-            m_ToPlaceVoxel = null;
         }
         m_selectionBox.SetActive(b);
 
