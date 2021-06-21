@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DayTimeHandler : MonoBehaviour
 {
+    [SerializeField] bool m_custom = false;
     [SerializeField] ParticleSystem m_sky;
     [SerializeField] GameObject m_sun;
     [SerializeField] GameObject m_moon;
@@ -18,10 +19,11 @@ public class DayTimeHandler : MonoBehaviour
         if (!GameManager.Instance.m_MainCamera) return;
         if (GameManager.Instance.LOCKED) return;
 
-        m_sun.transform.position = m_directionalLight.transform.forward * -400;
-        m_moon.transform.position = m_directionalLight.transform.forward * 400;
+        m_sun.transform.position = m_directionalLight.transform.forward * -400 + GameManager.Instance.m_MainCamera.transform.position;
+        m_moon.transform.position = m_directionalLight.transform.forward * 400 + GameManager.Instance.m_MainCamera.transform.position;
 
-        m_dayTime = System.DateTime.Now.TimeOfDay.TotalMinutes;
+        if (!m_custom)
+            m_dayTime = System.DateTime.Now.TimeOfDay.TotalMinutes;
         m_directionalLight.transform.rotation = Quaternion.Euler((float)(m_dayTime - 360) * 0.25f, -30, 0);
 
         SetIntensityOfSun();
@@ -36,7 +38,7 @@ public class DayTimeHandler : MonoBehaviour
         float a = Vector3.Dot(Vector3.up, m_sun.transform.position - GameManager.Instance.m_MainCamera.transform.position);
 
         RenderSettings.ambientLight = Color.white * GameManager.Instance.Map(a, -50, 20, 0.65f, 1f);
-        m_directionalLight.intensity = GameManager.Instance.Map(a, -20, 20, 0, 1.3f);
+        m_directionalLight.intensity = GameManager.Instance.Map(a, -20, 20, 0.001f, 1.3f);
 
         m_day = a > 0;
     }

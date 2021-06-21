@@ -11,8 +11,7 @@ public class GameManager : MonoBehaviour
     public bool LOCKED = false;
     public Camera m_MainCamera;
     public GameObject m_Player;
-    public LayerMask m_PlayerLayer;
-    public LayerMask m_EntityLayer;
+    public LayerMask m_IgnoreLayer;
     public Settings_Container m_Settings;
     public bool m_ShowDebugInfo = false;
 
@@ -110,7 +109,7 @@ public class GameManager : MonoBehaviour
             ray,
             out hit,
             _maxDistance,
-            ~m_PlayerLayer & ~m_EntityLayer);
+            ~m_IgnoreLayer);
 
         return hit;
     }
@@ -123,7 +122,7 @@ public class GameManager : MonoBehaviour
         return Physics.Raycast(
             ray,
             _maxDistance,
-            ~m_PlayerLayer & ~m_EntityLayer);
+            ~m_IgnoreLayer);
     }
     internal float Map(float _oldValue, float _oldMin, float _oldMax, float _newMin, float _newMax)
     {
