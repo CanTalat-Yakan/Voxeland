@@ -46,6 +46,7 @@ public class PlayerRayCast : MonoBehaviour
 
         int labelSpacing = 33;
         Rect rect = new Rect(Screen.width - 404, 0, 400, 30);
+        Rect rect2 = new Rect(Screen.width - 404, Screen.height, 400, 30);
 
         var TextStyle = new GUIStyle();
         TextStyle.fontSize = 24;
@@ -54,7 +55,7 @@ public class PlayerRayCast : MonoBehaviour
         TextStyle.font = GameManager.Instance.m_Settings.BlockFont;
 
 
-        rect.y += 4;
+        rect.y += 8;
         if (GameManager.Instance)
             GUI.Box(rect, " Player Pos: " + (Vector3Int)(Vector3i)(GameManager.Instance.m_Player.gameObject.transform.position + Vector3.up * 0.02f), TextStyle);
         rect.y += labelSpacing;
@@ -87,6 +88,32 @@ public class PlayerRayCast : MonoBehaviour
         else
             GUI.Box(rect, " Target Voxel: None", TextStyle);
         rect.y += labelSpacing;
+
+
+        string s = "";
+
+        if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.forward, Vector3.right) > 0.5f) s = "North";
+        else if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.forward, Vector3.right) < -0.5f) s = "South";
+        else if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.right, Vector3.right) > 0.5f) s = "East";
+        else if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.right, Vector3.right) < -0.5f) s = "West";
+
+        if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.forward, Vector3.right) > 0.34f)
+        {
+            if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.right, Vector3.right) > 0.34f) s = "North East";
+            else if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.right, Vector3.right) < -0.34f) s = "North West";
+        }
+        if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.forward, Vector3.right) < -0.34f)
+        {
+            if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.right, Vector3.right) > 0.34f) s = "South East";
+            else if (Vector3.Dot(GameManager.Instance.m_MainCamera.transform.right, Vector3.right) < -0.34f) s = "South West";
+        }
+
+
+        rect2.y -= 8;
+        rect2.y -= labelSpacing;
+        if (GameManager.Instance)
+            GUI.Box(rect2, " Compass: " + s, TextStyle);
+        rect2.y -= labelSpacing;
     }
 
     bool IsPlayerInBlock()
