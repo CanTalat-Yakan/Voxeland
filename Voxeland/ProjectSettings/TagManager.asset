@@ -14,7 +14,7 @@ TagManager:
   - Player
   - Entity
   - Client
-  - 
+  - RenderOnTopWithDepth
   - 
   - 
   - 
