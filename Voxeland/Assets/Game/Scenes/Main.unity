@@ -166,8 +166,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 100000, y: 10000, z: 100000}
-  m_Center: {x: 0, y: -5000, z: 0}
+  m_Size: {x: 100000, y: 20, z: 100000}
+  m_Center: {x: 0, y: -10, z: 0}
 --- !u!114 &20528346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2188,17 +2188,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.35940236, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.09402648, g: 0.23917893, b: 0.42343467, a: 1}
+  shallowColor: {r: 0.35939804, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.0940223, g: 0.23917457, b: 0.42343032, a: 1}
   colorDepth: 0.8
-  horizonColor: {r: 0.31719315, g: 0.61869127, b: 0.8301887, a: 0}
+  horizonColor: {r: 0.2389194, g: 0.4261262, b: 0.5566037, a: 0}
   horizonDistance: 9.9
   shoreFade: 1
-  shoreColor: {r: 0.39390442, g: 0.62264144, b: 0.19076416, a: 0}
+  shoreColor: {r: 0.3939001, g: 0.62264144, b: 0.19076005, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.047061503, g: 0.046394326, b: 0.046394326, a: 0}
+  waveColor: {r: 0.04705829, g: 0.046391115, b: 0.046391115, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
@@ -2348,7 +2348,7 @@ Transform:
   m_GameObject: {fileID: 2675058313313221668}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -20.7, z: 0}
-  m_LocalScale: {x: 100000, y: 1000, z: 100000}
+  m_LocalScale: {x: 100000, y: 1, z: 100000}
   m_Children:
   - {fileID: 20528344}
   m_Father: {fileID: 1340291404}
