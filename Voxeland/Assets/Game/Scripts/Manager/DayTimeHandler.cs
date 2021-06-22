@@ -5,6 +5,7 @@ using UnityEngine;
 public class DayTimeHandler : MonoBehaviour
 {
     [SerializeField] bool m_custom = false;
+    [SerializeField] double m_timeOffset;
     [SerializeField] ParticleSystem m_sky;
     [SerializeField] GameObject m_sun;
     [SerializeField] GameObject m_moon;
@@ -23,8 +24,8 @@ public class DayTimeHandler : MonoBehaviour
         m_moon.transform.position = m_directionalLight.transform.forward * 400 + GameManager.Instance.m_MainCamera.transform.position;
 
         if (!m_custom)
-            m_dayTime = System.DateTime.Now.TimeOfDay.TotalMinutes;
-        m_directionalLight.transform.rotation = Quaternion.Euler((float)(m_dayTime - 360) * 0.25f, -30, 0);
+            m_dayTime = System.DateTime.Now.TimeOfDay.TotalMinutes + m_timeOffset;
+        m_directionalLight.transform.rotation = Quaternion.Euler((float)(m_dayTime - 360 ) * 0.25f, -30, 0);
 
         SetIntensityOfSun();
 
