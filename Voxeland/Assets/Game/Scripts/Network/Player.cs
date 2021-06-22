@@ -16,6 +16,7 @@ namespace Mirror
         [SerializeField] private Renderer[] m_renderer;
         [SerializeField] private Canvas m_canvas;
         [SerializeField] private TextMeshProUGUI m_nameTMPro;
+        [SerializeField] private Light m_pointLight;
 
         public static event Action<Player, string> OnMessage;
 
@@ -26,7 +27,7 @@ namespace Mirror
             {
                 m_renderer[0].material.SetTexture("_BaseMap", GameManager.Instance.m_Settings.SkinHeadTextures[playerTexture]);
                 m_renderer[0].material.SetColor("_BaseColor", newCol);
-                
+
                 m_renderer[1].material.SetTexture("_BaseMap", GameManager.Instance.m_Settings.SkinTopTextures[playerTexture]);
                 m_renderer[1].material.SetColor("_BaseColor", newCol);
 
@@ -44,11 +45,21 @@ namespace Mirror
             m_canvas.gameObject.SetActive(true);
             m_canvas.worldCamera = GameManager.Instance.m_MainCamera;
             m_nameTMPro.text = playerName;
+            m_canvas.gameObject.layer = LayerMask.NameToLayer("Draw over");
         }
         public void SetShadowCastOnly()
         {
             foreach (var item in m_renderer)
                 item.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        }
+        public void SetupPointLight()
+        {
+            ColorUtility.TryParseHtmlString(playerColor, out Color newCol);
+            m_pointLight.color = newCol;
+        }
+        public void DisablePointLight()
+        {
+            m_pointLight.enabled = false;
         }
 
         [Command]

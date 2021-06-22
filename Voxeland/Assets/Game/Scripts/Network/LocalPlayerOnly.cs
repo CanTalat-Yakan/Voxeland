@@ -18,13 +18,15 @@ public class LocalPlayerOnly : Mirror.NetworkBehaviour
                 GameManager.Instance.m_Player = gameObject;
             }
             player.SetShadowCastOnly();
+            player.DisablePointLight();
             m_camera.GetComponent<AudioListener>().enabled = true;
 
             return;
         }
-        player.SetupCanvas();
         player.SetupLayer(gameObject, LayerMask.NameToLayer("Client"));
+        player.SetupCanvas();
         player.SetupMaterial();
+        player.SetupPointLight();
         GetComponent<Rigidbody>().Sleep();
         GetComponent<CapsuleCollider>().enabled = false;
 
