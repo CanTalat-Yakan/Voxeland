@@ -15,8 +15,6 @@ public class BuildScript
     [MenuItem("Build/Build Clients Only", false, 101)]
     public static void BuildClientsOnly()
     {
-        BuildWindowsServer();
-        BuildLinuxServer();
         BuildWindowsClient();
         BuildWebGLClient();
     }
@@ -25,8 +23,6 @@ public class BuildScript
     {
         BuildWindowsServer();
         BuildLinuxServer();
-        BuildWindowsClient();
-        BuildWebGLClient();
     }
     [MenuItem("Build/Build All", false, 200)]
     public static void BuildAll()
