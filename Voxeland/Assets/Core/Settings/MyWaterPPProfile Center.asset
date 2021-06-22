@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: MyWaterPPProfile
+  m_Name: MyWaterPPProfile Center
   m_EditorClassIdentifier: 
   components:
   - {fileID: 7259667072439621640}
@@ -172,7 +172,7 @@ MonoBehaviour:
     max: 100
   colorFilter:
     m_OverrideState: 1
-    m_Value: {r: 0.7490196, g: 0.8057094, b: 1, a: 1}
+    m_Value: {r: 1, g: 0.92265224, b: 0.8160377, a: 1}
     hdr: 1
     showAlpha: 0
     showEyeDropper: 1
