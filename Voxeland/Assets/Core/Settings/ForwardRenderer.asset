@@ -53,6 +53,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings: {material: {fileID: 0}, materialPassIndex: -1, renderEvent: 300}
+--- !u!114 &-6693135727011817184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: 'Draw On Top '
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: 'Draw On Top '
+    Event: 1000
+    filterSettings:
+      RenderQueueType: 1
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 1024
+      PassNames: []
+    overrideMaterial: {fileID: 0}
+    overrideMaterialPassIndex: 0
+    overrideDepthState: 0
+    depthCompareFunction: 4
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
 --- !u!114 &-5688809853220478843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,11 +130,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: DrawOnTop
+  m_Name: Draw On Top Depth
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: DrawOnTop
+    passTag: DrawOnTop Depth
     Event: 500
     filterSettings:
       RenderQueueType: 0
@@ -160,7 +199,8 @@ MonoBehaviour:
   - {fileID: -9076684269036682006}
   - {fileID: 4715126325161221041}
   - {fileID: -3160357763808621760}
-  m_RendererFeatureMap: 946724fed9debedc85200d4094490db1ea44b165bf230982b1db5332697e6f41400b0aad5b2724d4
+  - {fileID: -6693135727011817184}
+  m_RendererFeatureMap: 946724fed9debedc85200d4094490db1ea44b165bf230982b1db5332697e6f41400b0aad5b2724d42019fc9d84341da3
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
