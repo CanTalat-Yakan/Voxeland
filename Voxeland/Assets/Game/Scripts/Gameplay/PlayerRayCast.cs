@@ -143,9 +143,11 @@ public class PlayerRayCast : MonoBehaviour
     Vector3Int GetLocalVoxelPos(Vector3Int _chunkPos, ref Vector3Int _v)
     {
         _v = -Vector3Int.FloorToInt(m_selectionBox.transform.InverseTransformPoint(_chunkPos * 16));
+        
         _v.x = Mathf.Abs(_v.x);
         _v.y = Mathf.Abs(_v.y);
         _v.z = Mathf.Abs(_v.z);
+
         return _v;
     }
 
