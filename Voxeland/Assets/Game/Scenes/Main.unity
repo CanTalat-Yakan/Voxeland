@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 85392129}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 228372957}
@@ -6994,10 +6994,10 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.4432406, g: 0.17204279, b: 0.16089734, a: 0.74509805}
-  deepColor: {r: 0.8964283, g: 1, b: 0.25927165, a: 1}
+  shallowColor: {r: 0.4432324, g: 0.17203498, b: 0.16088954, a: 0.74509805}
+  deepColor: {r: 0.8964283, g: 1, b: 0.2592634, a: 1}
   colorDepth: 3.74
-  horizonColor: {r: 0.8, g: 0.22216412, b: 0, a: 1}
+  horizonColor: {r: 0.8, g: 0.2221559, b: 0, a: 1}
   horizonDistance: 20
   shoreFade: 0.862
   shoreColor: {r: 1, g: 0.8537736, b: 0.8537736, a: 0}
@@ -7036,7 +7036,7 @@ MonoBehaviour:
   foamMovement: 0
   intersectionFoamDepth: 0.45
   intersectionFoamTexture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
-  intersectionFoamColor: {r: 0.7735849, g: 0.17538798, b: 0.15689492, a: 0.7607843}
+  intersectionFoamColor: {r: 0.7735849, g: 0.17538017, b: 0.15688711, a: 0.7607843}
   intersectionFoamMovement: {x: 0.174, y: 0.38}
   intersectionFoamDirection: 0.174
   intersectionFoamSpeed: 0.38
@@ -12010,10 +12010,10 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.44324058, g: 0.17204276, b: 0.16089731, a: 0.74509805}
-  deepColor: {r: 0.8964283, g: 1, b: 0.25927162, a: 1}
+  shallowColor: {r: 0.44323236, g: 0.17203495, b: 0.1608895, a: 0.74509805}
+  deepColor: {r: 0.8964283, g: 1, b: 0.25926337, a: 1}
   colorDepth: 3.74
-  horizonColor: {r: 0.8, g: 0.2221641, b: 0, a: 1}
+  horizonColor: {r: 0.8, g: 0.22215587, b: 0, a: 1}
   horizonDistance: 20
   shoreFade: 0.862
   shoreColor: {r: 1, g: 0.8537736, b: 0.8537736, a: 0}
@@ -12052,7 +12052,7 @@ MonoBehaviour:
   foamMovement: 0
   intersectionFoamDepth: 0.45
   intersectionFoamTexture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
-  intersectionFoamColor: {r: 0.7735849, g: 0.17538795, b: 0.15689489, a: 0.7607843}
+  intersectionFoamColor: {r: 0.7735849, g: 0.17538014, b: 0.15688708, a: 0.7607843}
   intersectionFoamMovement: {x: 0.174, y: 0.38}
   intersectionFoamDirection: 0.174
   intersectionFoamSpeed: 0.38
@@ -12388,17 +12388,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.35938725, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.094011955, g: 0.23916379, b: 0.42341956, a: 1}
+  shallowColor: {r: 0.35937718, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.0940023, g: 0.23915374, b: 0.4234095, a: 1}
   colorDepth: 0.8
-  horizonColor: {r: 0.23890862, g: 0.42611542, b: 0.5566037, a: 0}
+  horizonColor: {r: 0.23889855, g: 0.42610538, b: 0.5566037, a: 0}
   horizonDistance: 9.9
   shoreFade: 1
-  shoreColor: {r: 0.3938893, g: 0.62264144, b: 0.19074982, a: 0}
+  shoreColor: {r: 0.39387923, g: 0.62264144, b: 0.19074029, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.047050297, g: 0.046383142, b: 0.046383142, a: 0}
+  waveColor: {r: 0.047042824, g: 0.046375677, b: 0.046375677, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
@@ -12451,7 +12451,7 @@ MonoBehaviour:
   lightingSpecularColor: {r: 1, g: 1, b: 1, a: 0}
   lightingDiffuseColor: {r: 0, g: 0, b: 0, a: 0}
   lightingHardness: 0
-  normalsTexture: {fileID: 2800000, guid: a41da5f5671718b47bbc71e9ef691103, type: 3}
+  normalsTexture: {fileID: 2800000, guid: f19bc2945cd1d724e92c1bcf2b70cab3, type: 3}
   normalsMovement: {x: 0.04, y: 0.36}
   normalsStrength: 0.42
   normalsScale: 0.36
@@ -12751,17 +12751,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.35938722, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.094011925, g: 0.23916376, b: 0.4234195, a: 1}
+  shallowColor: {r: 0.35937715, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.09400227, g: 0.23915371, b: 0.42340946, a: 1}
   colorDepth: 0.8
-  horizonColor: {r: 0.23890859, g: 0.4261154, b: 0.5566037, a: 0}
+  horizonColor: {r: 0.23889852, g: 0.42610535, b: 0.5566037, a: 0}
   horizonDistance: 9.9
   shoreFade: 1
-  shoreColor: {r: 0.39388928, g: 0.62264144, b: 0.1907498, a: 0}
+  shoreColor: {r: 0.3938792, g: 0.62264144, b: 0.19074026, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.047050275, g: 0.046383113, b: 0.046383113, a: 0}
+  waveColor: {r: 0.047042795, g: 0.046375655, b: 0.046375655, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
@@ -12814,7 +12814,7 @@ MonoBehaviour:
   lightingSpecularColor: {r: 1, g: 1, b: 1, a: 0}
   lightingDiffuseColor: {r: 0, g: 0, b: 0, a: 0}
   lightingHardness: 0
-  normalsTexture: {fileID: 2800000, guid: a41da5f5671718b47bbc71e9ef691103, type: 3}
+  normalsTexture: {fileID: 2800000, guid: f19bc2945cd1d724e92c1bcf2b70cab3, type: 3}
   normalsMovement: {x: 0.04, y: 0.36}
   normalsStrength: 0.42
   normalsScale: 0.36
