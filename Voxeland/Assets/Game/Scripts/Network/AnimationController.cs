@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class AnimationController : Mirror.NetworkBehaviour
 {
-    [SerializeField] Animator anim;
+    [SerializeField] NetworkAnimator anim;
     public bool run = false;
 
     void Start()
@@ -15,7 +16,7 @@ public class AnimationController : Mirror.NetworkBehaviour
     Vector3 tmpPos;
     void Update()
     {
-        if (!isLocalPlayer) return;
+        // if (!isLocalPlayer) return;
         if (GameManager.Instance.LOCKED) return;
 
         run = Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0;
@@ -23,6 +24,22 @@ public class AnimationController : Mirror.NetworkBehaviour
             run = false;
         tmpPos = transform.position;
 
-        anim.SetBool("Run", run);
+        anim.animator.SetBool("Run", run);
+        // RpcOnAnim();
+        // CmdAnim();
+    }
+
+    // this is called on the server
+    [Command]
+    void CmdAnim()
+    {
+        RpcOnAnim();
+    }
+
+    // this is called for all observers
+    [ClientRpc]
+    void RpcOnAnim()
+    {
+        anim.animator.SetBool("Run", run);
     }
 }
