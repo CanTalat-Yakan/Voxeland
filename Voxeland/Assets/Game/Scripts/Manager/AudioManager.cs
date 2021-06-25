@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
         if (m_AudioInfo.MainMusic is null)
             StartCoroutine(StreamMainMusic("http://voxeland.xyz/bgmusic/minecraft-background-music.mp3", AudioType.MPEG)); //alternative: .ogg")
         else
-            PlayMainMusic(0.69f);
+            PlayMainMusic(0.14f);
     }
 
     IEnumerator StreamMainMusic(string _link, AudioType _type = AudioType.OGGVORBIS)
@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
                 Debug.Log(www.error);
             }
             else
-                m_mainMusicSource = Play(DownloadHandlerAudioClip.GetContent(www), true, 0.71f);
+                m_mainMusicSource = Play(DownloadHandlerAudioClip.GetContent(www), true, 0.69f);
         }
     }
     public AudioSource Play(AudioClip _clip, bool _loop = false, float _volume = 1)
