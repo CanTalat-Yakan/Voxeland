@@ -12,22 +12,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed5d60fa94eee34a91b5bad941a7fde, type: 3}
   m_Name: Audio Info
   m_EditorClassIdentifier: 
-  MainMusic:
+  Music:
   - {fileID: 8300000, guid: 316a6fc48c47549f681634025e2089f5, type: 3}
   - {fileID: 8300000, guid: 104b723ea70c24acb9451e1370268cbc, type: 3}
-  - {fileID: 8300000, guid: 6933804eec4774dad9c659df297109b7, type: 3}
-  - {fileID: 8300000, guid: 27ed4d8dd32354599bb329b9a84ab671, type: 3}
   - {fileID: 8300000, guid: 0f5fd1585f4014b5f980a114a320acfe, type: 3}
-  ButtonSelect: {fileID: 0}
-  ButtonMove: {fileID: 0}
-  Joined: {fileID: 0}
-  Attack: {fileID: 0}
-  Fall: {fileID: 0}
-  BlockAdded:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 27ed4d8dd32354599bb329b9a84ab671, type: 3}
+  - {fileID: 8300000, guid: 6933804eec4774dad9c659df297109b7, type: 3}
+  Ambient:
+  - clips: []
+  - clips: []
+  - clips: []
+  - clips: []
+  - clips: []
+  - clips: []
+  Button:
+  - {fileID: 8300000, guid: e97b0a073f0146748be8125a3a4e806b, type: 3}
+  - {fileID: 8300000, guid: 1d5b87599d65b0348a21af56b5dded3b, type: 3}
+  Fall:
+  - {fileID: 8300000, guid: fb62c7f5bed20604daf6d33358d865a2, type: 3}
+  - {fileID: 8300000, guid: 71d03e6ce9aca474fb964206e3b07e44, type: 3}
+  BlockPlaced:
+  - {fileID: 8300000, guid: ece39c20a4e2a8f4284a6d2e4823b746, type: 3}
+  - {fileID: 8300000, guid: 1abf2d7fb79794d4c8582f699203ad11, type: 3}
+  - {fileID: 8300000, guid: fbc4b80ae7469614d8dcb518ba881247, type: 3}
+  - {fileID: 8300000, guid: b63c7f73964b2474d85b741b74e2aee5, type: 3}
   BlockRemoved:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - clips:
+    - {fileID: 8300000, guid: 5a82432c94eee4e4284473b4b045f07f, type: 3}
+    - {fileID: 8300000, guid: 3b288d4943a23424999e8cf7204b2a57, type: 3}
+    - {fileID: 8300000, guid: 32991e64c10a5d64b8677558e1f7e96d, type: 3}
+    - {fileID: 8300000, guid: 2865a1d7b65fa1a4aa921d77b5f05bd7, type: 3}
+    - {fileID: 8300000, guid: f950ac7dd220eb7469eeaabde109dc8b, type: 3}
+    - {fileID: 8300000, guid: a523b5b6e28e6654696016fac311155f, type: 3}
+    - {fileID: 8300000, guid: c49e5df7b52b0944e9e2a78c8786ae15, type: 3}
+    - {fileID: 8300000, guid: 25730984b88c3c3438c57dfcebbd3166, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 5ca51714cd44a6b44bd49b70131d186d, type: 3}
+    - {fileID: 8300000, guid: f0a1671a26446ae47a4daee44071be73, type: 3}
+    - {fileID: 8300000, guid: 5d4df4e07d5c8e74fbc04ddfb50a2c7a, type: 3}
+    - {fileID: 8300000, guid: cf39b12554203d74b84567528de6b82f, type: 3}
+  FootSteps:
+  - clips:
+    - {fileID: 8300000, guid: a6d701594bcc61841b3e08bebda54e4b, type: 3}
+    - {fileID: 8300000, guid: 6c965dbed3737b6479cf88f20fe70616, type: 3}
+    - {fileID: 8300000, guid: 4f86717aa7f9e2d4e8c256e841908ca9, type: 3}
+    - {fileID: 8300000, guid: 1c5d5df8acdc55f439949f6874dd1ec0, type: 3}
+    - {fileID: 8300000, guid: 5437837d206c2214cb4aefd9eb2c1434, type: 3}
+    - {fileID: 8300000, guid: 320469c19896b424f90619bbb44a7539, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 0657424c58fdc804b95a707a32f3a613, type: 3}
+    - {fileID: 8300000, guid: adbcbb568f3e03d42bf52757ab177b6b, type: 3}
+    - {fileID: 8300000, guid: a023a250b5d5399448349fa233ce5831, type: 3}
+    - {fileID: 8300000, guid: 66faaeadbad9a04449852329439c5e6f, type: 3}
+    - {fileID: 8300000, guid: b79f95afe6a0b2940a368cbdbb3bba50, type: 3}
+    - {fileID: 8300000, guid: 0805206efbdbb434891fc81721552a31, type: 3}

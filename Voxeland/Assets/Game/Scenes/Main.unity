@@ -183,9 +183,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 88670059}
+  - component: {fileID: 88670060}
   - component: {fileID: 88670062}
   - component: {fileID: 88670061}
-  - component: {fileID: 88670060}
   m_Layer: 0
   m_Name: Particle System (1)
   m_TagString: Untagged
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30dedb5020644f4cbeec67425017005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ignoreYAxis: 0
 --- !u!199 &88670061
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -5452,6 +5453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30dedb5020644f4cbeec67425017005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ignoreYAxis: 0
 --- !u!1 &574338422
 GameObject:
   m_ObjectHideFlags: 0
@@ -6240,6 +6242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30dedb5020644f4cbeec67425017005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ignoreYAxis: 1
 --- !u!23 &1167831556
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6539,6 +6542,7 @@ Transform:
   - {fileID: 574338423}
   - {fileID: 797402562}
   - {fileID: 4986975045884201849}
+  - {fileID: 1780690835}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6875,6 +6879,147 @@ Transform:
   m_Father: {fileID: 1450759124}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1780690834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1780690835}
+  - component: {fileID: 1780690837}
+  - component: {fileID: 1780690836}
+  m_Layer: 0
+  m_Name: Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1780690835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780690834}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -20, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1340291404}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1780690836
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780690834}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: bee5a996184efb2479dbb4bb12ac4cdc, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 791f3ac72090ed2499662f0ff5108b6b, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.24
+  MaxDistance: 3
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1780690837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780690834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30dedb5020644f4cbeec67425017005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ignoreYAxis: 1
 --- !u!1 &1840845000
 GameObject:
   m_ObjectHideFlags: 0
@@ -7143,10 +7288,10 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.4432154, g: 0.17201889, b: 0.16087344, a: 0.74509805}
-  deepColor: {r: 0.8964283, g: 1, b: 0.25924644, a: 1}
+  shallowColor: {r: 0.44321415, g: 0.1720177, b: 0.16087225, a: 0.74509805}
+  deepColor: {r: 0.8964283, g: 1, b: 0.25924516, a: 1}
   colorDepth: 3.74
-  horizonColor: {r: 0.8, g: 0.22213891, b: 0, a: 1}
+  horizonColor: {r: 0.8, g: 0.22213766, b: 0, a: 1}
   horizonDistance: 20
   shoreFade: 0.862
   shoreColor: {r: 1, g: 0.8537736, b: 0.8537736, a: 0}
@@ -7185,7 +7330,7 @@ MonoBehaviour:
   foamMovement: 0
   intersectionFoamDepth: 0.45
   intersectionFoamTexture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
-  intersectionFoamColor: {r: 0.7735849, g: 0.17536408, b: 0.15687102, a: 0.7607843}
+  intersectionFoamColor: {r: 0.7735849, g: 0.17536288, b: 0.15686983, a: 0.7607843}
   intersectionFoamMovement: {x: 0.174, y: 0.38}
   intersectionFoamDirection: 0.174
   intersectionFoamSpeed: 0.38
@@ -12159,10 +12304,10 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.44321537, g: 0.17201886, b: 0.16087341, a: 0.74509805}
-  deepColor: {r: 0.8964283, g: 1, b: 0.25924638, a: 1}
+  shallowColor: {r: 0.44321412, g: 0.17201766, b: 0.16087222, a: 0.74509805}
+  deepColor: {r: 0.8964283, g: 1, b: 0.25924513, a: 1}
   colorDepth: 3.74
-  horizonColor: {r: 0.8, g: 0.22213888, b: 0, a: 1}
+  horizonColor: {r: 0.8, g: 0.22213763, b: 0, a: 1}
   horizonDistance: 20
   shoreFade: 0.862
   shoreColor: {r: 1, g: 0.8537736, b: 0.8537736, a: 0}
@@ -12201,7 +12346,7 @@ MonoBehaviour:
   foamMovement: 0
   intersectionFoamDepth: 0.45
   intersectionFoamTexture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
-  intersectionFoamColor: {r: 0.7735849, g: 0.17536405, b: 0.15687099, a: 0.7607843}
+  intersectionFoamColor: {r: 0.7735849, g: 0.17536286, b: 0.1568698, a: 0.7607843}
   intersectionFoamMovement: {x: 0.174, y: 0.38}
   intersectionFoamDirection: 0.174
   intersectionFoamSpeed: 0.38
@@ -12281,9 +12426,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 143480209590797251}
+  - component: {fileID: 4051484449519723732}
   - component: {fileID: 1514252140586660712}
   - component: {fileID: 1102427069579198798}
-  - component: {fileID: 4051484449519723732}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -12303,6 +12448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e30dedb5020644f4cbeec67425017005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ignoreYAxis: 0
 --- !u!33 &4066273132785529167
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -12537,17 +12683,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.35937074, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.0939961, g: 0.23914728, b: 0.42340305, a: 1}
+  shallowColor: {r: 0.35936943, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.09399485, g: 0.23914596, b: 0.4234017, a: 1}
   colorDepth: 0.8
-  horizonColor: {r: 0.23889211, g: 0.42609894, b: 0.5566037, a: 0}
+  horizonColor: {r: 0.2388908, g: 0.4260976, b: 0.5566037, a: 0}
   horizonDistance: 9.9
   shoreFade: 1
-  shoreColor: {r: 0.3938728, g: 0.62264144, b: 0.19073418, a: 0}
+  shoreColor: {r: 0.3938715, g: 0.62264144, b: 0.19073293, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.047038026, g: 0.0463709, b: 0.0463709, a: 0}
+  waveColor: {r: 0.047037043, g: 0.046369918, b: 0.046369918, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
@@ -12900,17 +13046,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.3593707, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.093996085, g: 0.23914725, b: 0.42340302, a: 1}
+  shallowColor: {r: 0.3593694, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.09399482, g: 0.23914593, b: 0.42340168, a: 1}
   colorDepth: 0.8
-  horizonColor: {r: 0.23889208, g: 0.42609888, b: 0.5566037, a: 0}
+  horizonColor: {r: 0.23889077, g: 0.42609757, b: 0.5566037, a: 0}
   horizonDistance: 9.9
   shoreFade: 1
-  shoreColor: {r: 0.39387277, g: 0.62264144, b: 0.19073415, a: 0}
+  shoreColor: {r: 0.39387146, g: 0.62264144, b: 0.1907329, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.047038004, g: 0.04637088, b: 0.04637088, a: 0}
+  waveColor: {r: 0.04703702, g: 0.046369895, b: 0.046369895, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
