@@ -16,8 +16,6 @@ public class Zoom : MonoBehaviour
 
     void LateUpdate()
     {
-        m_mouseLook.smooth = false;
-
         if (m_camera is null)
         {
             if (GameManager.Instance)
@@ -27,7 +25,15 @@ public class Zoom : MonoBehaviour
         else if (Input.GetKey(m_key) && !GameManager.Instance.LOCKED)
         {
             m_camera.fieldOfView = m_zoomFOV;
+            m_mouseLook.lateralSensitivity = 1;
+            m_mouseLook.verticalSensitivity = 1;
             m_mouseLook.smooth = true;
+        }
+        else
+        {
+            m_mouseLook.lateralSensitivity = 2;
+            m_mouseLook.verticalSensitivity = 2;
+            m_mouseLook.smooth = false;
         }
 
     }
