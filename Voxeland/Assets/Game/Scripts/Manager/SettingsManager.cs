@@ -38,7 +38,7 @@ public class SettingsManager : MonoBehaviour
     private TextMeshProUGUI
     m_musicVolumeTMPro, m_ambientVolumeTMPro,
     m_fieldOfViewTMPro, m_mouseSensitivityTMPro, m_renderDistanceTMPro, m_renderScaleTMPro, m_currentGraphicsTierTMPro,
-    m_ssaoTMPro, m_fogTMPro, m_bloomTMPro, m_depthOfFieldTMPro;
+    m_ssaoTMPro, m_bloomTMPro, m_depthOfFieldTMPro;
 
 
     void Start()
@@ -68,7 +68,6 @@ public class SettingsManager : MonoBehaviour
 
         m_currentGraphicsTierTMPro.SetText($"Graphics: {m_graphicsTierString[m_settings.CurrentPipelineAssetIndex].ToString()}");
         m_ssaoTMPro.SetText($"SSAO: {(m_settings.SSAO ? "ON" : "OFF")}");
-        m_fogTMPro.SetText($"Fog: {(m_settings.Fog ? "ON" : "OFF")}");
         m_bloomTMPro.SetText($"Bloom: {(m_settings.Bloom ? "ON" : "OFF")}");
         m_depthOfFieldTMPro.SetText($"Depth of Field: {(m_settings.DepthOfField ? "ON" : "OFF")}");
     }
@@ -150,13 +149,6 @@ public class SettingsManager : MonoBehaviour
         m_settings.SSAO = !m_settings.SSAO;
         m_rendererData.rendererFeatures[0].SetActive(m_settings.SSAO);
         m_ssaoTMPro.SetText($"SSAO: {(m_settings.SSAO ? "ON" : "OFF")}");
-    }
-
-    public void SetFog()
-    {
-        m_settings.Fog = !m_settings.Fog;
-        m_rendererData.rendererFeatures[1].SetActive(m_settings.Fog);
-        m_fogTMPro.SetText($"Fog: {(m_settings.Fog ? "ON" : "OFF")}");
     }
 
     public void SetBloom()

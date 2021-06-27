@@ -195,12 +195,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RendererFeatures:
   - {fileID: -2540348111937312876}
-  - {fileID: -5688809853220478843}
   - {fileID: -9076684269036682006}
   - {fileID: 4715126325161221041}
   - {fileID: -3160357763808621760}
   - {fileID: -6693135727011817184}
-  m_RendererFeatureMap: 946724fed9debedc85200d4094490db1ea44b165bf230982b1db5332697e6f41400b0aad5b2724d42019fc9d84341da3
+  m_RendererFeatureMap: 946724fed9debedcea44b165bf230982b1db5332697e6f41400b0aad5b2724d42019fc9d84341da3
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
