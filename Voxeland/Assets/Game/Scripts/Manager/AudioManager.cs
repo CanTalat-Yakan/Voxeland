@@ -114,7 +114,7 @@ public class AudioManager : MonoBehaviour
 
         audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.clip = PlayRandomFromList(ref m_AudioInfo.Music);
-        audioSource.volume = _volume;
+        audioSource.volume = m_tmpVolume = _volume;
         audioSource.pitch = 1;
         audioSource.loop = true;
         audioSource.Play();
