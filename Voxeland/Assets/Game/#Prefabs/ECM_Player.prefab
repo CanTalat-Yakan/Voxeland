@@ -617,6 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_selectionBox: {fileID: 1002431069189283277, guid: 248c47e43777d35419b6b60793da616f, type: 3}
+  m_blockPX: {fileID: 743422593553872357, guid: bc2a30a1a5edd804998218dd026296b4, type: 3}
 --- !u!114 &2380497335215155407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,8 +633,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   controller: {fileID: 7651581805089940028}
+  rb: {fileID: 0}
   anim: {fileID: 803301626500356667}
   run: 0
+  walk: 0
 --- !u!114 &803301626500356667
 MonoBehaviour:
   m_ObjectHideFlags: 0

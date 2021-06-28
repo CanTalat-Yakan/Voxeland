@@ -6,6 +6,7 @@ using VoxelEngine;
 public class PlayerRayCast : MonoBehaviour
 {
     [SerializeField] GameObject m_selectionBox;
+    [SerializeField] GameObject m_blockPX;
 
     bool m_createdBox = false;
     internal Vector3Int? m_TargetBlockPos, m_TargetBlockNormal;
@@ -28,6 +29,7 @@ public class PlayerRayCast : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockRemoved[0].clips));
+            Instantiate(m_blockPX, m_TargetBlockPos.Value, Quaternion.identity);
             m_TargetChunk.voxelData[Chunk.VoxelDataIndex(m_localVoxelPos)] = new Voxel(0);
             m_TargetChunk.dirtyMesh = true;
             m_TargetChunk.BuildMesh();
