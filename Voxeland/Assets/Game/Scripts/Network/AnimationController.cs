@@ -12,7 +12,7 @@ public class AnimationController : Mirror.NetworkBehaviour
     public bool walk = false;
     AudioSource runSound;
 
-    void Start() { run = false; runSound = gameObject.AddComponent<AudioSource>(); rb = GetComponent<Rigidbody>(); }
+    void Start() { run = false; runSound = gameObject.AddComponent<AudioSource>(); runSound.spatialBlend = 0; rb = GetComponent<Rigidbody>(); }
 
     Vector3 tmpPos;
     bool tmpGrounded;
