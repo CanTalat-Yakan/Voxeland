@@ -26,6 +26,8 @@ public class Settings_Container : ScriptableObject
     public bool Bloom;
     public bool DepthOfField;
     [Space]
+    public float AmbientVolume;
+    [Space]
     public Font BlockFont;
     public Texture2D[] SkinHeadTextures;
     public Texture2D[] SkinTopTextures;

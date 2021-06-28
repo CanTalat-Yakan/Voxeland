@@ -21,6 +21,7 @@ MonoBehaviour:
   Fog: 0
   Bloom: 1
   DepthOfField: 0
+  AmbientVolume: 4.5
   BlockFont: {fileID: 12800000, guid: fcdf482817c441d47a7b7d7509f78af2, type: 3}
   SkinHeadTextures:
   - {fileID: 2800000, guid: ebaffeffd2135ca4eb55f0f02d1471d6, type: 3}
