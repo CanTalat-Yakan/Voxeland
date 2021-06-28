@@ -1,14 +1,16 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Networking;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    public Audio_Info m_AudioInfo;
+    [SerializeField] internal AudioInfo m_AudioInfo;
+    [SerializeField] internal AudioMixer m_AudioMixer;
     AudioSource m_mainMusicSource;
-    float m_tmpVolume;
+    float m_volumeOffset = 100, m_tmpVolume = 14;
 
 
     void Awake()
@@ -44,7 +46,7 @@ public class AudioManager : MonoBehaviour
                 m_mainMusicSource = Play(DownloadHandlerAudioClip.GetContent(www), true, 0.69f);
         }
     }
-    public AudioSource Play(AudioClip _clip, bool _loop = false, float _volume = 1)
+    internal AudioSource Play(AudioClip _clip, bool _loop = false, float _volume = 1)
     {
         AudioSource audioSource = gameObject.AddComponent<AudioSource>();
 
@@ -63,8 +65,18 @@ public class AudioManager : MonoBehaviour
 
         return audioSource;
     }
+    internal static AudioSource Play(AudioSource _source, AudioClip _clip, AudioMixer _mixer = null, bool? _loop = null, float? _volume = null)
+    {
+        _source.clip = _clip;
+        if (_mixer) _source.outputAudioMixerGroup = _mixer.outputAudioMixerGroup;
+        if (_loop != null) _source.loop = _loop.Value;
+        if (_volume != null) _source.volume = _volume.Value;
+        _source.Play();
 
-    public AudioSource[] PlaySequence(params AudioClip[] _clips)
+        return _source;
+    }
+
+    internal AudioSource[] PlaySequence(params AudioClip[] _clips)
     {
         AudioSource[] audiosources = new AudioSource[_clips.Length];
 
@@ -93,7 +105,7 @@ public class AudioManager : MonoBehaviour
         return audiosources;
     }
 
-    public void PlayMainMusic(float _volume = 1)
+    internal void PlayMainMusic(float _volume = 1)
     {
         if (m_mainMusicSource || m_AudioInfo.Music is null)
             return;
@@ -102,29 +114,16 @@ public class AudioManager : MonoBehaviour
 
         audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.clip = PlayRandomFromList(ref m_AudioInfo.Music);
-        audioSource.volume = m_tmpVolume = _volume;
+        audioSource.volume = _volume;
         audioSource.pitch = 1;
         audioSource.loop = true;
         audioSource.Play();
         m_mainMusicSource = audioSource;
     }
-    public void StopMainMusic()
-    {
-        Destroy(m_mainMusicSource);
-    }
-    public void SetMainMusicVolume(float _percentage)
-    {
-        if (m_mainMusicSource)
-            m_mainMusicSource.volume = _percentage;
-    }
-    public float GetMainMusicVolume()
-    {
-        return m_mainMusicSource ? m_mainMusicSource.volume : 0.69f;
-    }
-    public void ResetMainMusicVolume()
-    {
-        m_mainMusicSource.volume = m_tmpVolume;
-    }
+    internal void StopMainMusic() { Destroy(m_mainMusicSource); }
+    internal void SetMainMusicVolume(float _percentage) { m_tmpVolume = _percentage; if (m_mainMusicSource) m_mainMusicSource.volume = _percentage * m_volumeOffset * 0.01f; }
+    internal float GetMainMusicVolume() { return m_mainMusicSource ? m_mainMusicSource.volume : 0.14f; }
+    internal void SetMainMusicVolumeOffset(float _percentage) { m_volumeOffset = _percentage; SetMainMusicVolume(m_tmpVolume); }
 
-    T PlayRandomFromList<T>(ref T[] _list) { return _list[Random.Range(0, _list.Length)]; }
+    internal static T PlayRandomFromList<T>(ref T[] _list) { return _list[Random.Range(0, _list.Length)]; }
 }
