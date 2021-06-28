@@ -38,8 +38,8 @@ public class DayTimeHandler : MonoBehaviour
     {
         float a = Vector3.Dot(Vector3.up, m_sun.transform.position - GameManager.Instance.m_MainCamera.transform.position);
 
-        RenderSettings.ambientLight = Color.white * GameManager.Instance.Map(a, -50, 20, 0.65f, 1f);
-        m_directionalLight.intensity = GameManager.Instance.Map(a, -20, 20, 0.001f, 1.3f);
+        RenderSettings.ambientLight = Color.white * GameManager.Map(a, -50, 20, 0.65f, 1f);
+        m_directionalLight.intensity = GameManager.Map(a, -20, 20, 0.001f, 1.3f);
 
         m_day = a > 0;
     }
