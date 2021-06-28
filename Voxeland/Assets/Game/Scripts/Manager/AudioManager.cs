@@ -65,12 +65,13 @@ public class AudioManager : MonoBehaviour
 
         return audioSource;
     }
-    internal static AudioSource Play(AudioSource _source, AudioClip _clip, AudioMixer _mixer = null, bool? _loop = null, float? _volume = null)
+    internal static AudioSource Play(AudioSource _source, AudioClip _clip, AudioMixer _mixer = null, bool? _loop = null, float? _volume = null, float? _pitch = null)
     {
         _source.clip = _clip;
         if (_mixer) _source.outputAudioMixerGroup = _mixer.outputAudioMixerGroup;
         if (_loop != null) _source.loop = _loop.Value;
         if (_volume != null) _source.volume = _volume.Value;
+        if (_pitch != null) _source.pitch = _pitch.Value;
         _source.Play();
 
         return _source;
