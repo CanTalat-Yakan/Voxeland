@@ -23,7 +23,7 @@ public class AudioInfo : ScriptableObject
 
     [Space]
     [Tooltip("0 = Dirt, 1 = Stone, 2 = Gravel, 3 = Glass, 4 = Sand, 5 = Wood")]
-    public AudioClip[] BlockPlaced = new AudioClip[4];
+    public AudioCollection[] BlockPlaced = new AudioCollection[2];
 
     [Tooltip("0 = Dirt, 1 = Stone, 2 = Gravel, 3 = Glass, 4 = Sand, 5 = Wood")]
     public AudioCollection[] BlockRemoved = new AudioCollection[2];
