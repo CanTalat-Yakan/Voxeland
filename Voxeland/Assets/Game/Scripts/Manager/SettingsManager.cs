@@ -55,6 +55,7 @@ public class SettingsManager : MonoBehaviour
         SetMasterVolume();
         m_musicVolume.value = AudioManager.Instance.GetMainMusicVolume() * 100;
         SetMusicVolume();
+        m_ambientVolume.value = GameManager.Map(m_settings.AmbientVolume, -30, 20, 0, 100);
         SetAmbientVolume();
 
         m_fieldOfView.value = m_settings.FOV;
@@ -96,6 +97,7 @@ public class SettingsManager : MonoBehaviour
     }
     public void SetAmbientVolume()
     {
+        AudioManager.Instance.m_AudioMixer.SetFloat("AmbientVolume", m_settings.AmbientVolume = GameManager.Map(m_ambientVolume.value, 0, 100, -30, 20));
         m_ambientVolumeTMPro.SetText($"Ambient: {m_ambientVolume.value.ToString()}%");
     }
 
