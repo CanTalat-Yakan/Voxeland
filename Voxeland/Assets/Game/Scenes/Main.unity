@@ -5695,7 +5695,289 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6f82f4dc25d1d4ebe7b17cd836e40b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AudioInfo: {fileID: 11400000, guid: 49f456c739a122049a00359a0227d987, type: 2}
+  m_AudioInfo: {fileID: 11400000, guid: 4fffc8b4359a0124fba95e59768dc88d, type: 2}
+  m_AudioMixer: {fileID: 24100000, guid: bee5a996184efb2479dbb4bb12ac4cdc, type: 2}
+--- !u!1 &718203426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 718203427}
+  - component: {fileID: 718203429}
+  - component: {fileID: 718203428}
+  m_Layer: 0
+  m_Name: Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &718203427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718203426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1450759124}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &718203428
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718203426}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: bee5a996184efb2479dbb4bb12ac4cdc, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &718203429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718203426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b173c3f5e4dbc428d1ab5a38a72912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &755659412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 755659413}
+  - component: {fileID: 755659415}
+  - component: {fileID: 755659414}
+  m_Layer: 0
+  m_Name: Audio Source (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &755659413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755659412}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1340291404}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &755659414
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755659412}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: bee5a996184efb2479dbb4bb12ac4cdc, type: 2}
+  m_audioClip: {fileID: 8300000, guid: ca062cca7a0262b4d8a5811490a7980f, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.5
+  MaxDistance: 4
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &755659415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755659412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30dedb5020644f4cbeec67425017005, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ignoreYAxis: 1
 --- !u!1 &797402561
 GameObject:
   m_ObjectHideFlags: 0
@@ -6543,6 +6825,7 @@ Transform:
   - {fileID: 797402562}
   - {fileID: 4986975045884201849}
   - {fileID: 1780690835}
+  - {fileID: 755659413}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6673,6 +6956,7 @@ Transform:
   - {fileID: 1170508916}
   - {fileID: 2093686828}
   - {fileID: 1717094867}
+  - {fileID: 718203427}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6931,10 +7215,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.24
-  MaxDistance: 3
+  MinDistance: 0.5
+  MaxDistance: 4
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -7288,10 +7572,10 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.44321415, g: 0.1720177, b: 0.16087225, a: 0.74509805}
-  deepColor: {r: 0.8964283, g: 1, b: 0.25924516, a: 1}
+  shallowColor: {r: 0.44321075, g: 0.17201447, b: 0.16086903, a: 0.74509805}
+  deepColor: {r: 0.8964283, g: 1, b: 0.25924176, a: 1}
   colorDepth: 3.74
-  horizonColor: {r: 0.8, g: 0.22213766, b: 0, a: 1}
+  horizonColor: {r: 0.8, g: 0.22213426, b: 0, a: 1}
   horizonDistance: 20
   shoreFade: 0.862
   shoreColor: {r: 1, g: 0.8537736, b: 0.8537736, a: 0}
@@ -7330,7 +7614,7 @@ MonoBehaviour:
   foamMovement: 0
   intersectionFoamDepth: 0.45
   intersectionFoamTexture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
-  intersectionFoamColor: {r: 0.7735849, g: 0.17536288, b: 0.15686983, a: 0.7607843}
+  intersectionFoamColor: {r: 0.7735849, g: 0.17535967, b: 0.15686661, a: 0.7607843}
   intersectionFoamMovement: {x: 0.174, y: 0.38}
   intersectionFoamDirection: 0.174
   intersectionFoamSpeed: 0.38
@@ -12304,10 +12588,10 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.44321412, g: 0.17201766, b: 0.16087222, a: 0.74509805}
-  deepColor: {r: 0.8964283, g: 1, b: 0.25924513, a: 1}
+  shallowColor: {r: 0.44321072, g: 0.17201445, b: 0.160869, a: 0.74509805}
+  deepColor: {r: 0.8964283, g: 1, b: 0.25924173, a: 1}
   colorDepth: 3.74
-  horizonColor: {r: 0.8, g: 0.22213763, b: 0, a: 1}
+  horizonColor: {r: 0.8, g: 0.22213423, b: 0, a: 1}
   horizonDistance: 20
   shoreFade: 0.862
   shoreColor: {r: 1, g: 0.8537736, b: 0.8537736, a: 0}
@@ -12346,7 +12630,7 @@ MonoBehaviour:
   foamMovement: 0
   intersectionFoamDepth: 0.45
   intersectionFoamTexture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
-  intersectionFoamColor: {r: 0.7735849, g: 0.17536286, b: 0.1568698, a: 0.7607843}
+  intersectionFoamColor: {r: 0.7735849, g: 0.17535964, b: 0.15686658, a: 0.7607843}
   intersectionFoamMovement: {x: 0.174, y: 0.38}
   intersectionFoamDirection: 0.174
   intersectionFoamSpeed: 0.38
@@ -12683,17 +12967,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.35936943, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.09399485, g: 0.23914596, b: 0.4234017, a: 1}
+  shallowColor: {r: 0.35936564, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.09399123, g: 0.23914221, b: 0.42339796, a: 1}
   colorDepth: 0.8
-  horizonColor: {r: 0.2388908, g: 0.4260976, b: 0.5566037, a: 0}
+  horizonColor: {r: 0.23888701, g: 0.42609385, b: 0.5566037, a: 0}
   horizonDistance: 9.9
   shoreFade: 1
-  shoreColor: {r: 0.3938715, g: 0.62264144, b: 0.19073293, a: 0}
+  shoreColor: {r: 0.3938677, g: 0.62264144, b: 0.19072935, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.047037043, g: 0.046369918, b: 0.046369918, a: 0}
+  waveColor: {r: 0.047034234, g: 0.046367124, b: 0.046367124, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
@@ -13046,17 +13330,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.3593694, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.09399482, g: 0.23914593, b: 0.42340168, a: 1}
+  shallowColor: {r: 0.3593656, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.0939912, g: 0.23914215, b: 0.42339793, a: 1}
   colorDepth: 0.8
-  horizonColor: {r: 0.23889077, g: 0.42609757, b: 0.5566037, a: 0}
+  horizonColor: {r: 0.23888698, g: 0.42609382, b: 0.5566037, a: 0}
   horizonDistance: 9.9
   shoreFade: 1
-  shoreColor: {r: 0.39387146, g: 0.62264144, b: 0.1907329, a: 0}
+  shoreColor: {r: 0.39386767, g: 0.62264144, b: 0.19072932, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.04703702, g: 0.046369895, b: 0.046369895, a: 0}
+  waveColor: {r: 0.04703421, g: 0.046367094, b: 0.046367094, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
