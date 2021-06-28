@@ -617,6 +617,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_selectionBox: {fileID: 1002431069189283277, guid: 248c47e43777d35419b6b60793da616f, type: 3}
+  m_placeAudio: {fileID: 0}
+  m_breakAudio: {fileID: 0}
 --- !u!114 &2380497335215155407
 MonoBehaviour:
   m_ObjectHideFlags: 0

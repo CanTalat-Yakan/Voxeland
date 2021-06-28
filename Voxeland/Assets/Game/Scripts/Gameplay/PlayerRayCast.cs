@@ -6,12 +6,12 @@ using VoxelEngine;
 public class PlayerRayCast : MonoBehaviour
 {
     [SerializeField] GameObject m_selectionBox;
+
     bool m_createdBox = false;
     internal Vector3Int? m_TargetBlockPos, m_TargetBlockNormal;
     internal Chunk m_TargetChunk, m_CurrentChunk;
     internal Voxel? m_TargetVoxel;
     Vector3Int m_localVoxelPos = new Vector3Int();
-
 
     void Update()
     {
@@ -27,12 +27,14 @@ public class PlayerRayCast : MonoBehaviour
         if (m_TargetVoxel is null) return;
         if (Input.GetMouseButtonDown(0))
         {
+            AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockRemoved[0].clips));
             m_TargetChunk.voxelData[Chunk.VoxelDataIndex(m_localVoxelPos)] = new Voxel(0);
             m_TargetChunk.dirtyMesh = true;
             m_TargetChunk.BuildMesh();
         }
         if (Input.GetMouseButtonDown(1) && !IsPlayerInBlock())
         {
+            AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockPlaced[0].clips));
             m_TargetChunk.voxelData[Chunk.VoxelDataIndex((m_localVoxelPos + m_TargetBlockNormal).Value)] = new Voxel(1);
             m_TargetChunk.dirtyMesh = true;
             m_TargetChunk.BuildMesh();
@@ -117,8 +119,8 @@ public class PlayerRayCast : MonoBehaviour
 
     bool IsPlayerInBlock()
     {
-        return m_TargetBlockPos + m_TargetBlockNormal == Vector3Int.FloorToInt(GameManager.Instance.m_Player.gameObject.transform.position + Vector3.up * 0.02f)
-                || m_TargetBlockPos + m_TargetBlockNormal == Vector3Int.FloorToInt(GameManager.Instance.m_Player.gameObject.transform.position + Vector3.up * 1.02f);
+        return m_TargetBlockPos + m_TargetBlockNormal ==FloatToInt(GameManager.Instance.m_Player.gameObject.transform.position)
+                || m_TargetBlockPos + m_TargetBlockNormal == FloatToInt(GameManager.Instance.m_Player.gameObject.transform.position + Vector3.up);
     }
 
     Vector3Int GetChunkPos(Vector3Int _worldPos)
@@ -142,8 +144,8 @@ public class PlayerRayCast : MonoBehaviour
 
     Vector3Int GetLocalVoxelPos(Vector3Int _chunkPos, ref Vector3Int _v)
     {
-        _v = -Vector3Int.FloorToInt(m_selectionBox.transform.InverseTransformPoint(_chunkPos * 16));
-        
+        _v = -FloatToInt(m_selectionBox.transform.InverseTransformPoint(_chunkPos * 16));
+
         _v.x = Mathf.Abs(_v.x);
         _v.y = Mathf.Abs(_v.y);
         _v.z = Mathf.Abs(_v.z);
@@ -191,7 +193,7 @@ public class PlayerRayCast : MonoBehaviour
         m_selectionBox.SetActive(b);
 
         m_CurrentChunk = VoxelEngineManager.Instance.GetChunk(
-            GetChunkPos(Vector3Int.FloorToInt(gameObject.transform.position)));
+            GetChunkPos(FloatToInt(gameObject.transform.position)));
 
         return b;
     }
