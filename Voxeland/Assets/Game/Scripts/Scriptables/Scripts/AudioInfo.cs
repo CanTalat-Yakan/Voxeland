@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 [CreateAssetMenu(menuName = "Scriptables/Audio Info", fileName = "Audio Info", order = 1)]
-public class Audio_Info : ScriptableObject
+public class AudioInfo : ScriptableObject
 {
     [Header("Main")]
     public AudioClip[] Music;
