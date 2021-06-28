@@ -54,11 +54,11 @@ public class AudioManager : MonoBehaviour
         audioSource.clip = _clip;
         audioSource.loop = _loop;
         audioSource.volume = _volume;
-        audioSource.spatialBlend = 0.1f;
         audioSource.maxDistance = 130;
         audioSource.spread = 1;
         audioSource.dopplerLevel = 0;
         audioSource.reverbZoneMix = 1;
+        audioSource.spatialBlend = 0;
         audioSource.pitch = 1;
         audioSource.Play();
         Destroy(audioSource, _clip.length);
@@ -113,8 +113,8 @@ public class AudioManager : MonoBehaviour
 
         AudioSource audioSource = gameObject.AddComponent<AudioSource>();
 
-        audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.clip = PlayRandomFromList(ref m_AudioInfo.Music);
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.volume = m_tmpVolume = _volume;
         audioSource.pitch = 1;
         audioSource.loop = true;
