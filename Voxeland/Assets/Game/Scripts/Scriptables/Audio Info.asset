@@ -62,10 +62,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 71d03e6ce9aca474fb964206e3b07e44, type: 3}
   - {fileID: 8300000, guid: 9c76aa927c894b74a905611a5467f609, type: 3}
   BlockPlaced:
-  - {fileID: 8300000, guid: ece39c20a4e2a8f4284a6d2e4823b746, type: 3}
-  - {fileID: 8300000, guid: 1abf2d7fb79794d4c8582f699203ad11, type: 3}
-  - {fileID: 8300000, guid: fbc4b80ae7469614d8dcb518ba881247, type: 3}
-  - {fileID: 8300000, guid: b63c7f73964b2474d85b741b74e2aee5, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: 62305811b4f9a314eac65fb925aa9649, type: 3}
+    - {fileID: 8300000, guid: e5687ae55aacd2144b0b729ac117f452, type: 3}
+    - {fileID: 8300000, guid: 1b01ec9469954a944ac1c5e19576729d, type: 3}
+    - {fileID: 8300000, guid: b44f3133e52870b439dd044e2a1354ea, type: 3}
+  - clips: []
   BlockRemoved:
   - clips:
     - {fileID: 8300000, guid: 5a82432c94eee4e4284473b4b045f07f, type: 3}
