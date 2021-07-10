@@ -24,8 +24,8 @@ public class PlayerRayCaster : MonoBehaviour
         
         DoVoxelSelectedID();
 
-        RaycastHit hit = GameManager.Instance.HitRayCast(20);
-        bool b = GameManager.Instance.BoolRayCast(20);
+        RaycastHit hit = GameManager.Instance.HitRayCast(8);
+        bool b = GameManager.Instance.BoolRayCast(8);
         cube.SetActive(b);
         radial.gameObject.SetActive(b);
         if (!b) return;
