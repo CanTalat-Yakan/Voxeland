@@ -18,7 +18,7 @@ public class SettingsManager : MonoBehaviour
     [Header("Other Settings")]
     [SerializeField] private VolumeProfile m_postprocessingData;
     [SerializeField] private GameObject m_quit;
-    [SerializeField] private Settings_Container m_settings;
+    [SerializeField] private SettingsContainer m_settings;
     [SerializeField] private RenderTexture m_renderTexture;
     [Header("Music")]
     [SerializeField] private Slider m_masterVolume;
@@ -97,7 +97,7 @@ public class SettingsManager : MonoBehaviour
     }
     public void SetAmbientVolume()
     {
-        AudioManager.Instance.m_AudioMixer.SetFloat("AmbientVolume", m_settings.AmbientVolume = GameManager.Map(m_ambientVolume.value, 0, 100, -30, 20));
+        AudioManager.Instance.m_AudioMixer.audioMixer.SetFloat("AmbientVolume", m_settings.AmbientVolume = GameManager.Map(m_ambientVolume.value, 0, 100, -30, 20));
         m_ambientVolumeTMPro.SetText($"Ambient: {m_ambientVolume.value.ToString()}%");
     }
 
