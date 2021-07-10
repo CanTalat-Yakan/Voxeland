@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerRayCaster : MonoBehaviour
 {
+    [SerializeField] GameObject breakParticleFX;
     [SerializeField] GameObject cube;
-    [SerializeField] VoxelMaster master {get => GameManager.Instance.m_VoxelMaster; }
+    [SerializeField] VoxelMaster master { get => GameManager.Instance.m_VoxelMaster; }
     [SerializeField] Image radial;
     [SerializeField] Image selected;
     [SerializeField] Sprite[] icons;
@@ -18,6 +19,9 @@ public class PlayerRayCaster : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.LOCKED) return;
+        if (!GameManager.Instance.m_MainCamera) return;
+        
         DoVoxelSelectedID();
 
         RaycastHit hit = GameManager.Instance.HitRayCast(20);
@@ -61,6 +65,8 @@ public class PlayerRayCaster : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
             if (NotInPlayer(_airPos))
             {
+                AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockPlaced[0].clips)).outputAudioMixerGroup = AudioManager.Instance.m_AudioMixer;
+
                 master.SetVoxelID(_airPos, (short)currentID);
                 master.FastRefresh();
             }
@@ -95,6 +101,8 @@ public class PlayerRayCaster : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
 
+            AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockRemoved[0].clips), AudioManager.Instance.m_AudioMixer).outputAudioMixerGroup = AudioManager.Instance.m_AudioMixer;
+            Destroy(Instantiate(breakParticleFX, _pos, Quaternion.identity), 3);
             master.RemoveVoxelAt(_pos);
             master.FastRefresh();
         }
