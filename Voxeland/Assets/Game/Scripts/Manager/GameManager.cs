@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using VoxelEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public bool LOCKED = false;
-    public Camera m_MainCamera;
-    public GameObject m_Player;
-    public LayerMask m_IgnoreLayer;
-    public Settings_Container m_Settings;
-    public bool m_ShowDebugInfo = false;
+    [SerializeField] internal VoxelMaster m_VoxelMaster;
+    [SerializeField] internal bool LOCKED = false;
+    [SerializeField] internal bool m_ShowDebugInfo = false;
+    [SerializeField] internal SettingsContainer m_Settings;
+    [SerializeField] internal LayerMask m_IgnoreLayer;
+    [SerializeField] internal Camera m_MainCamera;
+    internal GameObject m_Player;
 
     void Awake()
     {
@@ -97,30 +97,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    internal RaycastHit HitRayCast(Vector3 _origin, Vector3 _direction, float _maxDistance)
+    internal RaycastHit HitRayCast(float _maxDistance, Ray? _ray = null)
     {
         RaycastHit hit;
 
-        Ray ray = new Ray(
-            _origin,
-            _direction);
-
         Physics.Raycast(
-            ray,
+            _ray is null
+                ? m_MainCamera.ViewportPointToRay(new Vector2(0.5f, 0.5f))
+                : _ray.Value,
             out hit,
             _maxDistance,
             ~m_IgnoreLayer);
 
         return hit;
     }
-    internal bool BoolRayCast(Vector3 _origin, Vector3 _direction, float _maxDistance)
+    internal bool BoolRayCast(float _maxDistance, Ray? _ray = null)
     {
-        Ray ray = new Ray(
-            _origin,
-            _direction);
-
         return Physics.Raycast(
-            ray,
+            _ray is null
+                ? m_MainCamera.ViewportPointToRay(new Vector2(0.5f, 0.5f))
+                : _ray.Value,
             _maxDistance,
             ~m_IgnoreLayer);
     }
@@ -131,5 +127,12 @@ public class GameManager : MonoBehaviour
         float newValue = ((_oldValue - _oldMin) * newRange / oldRange) + _newMin;
 
         return Mathf.Clamp(newValue, _newMin, _newMax);
+    }
+}
+public static class ExtensionMethods
+{
+    public static float Remap(this float value, float from1, float to1, float from2, float to2)
+    {
+        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 }
