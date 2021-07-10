@@ -10,7 +10,7 @@ public struct PlayerInfo
     int skin;
 }
 [CreateAssetMenu(menuName = "Scriptables/Settings Container", fileName = "Settings Info", order = 0)]
-public class Settings_Container : ScriptableObject
+public class SettingsContainer : ScriptableObject
 {
     public PlayerInfo Player;
 

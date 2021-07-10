@@ -19,13 +19,13 @@ public class AmbientSound : MonoBehaviour
 
         if (pos > 37)
             SetSound(AmbientTypes.SKY);
-        else if (pos > -20.7)
+        else if (pos > -0.7)
             SetSound(AmbientTypes.SURFACE);
-        else if (pos > -36)
+        else if (pos > -16)
             SetSound(AmbientTypes.WATER);
-        else if (pos > -40.7)
+        else if (pos > -20.7)
             SetSound(AmbientTypes.LAVA);
-        else if (pos > -66)
+        else if (pos > -46)
             SetSound(AmbientTypes.UNDERGROUND);
         else
             SetSound(AmbientTypes.CAVE);

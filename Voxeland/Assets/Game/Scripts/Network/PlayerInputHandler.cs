@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class AnimationController : Mirror.NetworkBehaviour
+public class PlayerInputHandler : Mirror.NetworkBehaviour
 {
     [SerializeField] ECM.Controllers.BaseFirstPersonController controller;
     [SerializeField] Rigidbody rb;
@@ -12,7 +12,7 @@ public class AnimationController : Mirror.NetworkBehaviour
     public bool walk = false;
     AudioSource runSound;
 
-    void Start() { run = false; runSound = gameObject.AddComponent<AudioSource>(); runSound.spatialBlend = 0; rb = GetComponent<Rigidbody>(); }
+    void Start() { run = false; runSound = gameObject.AddComponent<AudioSource>(); runSound.spatialBlend = 0; }
 
     Vector3 tmpPos;
     bool tmpGrounded;
@@ -20,7 +20,8 @@ public class AnimationController : Mirror.NetworkBehaviour
     float tmpVelocity;
     void Update()
     {
-        // if (!isLocalPlayer) return;
+        // movement for local player
+        if (!isLocalPlayer) return;
         if (GameManager.Instance.LOCKED) return;
 
         run = controller.run;
@@ -33,32 +34,17 @@ public class AnimationController : Mirror.NetworkBehaviour
         anim.animator.SetBool("Crouch", controller.isCrouching);
 
         if ((tmpGrounded != controller.isGrounded) && tmpVelocity < -10)
-            AudioManager.Instance.Play(
-                AudioManager.Instance.m_AudioInfo.Fall[
-                    tmpVelocity < -20 
-                    ? 1 
-                    : 0], 
-                AudioManager.Instance.m_AudioMixer);
-                
+            AudioManager.Instance.Play(AudioManager.Instance.m_AudioInfo.Fall[tmpVelocity < -20 ? 1 : 0]).outputAudioMixerGroup = AudioManager.Instance.m_AudioMixer;
+
         if ((!controller.isJumping && (run || walk) && !runSound.isPlaying)
              || tmpGrounded != controller.isGrounded)
-            AudioManager.Play(
-                runSound,
-                AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.FootSteps[0].clips),
-                AudioManager.Instance.m_AudioMixer,
-                false,
-                0.25f,
-                controller.isCrouching
-                    ? 0.5f
-                    : controller.run
-                        ? 1.3f
-                        : 1);
+            AudioManager.Play(runSound, AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.FootSteps[0].clips), false, 0.25f, controller.isCrouching ? 0.5f : controller.run ? 1.3f : 1).outputAudioMixerGroup = AudioManager.Instance.m_AudioMixer;
 
         tmpGrounded = controller.isGrounded;
         tmpFalling = controller.isFalling;
         tmpVelocity = rb.velocity.y;
 
-        // RpcOnAnim(); CmdAnim();
+        CmdAnim();
     }
 
     // this is called on the server
