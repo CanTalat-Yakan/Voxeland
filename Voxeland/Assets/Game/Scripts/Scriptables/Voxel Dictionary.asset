@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c5dca5c0403ce40a085d263afe13fb, type: 3}
+  m_Name: Voxel Dictionary
+  m_EditorClassIdentifier: 
+  VoxelInfo:
+  - {fileID: 11400000, guid: 9dd8316502a08714384f910b909f06a3, type: 2}
+  - {fileID: 11400000, guid: 55c13ccede9944042be2cc98eb5eafbf, type: 2}
+  - {fileID: 11400000, guid: 7dc19623c290bf74aa04fdf8911d523d, type: 2}
+  - {fileID: 11400000, guid: a0d0517ddc4029f4d93467f5d50b9f70, type: 2}
+  - {fileID: 11400000, guid: 695710726e97a5048a36b5958982a1e5, type: 2}
+  - {fileID: 11400000, guid: 765f300d0cbb9574bb4636bbb625b737, type: 2}
+  - {fileID: 11400000, guid: e1b09ff6543310d4282b5a2c54baf2fc, type: 2}
