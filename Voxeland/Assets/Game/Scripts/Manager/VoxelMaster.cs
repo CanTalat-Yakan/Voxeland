@@ -7,10 +7,11 @@ public class VoxelMaster : MonoBehaviour
 {
     public static readonly Queue<UnityAction> MainThread = new Queue<UnityAction>();
     public static readonly Queue<UnityAction> ColliderBuffer = new Queue<UnityAction>();
-    [Range(0, 5)] [SerializeField] internal byte LevelOfDetailsCount = 3;
-    [Range(6, 8)] [SerializeField] internal byte RenderDistance = 6;
+    [SerializeField] internal byte LevelOfDetailsCount {get => (byte)Settings.LOD; }
+    [SerializeField] internal byte RenderDistance  {get => (byte)(6 + Settings.RenderDistance); }
     [Range(1, 6)] [SerializeField] internal float DisposeFactor = 2;
     [Space]
+    [SerializeField] internal SettingsContainer Settings;
     [SerializeField] internal VoxelDictionary VoxelDictionary;
     [SerializeField] internal Material TerrainMaterial;
     [SerializeField] internal int Tiling;

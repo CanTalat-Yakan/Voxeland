@@ -33,12 +33,13 @@ public class SettingsManager : MonoBehaviour
     [Space]
     [Header("Text Mesh Pro's")]
     [SerializeField]
-    private TextMeshProUGUI m_masterVolumeTMPro; 
+    private TextMeshProUGUI m_masterVolumeTMPro;
     [SerializeField]
     private TextMeshProUGUI
     m_musicVolumeTMPro, m_ambientVolumeTMPro,
-    m_fieldOfViewTMPro, m_mouseSensitivityTMPro, m_renderDistanceTMPro, m_renderScaleTMPro, m_currentGraphicsTierTMPro,
-    m_ssaoTMPro, m_bloomTMPro, m_depthOfFieldTMPro;
+    m_fieldOfViewTMPro, m_mouseSensitivityTMPro,
+    m_renderDistanceTMPro, m_lodTMPro, m_renderScaleTMPro, m_currentGraphicsTierTMPro,
+    m_ssaoTMPro, m_aaTMPro, m_bloomTMPro, m_depthOfFieldTMPro;
 
 
     void Start()
@@ -64,8 +65,12 @@ public class SettingsManager : MonoBehaviour
         SetMouseSensitivity();
         m_renderDistance.value = m_settings.RenderDistance;
         SetRenderDistance();
+        m_settings.LOD--;
+        SetLOD();
         m_renderScale.value = m_settings.RenderScale;
         SetRenderScale();
+        m_settings.AA--;
+        SetAA();
 
         m_currentGraphicsTierTMPro.SetText($"Graphics: {m_graphicsTierString[m_settings.CurrentPipelineAssetIndex].ToString()}");
         m_ssaoTMPro.SetText($"SSAO: {(m_settings.SSAO ? "ON" : "OFF")}");
@@ -104,7 +109,23 @@ public class SettingsManager : MonoBehaviour
     public void SetRenderDistance()
     {
         m_settings.RenderDistance = (int)m_renderDistance.value;
-        m_renderDistanceTMPro.SetText($"Render Distance: {m_settings.RenderDistance.ToString()}m");
+        m_renderDistanceTMPro.SetText($"Render: {(1 << (6 + (int)m_settings.RenderDistance)) / Chunk.SIZE} Chunks");
+            
+        VoxelGeneration.UpdateNow = true;
+    }
+    public void SetLOD()
+    {
+        m_settings.LOD++;
+
+        if (m_settings.LOD > 5)
+            m_settings.LOD = 0;
+
+        if (m_settings.LOD == 0)
+            m_lodTMPro.SetText($"NO LOD");
+        else
+            m_lodTMPro.SetText($"LOD: {m_settings.LOD }");
+
+        VoxelGeneration.UpdateNow = true;
     }
     public void SetRenderScale()
     {
@@ -124,6 +145,18 @@ public class SettingsManager : MonoBehaviour
                 GameManager.Instance.m_MainCamera.targetTexture = m_renderTexture;
 
         m_renderScaleTMPro.SetText($"Render Scale: {m_renderScale.value.ToString()}%");
+    }
+    public void SetAA()
+    {
+        m_settings.AA++;
+
+        if (m_settings.AA > 3)
+            m_settings.AA = 0;
+
+        if (m_settings.AA == 0)
+            m_aaTMPro.SetText($"Anti Aliasing: NONE");
+        else
+            m_aaTMPro.SetText($"Anti Aliasing: {1 << m_settings.AA}x");
     }
     public void SetGraphicsQuality()
     {
