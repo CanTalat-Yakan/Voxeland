@@ -14,7 +14,8 @@ namespace Mirror
         public int playerTexture;
 
         [SerializeField] private Renderer[] m_renderer;
-        [SerializeField] private Canvas m_canvas;
+        [SerializeField] private Canvas m_canvasNameTag;
+        [SerializeField] private Canvas m_canvasHUD;
         [SerializeField] private TextMeshProUGUI m_nameTMPro;
         [SerializeField] private Light m_pointLight;
 
@@ -40,12 +41,16 @@ namespace Mirror
             foreach (Transform trans in go.GetComponentsInChildren<Transform>(true))
                 trans.gameObject.layer = layerNumber;
         }
+        public void SetupCanvasHUD()
+        {
+            m_canvasHUD.gameObject.SetActive(true);
+        }
         public void SetupCanvas()
         {
-            m_canvas.gameObject.SetActive(true);
-            m_canvas.worldCamera = GameManager.Instance.m_MainCamera;
+            m_canvasNameTag.gameObject.SetActive(true);
+            m_canvasNameTag.worldCamera = GameManager.Instance.m_MainCamera;
             m_nameTMPro.text = playerName;
-            m_canvas.gameObject.layer = LayerMask.NameToLayer("Draw over");
+            m_canvasNameTag.gameObject.layer = LayerMask.NameToLayer("Draw over");
         }
         public void SetShadowCastOnly()
         {

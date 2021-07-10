@@ -3,40 +3,41 @@ using UnityEngine;
 
 public class LocalPlayerOnly : Mirror.NetworkBehaviour
 {
-    [SerializeField] private Camera m_camera;
+    [SerializeField] private GameObject m_cameraPivot;
 
     void Start()
     {
         Player player = GetComponent<Player>();
 
-        // Network Move on LocalPlayer only
-        if (isLocalPlayer)
+
+        if (isLocalPlayer) // Network Move on LocalPlayer only
         {
-            if (GameManager.Instance)
-            {
-                GameManager.Instance.m_MainCamera = m_camera;
-                GameManager.Instance.m_Player = gameObject;
-            }
+            GameManager.Instance.m_MainCamera.transform.parent = m_cameraPivot.transform;
+            GameManager.Instance.m_MainCamera.transform.localPosition = Vector3.zero;
+            GameManager.Instance.m_Player = gameObject;
+
             player.SetShadowCastOnly();
             player.DisablePointLight();
-            m_camera.GetComponent<AudioListener>().enabled = true;
-
-            return;
+            player.SetupCanvasHUD();
+            GameManager.Instance.m_MainCamera.GetComponent<AudioListener>().enabled = true;
         }
-        player.SetupLayer(gameObject, LayerMask.NameToLayer("Client"));
-        player.SetupCanvas();
-        player.SetupMaterial();
-        player.SetupPointLight();
-        GetComponent<Rigidbody>().Sleep();
-        GetComponent<CapsuleCollider>().enabled = false;
+        else
+        {
+            player.SetupLayer(gameObject, LayerMask.NameToLayer("Client"));
+            player.SetupCanvas();
+            player.SetupMaterial();
+            player.SetupPointLight();
+            GetComponent<Rigidbody>().Sleep();
+            GetComponent<CapsuleCollider>().enabled = false;
 
-        MonoBehaviour[] comps = GetComponents<MonoBehaviour>();
-        foreach (MonoBehaviour c in comps)
-            c.enabled = false;
-        m_camera.gameObject.SetActive(false);
+            MonoBehaviour[] comps = GetComponents<MonoBehaviour>();
+            foreach (MonoBehaviour c in comps)
+                c.enabled = false;
+            GameManager.Instance.m_MainCamera.gameObject.SetActive(false);
 
-        GetComponent<NetworkTransform>().enabled = true;
-        GetComponent<AnimationController>().enabled = true;
-        GetComponent<NetworkAnimator>().enabled = true;
+            GetComponent<NetworkTransform>().enabled = true;
+            GetComponent<PlayerInputHandler>().enabled = true;
+            GetComponent<NetworkAnimator>().enabled = true;
+        }
     }
 }
