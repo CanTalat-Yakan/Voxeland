@@ -108,7 +108,7 @@ public class PlayerRayCaster : MonoBehaviour
             var ps = gobj.GetComponent<ParticleSystemRenderer>();
             var main = ps.material;
 
-            var sprite = icons[master.GetVoxelID(_pos)];
+            var sprite = icons[master.GetLocalVoxelID(_pos)];
             var size =  1;
             var croppedTexture = new Texture2D((int)(sprite.rect.width * size), (int)(sprite.rect.height * size));
             var pixels = sprite.texture.GetPixels((int)(sprite.textureRect.x),

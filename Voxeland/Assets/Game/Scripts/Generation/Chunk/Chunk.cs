@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
+
 public class Chunk
 {
     static int curID = 0;
@@ -116,39 +117,37 @@ public class Chunk
             t.Start();
         }
     }
-    internal short GetVoxelID(int _x, int _y, int _z)
+
+    internal short GetLocalVoxelID(int _x, int _y, int _z)
     {
         if ((_x & MASK) != _x ||
             (_y & MASK) != _y ||
             (_z & MASK) != _z)
-            return -1;
+            return Master.GetLocalVoxelID(new Vector3(_x, _y, _z) + Pos);
 
         Voxel v = nodes[_x, _y, _z];
         return v != null ? v.ID : (short)-1;
     }
     internal short GetVoxelID(Vector3Int _pos)
     {
-        return GetVoxelID(_pos.x, _pos.y, _pos.z);
+        return GetLocalVoxelID(_pos.x, _pos.y, _pos.z);
     }
-    internal Voxel GetVoxel(int _x, int _y, int _z)
+
+    internal Voxel GetLocalVoxel(int _x, int _y, int _z)
     {
         if ((_x & MASK) != _x ||
             (_y & MASK) != _y ||
             (_z & MASK) != _z)
-            return null;
+            return Master.GetVoxel(new Vector3(_x, _y, _z) + Pos);
 
         return nodes[_x, _y, _z];
     }
-    internal Voxel GetVoxel(Vector3Int _pos)
+    internal Voxel GetLocalVoxel(Vector3Int _pos)
     {
-        return GetVoxel(_pos.x, _pos.y, _pos.z);
+        return GetLocalVoxel(_pos.x, _pos.y, _pos.z);
     }
-    internal bool GetVoxelTransperency(Vector3Int _pos)
-    {
-        Voxel v = GetVoxel(_pos.x, _pos.y, _pos.z);
-        return v is null ? false : v.Info.Transparent;
-    }
-    internal void SetVoxelID(int _x, int _y, int _z, short _id = 0)
+
+    internal void SetLocalVoxelID(int _x, int _y, int _z, short _id = 0)
     {
         if ((_x & MASK) != _x ||
             (_y & MASK) != _y ||
@@ -163,8 +162,8 @@ public class Chunk
         info.Manager.Dirty = true;
         Dirty = true;
     }
-    internal void SetVoxelID(Vector3Int _p, short _id = 0)
+    internal void SetLocalVoxelID(Vector3Int _p, short _id = 0)
     {
-        SetVoxelID(_p.x, _p.y, _p.z, _id);
+        SetLocalVoxelID(_p.x, _p.y, _p.z, _id);
     }
 }

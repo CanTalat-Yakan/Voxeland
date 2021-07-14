@@ -7,8 +7,8 @@ public class VoxelMaster : MonoBehaviour
 {
     public static readonly Queue<UnityAction> MainThread = new Queue<UnityAction>();
     public static readonly Queue<UnityAction> ColliderBuffer = new Queue<UnityAction>();
-    [SerializeField] internal byte LevelOfDetailsCount {get => (byte)Settings.LOD; }
-    [SerializeField] internal byte RenderDistance  {get => (byte)(6 + Settings.RenderDistance); }
+    [SerializeField] internal byte LevelOfDetailsCount { get => (byte)Settings.LOD; }
+    [SerializeField] internal byte RenderDistance { get => (byte)(6 + Settings.RenderDistance); }
     [SerializeField] public PrefabPool PrefabPool;
     [Space]
     [Range(1, 6)] [SerializeField] internal float DisposeFactor = 2;
@@ -59,9 +59,9 @@ public class VoxelMaster : MonoBehaviour
         if (c is null)
             return;
 
-        c.SetVoxelID(pos - c.Pos, _id);
+        c.SetLocalVoxelID(pos - c.Pos, _id);
     }
-    internal short GetVoxelID(Vector3 _pos)
+    internal short GetLocalVoxelID(Vector3 _pos)
     {
         Vector3Int pos = Vector3Int.FloorToInt(_pos);
 
@@ -82,13 +82,12 @@ public class VoxelMaster : MonoBehaviour
         if (c is null)
             return null;
 
-        return c.GetVoxel(pos - c.Pos);
+        return c.GetLocalVoxel(pos - c.Pos);
     }
     internal void FastRefresh()
     {
         foreach (Chunk c in Collection[0].Values)
-        if (c.Dirty && c.m_visible)
-            c.Refresh();
+            c.FastRefresh();
     }
     internal bool ChunkExists(Vector3 _p, byte _l)
     {
