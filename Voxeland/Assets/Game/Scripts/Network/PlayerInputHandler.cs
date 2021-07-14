@@ -25,7 +25,7 @@ public class PlayerInputHandler : Mirror.NetworkBehaviour
         if (GameManager.Instance.LOCKED) return;
 
         run = controller.run;
-        walk = !run && Input.GetAxisRaw("Horizontal") + Input.GetAxisRaw("Vertical") != 0;
+        walk = !run && Mathf.Abs(Input.GetAxisRaw("Horizontal")) + Mathf.Abs(Input.GetAxisRaw("Vertical")) != 0;
         if (transform.position == tmpPos) run = false;
         tmpPos = transform.position;
 
@@ -34,11 +34,11 @@ public class PlayerInputHandler : Mirror.NetworkBehaviour
         anim.animator.SetBool("Crouch", controller.isCrouching);
 
         if ((tmpGrounded != controller.isGrounded) && tmpVelocity < -10)
-            AudioManager.Instance.Play(AudioManager.Instance.m_AudioInfo.Fall[tmpVelocity < -20 ? 1 : 0]).outputAudioMixerGroup = AudioManager.Instance.m_AudioMixer;
+            AudioManager.Instance.Play(AudioManager.Instance.m_AudioInfo.Fall[tmpVelocity < -20 ? 1 : 0]).outputAudioMixerGroup = AudioManager.Instance.m_FXMixer;
 
         if ((!controller.isJumping && (run || walk) && !runSound.isPlaying)
              || tmpGrounded != controller.isGrounded)
-            AudioManager.Play(runSound, AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.FootSteps[0].clips), false, 0.25f, controller.isCrouching ? 0.5f : controller.run ? 1.3f : 1).outputAudioMixerGroup = AudioManager.Instance.m_AudioMixer;
+            AudioManager.Play(runSound, AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.FootSteps[0].clips), false, 0.25f, controller.isCrouching ? 0.5f : controller.run ? 1.3f : 1).outputAudioMixerGroup = AudioManager.Instance.m_FXMixer;
 
         tmpGrounded = controller.isGrounded;
         tmpFalling = controller.isFalling;
