@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   master: {fileID: 85392133}
+  targetFPS: 60
   chunksPerFrame: 4
   maxThreadsCount: 8
 --- !u!114 &85392133
@@ -195,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a244b022d1580e44bbdf8f0f3ecf1e4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrefabPool: {fileID: 457728196}
   DisposeFactor: 2
   Settings: {fileID: 11400000, guid: 4c1328aea6c1bfb4bbd8ffe600c5c50b, type: 2}
   VoxelDictionary: {fileID: 11400000, guid: 157372f42e8df01409815d67d737bf1d, type: 2}
@@ -5049,9 +5051,55 @@ Transform:
   - {fileID: 85392130}
   - {fileID: 850598688}
   - {fileID: 1499600586}
+  - {fileID: 457728195}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &457728194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 457728195}
+  - component: {fileID: 457728196}
+  m_Layer: 0
+  m_Name: Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &457728195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457728194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 228372957}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &457728196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457728194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83216b1f9c9b1ad4291172f76e01ae05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8134470788454416661, guid: 8cd411f00c604904480c148c4ddc9a2d, type: 3}
+  poolSize: 4096
 --- !u!1 &466542047
 GameObject:
   m_ObjectHideFlags: 0
@@ -5603,51 +5651,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 610596089}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &613246048
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 613246049}
-  - component: {fileID: 613246050}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &613246049
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 613246048}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &613246050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 613246048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf6f82f4dc25d1d4ebe7b17cd836e40b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AudioInfo: {fileID: 11400000, guid: 4fffc8b4359a0124fba95e59768dc88d, type: 2}
-  m_AudioMixer: {fileID: 24300002, guid: bee5a996184efb2479dbb4bb12ac4cdc, type: 2}
 --- !u!1 &718203426
 GameObject:
   m_ObjectHideFlags: 0
@@ -7112,7 +7115,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1588904853
 MonoBehaviour:
@@ -7636,10 +7639,10 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.44319302, g: 0.17199767, b: 0.16085222, a: 0.74509805}
-  deepColor: {r: 0.8964283, g: 1, b: 0.25922403, a: 1}
+  shallowColor: {r: 2.1185474, g: 0.8318904, b: 0.77643096, a: 0.74509805}
+  deepColor: {r: 0.8964283, g: 1, b: 0.25920153, a: 1}
   colorDepth: 3.74
-  horizonColor: {r: 0.8, g: 0.22211653, b: 0, a: 1}
+  horizonColor: {r: 0.8, g: 0.222094, b: 0, a: 1}
   horizonDistance: 20
   shoreFade: 0.862
   shoreColor: {r: 1, g: 0.8537736, b: 0.8537736, a: 0}
@@ -7678,7 +7681,7 @@ MonoBehaviour:
   foamMovement: 0
   intersectionFoamDepth: 0.45
   intersectionFoamTexture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
-  intersectionFoamColor: {r: 0.7735849, g: 0.17534286, b: 0.1568498, a: 0.7607843}
+  intersectionFoamColor: {r: 0.7735849, g: 0.17532152, b: 0.15682846, a: 0.7607843}
   intersectionFoamMovement: {x: 0.174, y: 0.38}
   intersectionFoamDirection: 0.174
   intersectionFoamSpeed: 0.38
@@ -12652,10 +12655,10 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.443193, g: 0.17199764, b: 0.1608522, a: 0.74509805}
-  deepColor: {r: 0.8964283, g: 1, b: 0.259224, a: 1}
+  shallowColor: {r: 2.1185474, g: 0.8318904, b: 0.77643096, a: 0.74509805}
+  deepColor: {r: 0.8964283, g: 1, b: 0.2592015, a: 1}
   colorDepth: 3.74
-  horizonColor: {r: 0.8, g: 0.2221165, b: 0, a: 1}
+  horizonColor: {r: 0.8, g: 0.22209397, b: 0, a: 1}
   horizonDistance: 20
   shoreFade: 0.862
   shoreColor: {r: 1, g: 0.8537736, b: 0.8537736, a: 0}
@@ -12694,7 +12697,7 @@ MonoBehaviour:
   foamMovement: 0
   intersectionFoamDepth: 0.45
   intersectionFoamTexture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
-  intersectionFoamColor: {r: 0.7735849, g: 0.17534283, b: 0.15684977, a: 0.7607843}
+  intersectionFoamColor: {r: 0.7735849, g: 0.17532149, b: 0.15682843, a: 0.7607843}
   intersectionFoamMovement: {x: 0.174, y: 0.38}
   intersectionFoamDirection: 0.174
   intersectionFoamSpeed: 0.38
@@ -13027,17 +13030,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.35930228, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.22464067, g: 0.26280403, b: 0.31128183, a: 1}
+  shallowColor: {r: 0.35923713, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.22457552, g: 0.26273888, b: 0.31121668, a: 1}
   colorDepth: 1.94
-  horizonColor: {r: 0.23882365, g: 0.4260305, b: 0.5566037, a: 0}
-  horizonDistance: 9.9
+  horizonColor: {r: 0.2387585, g: 0.42596534, b: 0.5566037, a: 0}
+  horizonDistance: 20
   shoreFade: 0.64
-  shoreColor: {r: 0.19214594, g: 0.62352943, b: 0.42737848, a: 0}
+  shoreColor: {r: 0.1920842, g: 0.62352943, b: 0.42731333, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.046986885, g: 0.046319872, b: 0.046319872, a: 0}
+  waveColor: {r: 1, g: 1, b: 1, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
@@ -13096,14 +13099,14 @@ MonoBehaviour:
   normalsScale: 0.36
   normalsSpeed: 0.04
   refractionStrength: 0.146
-  waveVisuals: {x: 0.02, y: 7.9, z: 1.38}
+  waveVisuals: {x: 0.02, y: 5.5, z: 1.38}
   waveSteepness: 0.02
-  waveLength: 7.9
+  waveLength: 5.5
   waveSpeed: 1.38
-  waveDirections: {x: 0, y: 0.64, z: 1, w: 0.33}
-  waveDirection1: 0
-  waveDirection2: 0.64
-  waveDirection3: 1
+  waveDirections: {x: 0.51, y: 0.354, z: 0.884, w: 0.33}
+  waveDirection1: 0.51
+  waveDirection2: 0.354
+  waveDirection3: 0.884
   waveDirection4: 0.33
   waterUVs: 1
   hideComponents: 0
@@ -13300,17 +13303,17 @@ MonoBehaviour:
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
-  shallowColor: {r: 0.35930225, g: 0.57565874, b: 0.75471693, a: 0.56078434}
-  deepColor: {r: 0.22464064, g: 0.262804, b: 0.3112818, a: 1}
+  shallowColor: {r: 0.3592371, g: 0.57565874, b: 0.75471693, a: 0.56078434}
+  deepColor: {r: 0.22457549, g: 0.26273885, b: 0.31121665, a: 1}
   colorDepth: 1.94
-  horizonColor: {r: 0.23882362, g: 0.42603046, b: 0.5566037, a: 0}
-  horizonDistance: 9.9
+  horizonColor: {r: 0.23875847, g: 0.4259653, b: 0.5566037, a: 0}
+  horizonDistance: 20
   shoreFade: 0.64
-  shoreColor: {r: 0.19214591, g: 0.62352943, b: 0.42737845, a: 0}
+  shoreColor: {r: 0.19208416, g: 0.62352943, b: 0.4273133, a: 0}
   shoreStrength: 0
   shoreBlend: 1
   shoreDepth: 0.74
-  waveColor: {r: 0.046986863, g: 0.04631985, b: 0.04631985, a: 0}
+  waveColor: {r: 1, g: 1, b: 1, a: 0}
   underwaterColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
   underwaterColorStrength: 1
   underwaterRefractionStrength: 0.099
@@ -13369,14 +13372,14 @@ MonoBehaviour:
   normalsScale: 0.36
   normalsSpeed: 0.04
   refractionStrength: 0.146
-  waveVisuals: {x: 0.02, y: 7.9, z: 1.38}
+  waveVisuals: {x: 0.02, y: 5.5, z: 1.38}
   waveSteepness: 0.02
-  waveLength: 7.9
+  waveLength: 5.5
   waveSpeed: 1.38
-  waveDirections: {x: 0, y: 0.64, z: 1, w: 0.33}
-  waveDirection1: 0
-  waveDirection2: 0.64
-  waveDirection3: 1
+  waveDirections: {x: 0.51, y: 0.354, z: 0.884, w: 0.33}
+  waveDirection1: 0.51
+  waveDirection2: 0.354
+  waveDirection3: 0.884
   waveDirection4: 0.33
   waterUVs: 1
   hideComponents: 0
