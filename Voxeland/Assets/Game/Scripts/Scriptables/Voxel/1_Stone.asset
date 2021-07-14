@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 1
   VoxelName: Stone
   Transparent: 0
-  Durability: 1
+  Durability: 0.88
   VoxelTexture:
     front: 3
     left: 3
