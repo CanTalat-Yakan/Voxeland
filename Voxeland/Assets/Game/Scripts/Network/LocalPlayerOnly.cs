@@ -19,7 +19,6 @@ public class LocalPlayerOnly : Mirror.NetworkBehaviour
             player.SetShadowCastOnly();
             player.DisablePointLight();
             player.SetupCanvasHUD();
-            GameManager.Instance.m_MainCamera.GetComponent<AudioListener>().enabled = true;
         }
         else
         {

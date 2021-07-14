@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] internal VoxelMaster m_VoxelMaster;
+    [SerializeField] internal GameObject m_LoadingScreen;
     [SerializeField] internal bool LOCKED = false;
     [SerializeField] internal bool m_ShowDebugInfo = false;
     [SerializeField] internal SettingsContainer m_Settings;
@@ -31,7 +32,37 @@ public class GameManager : MonoBehaviour
 
         if (m_MainCamera is null)
             m_MainCamera = Camera.main;
+
+        StartCoroutine(SpawnPlayer());
     }
+
+    IEnumerator SpawnPlayer()
+    {
+        m_LoadingScreen.SetActive(true);
+        int startPos = 35;
+        int yCoord = 0;
+
+        yield return new WaitWhile(() => VoxelGeneration.GenerationAction is null);
+
+        while (VoxelGeneration.GenerationAction(0, startPos + yCoord, 0, 0) == (short)VoxelType.AIR)
+        { yCoord--; }
+
+        Vector3 spawnPositin = Vector3.zero + Vector3.up * (startPos + yCoord + 2);
+
+        yield return new WaitWhile(() => m_Player is null);
+
+        m_Player.SetActive(false);
+
+        yield return new WaitUntil(() => BoolRayCast(3, new Ray(spawnPositin + Vector3.up, Vector3.down)));
+
+        m_Player.transform.position = spawnPositin;
+        m_VoxelMaster.FastRefresh();
+        m_Player.SetActive(true);
+        m_LoadingScreen.SetActive(false);
+
+        yield return null;
+    }
+    
     void OnDestroy()
     {
         SceneHandler.UnloadScene("Chat");
@@ -73,6 +104,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    
     void OptionsOverlay()
     {
         LOCKED = !LOCKED;
