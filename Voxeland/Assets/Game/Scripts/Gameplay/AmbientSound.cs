@@ -49,7 +49,10 @@ public class AmbientSound : MonoBehaviour
         }
 
         if (!m_ambient.isPlaying || m_currentType != _types)
+        {
             m_ambient = AudioManager.Play(m_ambient, AudioManager.PlayRandomFromList(ref m_clips));
+            m_ambient.outputAudioMixerGroup = AudioManager.Instance.m_AmbientMixer;
+        }
 
         m_currentType = _types;
     }

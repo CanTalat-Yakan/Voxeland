@@ -22,7 +22,7 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private RenderTexture m_renderTexture;
     [Header("Music")]
     [SerializeField] private Slider m_masterVolume;
-    [SerializeField] private Slider m_musicVolume, m_ambientVolume;
+    [SerializeField] private Slider m_musicVolume, m_ambientVolume, m_effectsVolume;
     [Header("Video")]
     [SerializeField] private Slider m_renderDistance;
     [SerializeField] private Slider m_renderScale;
@@ -36,7 +36,7 @@ public class SettingsManager : MonoBehaviour
     private TextMeshProUGUI m_masterVolumeTMPro;
     [SerializeField]
     private TextMeshProUGUI
-    m_musicVolumeTMPro, m_ambientVolumeTMPro,
+    m_musicVolumeTMPro, m_ambientVolumeTMPro, m_effectsVolumeTMPro,
     m_fieldOfViewTMPro, m_mouseSensitivityTMPro,
     m_renderDistanceTMPro, m_lodTMPro, m_renderScaleTMPro, m_currentGraphicsTierTMPro,
     m_ssaoTMPro, m_aaTMPro, m_bloomTMPro, m_depthOfFieldTMPro;
@@ -56,8 +56,11 @@ public class SettingsManager : MonoBehaviour
         SetMasterVolume();
         m_musicVolume.value = AudioManager.Instance.GetMainMusicVolume() * 100;
         SetMusicVolume();
-        m_ambientVolume.value = GameManager.Map(m_settings.AmbientVolume, -30, 20, 0, 100);
+        m_ambientVolume.value = GameManager.Map(m_settings.AmbientVolume, -35, 20, 0, 100);
         SetAmbientVolume();
+
+        m_effectsVolume.value = GameManager.Map(m_settings.EffectsVolume, -35, 20, 0, 100);
+        SetEffectsVolume();
 
         m_fieldOfView.value = m_settings.FOV;
         SetFOV();
@@ -102,15 +105,20 @@ public class SettingsManager : MonoBehaviour
     }
     public void SetAmbientVolume()
     {
-        AudioManager.Instance.m_AudioMixer.audioMixer.SetFloat("AmbientVolume", m_settings.AmbientVolume = GameManager.Map(m_ambientVolume.value, 0, 100, -30, 20));
+        AudioManager.Instance.m_AmbientMixer.audioMixer.SetFloat("AmbientVolume", m_settings.AmbientVolume = GameManager.Map(m_ambientVolume.value, 0, 100, -35, 20));
         m_ambientVolumeTMPro.SetText($"Ambient: {m_ambientVolume.value.ToString()}%");
+    }
+    public void SetEffectsVolume()
+    {
+        AudioManager.Instance.m_FXMixer.audioMixer.SetFloat("EffectsVolume", m_settings.EffectsVolume = GameManager.Map(m_effectsVolume.value, 0, 100, -35, 20));
+        m_effectsVolumeTMPro.SetText($"Effects: {m_effectsVolume.value.ToString()}%");
     }
 
     public void SetRenderDistance()
     {
         m_settings.RenderDistance = (int)m_renderDistance.value;
         m_renderDistanceTMPro.SetText($"Render: {(1 << (6 + (int)m_settings.RenderDistance)) / Chunk.SIZE} Chunks");
-            
+
         VoxelGeneration.UpdateNow = true;
     }
     public void SetLOD()
@@ -157,6 +165,16 @@ public class SettingsManager : MonoBehaviour
             m_aaTMPro.SetText($"Anti Aliasing: NONE");
         else
             m_aaTMPro.SetText($"Anti Aliasing: {1 << m_settings.AA}x");
+
+        // RenderTexture.active = null;
+        // if (GameManager.Instance)
+        //     if (GameManager.Instance.m_MainCamera)
+        //         GameManager.Instance.m_MainCamera.targetTexture = null;
+        // // m_renderTexture.antiAliasing = 1 << m_settings.AA;
+        // RenderTexture.active = m_renderTexture;
+        // if (GameManager.Instance)
+        //     if (GameManager.Instance.m_MainCamera)
+        //         GameManager.Instance.m_MainCamera.targetTexture = m_renderTexture;
     }
     public void SetGraphicsQuality()
     {

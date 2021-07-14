@@ -8,7 +8,8 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
 
     [SerializeField] internal AudioInfo m_AudioInfo;
-    [SerializeField] internal AudioMixerGroup m_AudioMixer;
+    [SerializeField] internal AudioMixerGroup m_AmbientMixer;
+    [SerializeField] internal AudioMixerGroup m_FXMixer;
     AudioSource m_mainMusicSource;
     float m_volumeOffset = 100, m_tmpVolume = 14;
 
