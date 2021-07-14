@@ -9,6 +9,8 @@ public class VoxelMaster : MonoBehaviour
     public static readonly Queue<UnityAction> ColliderBuffer = new Queue<UnityAction>();
     [SerializeField] internal byte LevelOfDetailsCount {get => (byte)Settings.LOD; }
     [SerializeField] internal byte RenderDistance  {get => (byte)(6 + Settings.RenderDistance); }
+    [SerializeField] public PrefabPool PrefabPool;
+    [Space]
     [Range(1, 6)] [SerializeField] internal float DisposeFactor = 2;
     [Space]
     [SerializeField] internal SettingsContainer Settings;
@@ -85,7 +87,8 @@ public class VoxelMaster : MonoBehaviour
     internal void FastRefresh()
     {
         foreach (Chunk c in Collection[0].Values)
-            c.FastRefresh();
+        if (c.Dirty && c.m_visible)
+            c.Refresh();
     }
     internal bool ChunkExists(Vector3 _p, byte _l)
     {
@@ -122,19 +125,15 @@ public class VoxelMaster : MonoBehaviour
     }
     internal void RemoveChunk(Chunk _c, byte _l)
     {
-        Destroy(_c.gameObject);
+        Destroy(_c.ThisGameObject);
         Collection[_l].Remove(_c.Pos);
     }
 
     internal static Vector3Int FloorToInt(Vector3 _p)
     {
         Vector3Int v = Vector3Int.FloorToInt(_p);
-        // v = Vector3Int.FloorToInt((Vector3)v / Chunk.SIZE);
-        // v *= Chunk.SIZE;
-
-        v.x = Mathf.FloorToInt((float)v.x / Chunk.SIZE) * Chunk.SIZE;
-        v.y = Mathf.FloorToInt((float)v.y / Chunk.SIZE) * Chunk.SIZE;
-        v.z = Mathf.FloorToInt((float)v.z / Chunk.SIZE) * Chunk.SIZE;
+        v = Vector3Int.FloorToInt((Vector3)v / Chunk.SIZE);
+        v *= Chunk.SIZE;
 
         return v;
     }
