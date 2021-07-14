@@ -3,32 +3,24 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public enum FaceSide { FRONT, LEFT, BACK, RIGHT, TOP, BOTTOM }
-public struct MeshInfo
-{
-    public MeshRenderer Renderer;
-    public MeshFilter Filter;
-    public MeshCollider Collider;
-    public ChunkManager Manager;
-    public Mesh Mesh;
-}
 public class Chunk
 {
     static int curID = 0;
     internal const byte SIZE = 1 << 4;
+    internal const byte MASK = SIZE - 1;
     internal byte LOD { get; private set; }
     internal int ID { get; private set; }
-    internal bool visible;
+    internal bool m_visible;
     internal bool SetVisible
     {
-        get { return visible; }
-        set { if (value == visible) return; visible = value; info.Renderer.enabled = visible; if (visible) FastRefresh(); }
+        get { return m_visible; }
+        set { if (value == m_visible) return; m_visible = value; info.Renderer.enabled = m_visible; if (m_visible && Dirty) Refresh(); }
     }
     internal bool Dirty { get; set; }
     internal bool Empty { get; private set; }
-    internal GameObject gameObject { get; private set; }
-    int x, y, z;
-    internal Vector3Int Pos { get { return new Vector3Int(x, y, z); } }
+    internal GameObject ThisGameObject { get; private set; }
+    int m_x, m_y, m_z;
+    internal Vector3Int Pos { get { return new Vector3Int(m_x, m_y, m_z); } }
     internal Vector3 CenteredPosition { get { return Pos + Vector3.one * HalfDiameter; } }
     internal float Diameter { get { return Chunk.SIZE << LOD; } }
     internal float HalfDiameter { get { return Diameter * 0.5f; } }
@@ -60,40 +52,35 @@ public class Chunk
         ID = curID; curID++;
         Master = _p;
         LOD = _l;
-        x = _x;
-        y = _y;
-        z = _z;
+        m_x = _x;
+        m_y = _y;
+        m_z = _z;
 
-        gameObject = VoxelGeneration.gameObjectPool.Get();
-        gameObject.name = ($"ID:{ID}_{LOD} ({_x},{_y},{_z})");
-        gameObject.tag = LOD.ToString();
-        gameObject.transform.position = Pos;
-        gameObject.transform.localScale *= (1 << LOD);
-        gameObject.transform.position *= 1 - LOD * 0.0005f;
-        gameObject.transform.localScale *= 1 - LOD * 0.001f;
+        info = Master.PrefabPool.Get();
+        info.Mesh = new Mesh();
+        info.Mesh.Optimize();
+        info.Mesh.MarkDynamic();
+        info.Manager.Chunk = this;
 
-        gameObject.transform.SetParent(_p.transform);
-        gameObject.isStatic = true;
+        ThisGameObject = info.gameObject;
+        ThisGameObject.name = ($"ID:{ID}_{LOD} ({_x},{_y},{_z})");
+        ThisGameObject.tag = LOD.ToString();
+        ThisGameObject.transform.position = Pos;
+        ThisGameObject.transform.localScale *= (1 << LOD);
+        ThisGameObject.transform.position *= 1 - LOD * 0.0005f;
+        ThisGameObject.transform.localScale *= 1 - LOD * 0.001f;
+
+        ThisGameObject.transform.SetParent(_p.transform);
+        ThisGameObject.isStatic = true;
         Dirty = false;
 
         nodes = new Voxel[SIZE, SIZE, SIZE];
 
-        info = new MeshInfo()
-        {
-            Mesh = new Mesh(),
-            Filter = gameObject.AddComponent<MeshFilter>(),
-            Renderer = gameObject.AddComponent<MeshRenderer>(),
-            Collider = gameObject.AddComponent<MeshCollider>(),
-            Manager = gameObject.AddComponent<ChunkManager>(),
-        };
-        info.Mesh.Optimize();
-        info.Mesh.MarkDynamic();
-        info.Manager.Chunk = this;
-        info.Renderer.material.color = UnityEngine.Random.ColorHSV();
+        // info.Renderer.material.color = UnityEngine.Random.ColorHSV();
     }
     internal void Remove()
     {
-        UnityEngine.Object.Destroy(info.Mesh); // Destroy the mesh to save memory.
+        UnityEngine.Object.Destroy(info.Mesh);
         Master.RemoveChunk(this, LOD);
     }
 
@@ -107,7 +94,7 @@ public class Chunk
 
     internal void FastRefresh()
     {
-        if (Dirty && visible)
+        if (Dirty && m_visible)
             Refresh();
     }
     internal void Refresh()
@@ -119,26 +106,25 @@ public class Chunk
 
         info.Renderer.sharedMaterial = Master.TerrainMaterial;
 
-        List<Vector3> vertices = new List<Vector3>(count * 24);
-        List<int> triangles = new List<int>(count * 36);
-        List<Vector2> uv = new List<Vector2>(count * 24);
-        List<Color32> colors = new List<Color32>(count * 24);
-
-        Thread t = new Thread(() => builder.GenerateMesh(vertices, triangles, uv, colors))
-        { Priority = System.Threading.ThreadPriority.Normal };
-        // t.IsBackground = true;
-        t.Start();
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+            builder.GenerateMesh();
+        else
+        {
+            Thread t = new Thread(new ThreadStart(() => builder.GenerateMesh()))
+            { Priority = System.Threading.ThreadPriority.Normal };
+            t.IsBackground = true;
+            t.Start();
+        }
     }
-
     internal short GetVoxelID(int _x, int _y, int _z)
     {
-        if ((_x < 0 || _x >= Chunk.SIZE)
-            || (_y < 0 || _y >= Chunk.SIZE)
-            || (_z < 0 || _z >= Chunk.SIZE))
+        if ((_x & MASK) != _x ||
+            (_y & MASK) != _y ||
+            (_z & MASK) != _z)
             return -1;
 
         Voxel v = nodes[_x, _y, _z];
-        return (v != null ? v.ID : (short)-1);
+        return v != null ? v.ID : (short)-1;
     }
     internal short GetVoxelID(Vector3Int _pos)
     {
@@ -146,9 +132,9 @@ public class Chunk
     }
     internal Voxel GetVoxel(int _x, int _y, int _z)
     {
-        if ((_x < 0 || _x >= Chunk.SIZE)
-            || (_y < 0 || _y >= Chunk.SIZE)
-            || (_z < 0 || _z >= Chunk.SIZE))
+        if ((_x & MASK) != _x ||
+            (_y & MASK) != _y ||
+            (_z & MASK) != _z)
             return null;
 
         return nodes[_x, _y, _z];
@@ -157,11 +143,16 @@ public class Chunk
     {
         return GetVoxel(_pos.x, _pos.y, _pos.z);
     }
+    internal bool GetVoxelTransperency(Vector3Int _pos)
+    {
+        Voxel v = GetVoxel(_pos.x, _pos.y, _pos.z);
+        return v is null ? false : v.Info.Transparent;
+    }
     internal void SetVoxelID(int _x, int _y, int _z, short _id = 0)
     {
-        if ((_x < 0 || _x >= Chunk.SIZE)
-            || (_y < 0 || _y >= Chunk.SIZE)
-            || (_z < 0 || _z >= Chunk.SIZE))
+        if ((_x & MASK) != _x ||
+            (_y & MASK) != _y ||
+            (_z & MASK) != _z)
             return;
 
         if (_id == -1)
