@@ -17,13 +17,13 @@ struct Pair
 }
 public class VoxelGeneration : MonoBehaviour
 {
-    internal delegate short GenerationAction(int x, int y, int z, byte lod);
+    internal delegate short GenerationActionDelegate(int x, int y, int z, byte lod);
     internal float updateDistance { get => 1 << master.RenderDistance - 2; }
     internal static bool UpdateNow { get; set; }
     internal static ObjectPool<GameObject> GameObjectPool = new ObjectPool<GameObject>(128);
 
     [SerializeField] VoxelMaster master;
-    GenerationAction generationAction = null;
+    internal static GenerationActionDelegate GenerationAction = null;
     Camera mainCamera;
     Vector3 renderPos;
     [SerializeField] int targetFPS = 100;
@@ -54,7 +54,7 @@ public class VoxelGeneration : MonoBehaviour
 
     void TryAssign()
     {
-        if (generationAction is null) generationAction = GetComponent<BaseGeneration>().Generation;
+        if (GenerationAction is null) GenerationAction = GetComponent<BaseGeneration>().Generation;
         if (mainCamera is null) mainCamera = GameManager.Instance.m_MainCamera;
     }
 
@@ -138,7 +138,7 @@ public class VoxelGeneration : MonoBehaviour
             for (int y = -1; y <= ChunkSize; y++)
                 for (int z = -1; z <= ChunkSize; z++)
                 {
-                    var id = generationAction(
+                    var id = GenerationAction(
                         x * (1 << _l) + chunk.Pos.x,
                         y * (1 << _l) + chunk.Pos.y,
                         z * (1 << _l) + chunk.Pos.z,
