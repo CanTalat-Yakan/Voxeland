@@ -26,7 +26,7 @@ public enum FaceSide
 public class MeshBuilder
 {
     List<Quad> faces = new List<Quad>();
-    Voxel[] adjVoxels = new Voxel[6];
+    Voxel[] adjVoxels;
     Chunk parent;
 
     public MeshBuilder(Chunk _p)
@@ -46,13 +46,13 @@ public class MeshBuilder
                     if (!parent.m_visible)
                     {
                         parent.Dirty = true;
-                        return; // Abort mesh construction if not visible whilst construction
+                        return;
                     }
 
-                    if (parent.GetVoxelID(x, y, z) == -1)
+                    if (parent.GetLocalVoxelID(x, y, z) == -1)
                         continue;
 
-                    if ((voxelInfo = parent.GetVoxel(x, y, z).Info) is null)
+                    if ((voxelInfo = parent.GetLocalVoxel(x, y, z).Info) is null)
                         continue;
 
                     pos = new Vector3Int(x, y, z);
@@ -66,15 +66,13 @@ public class MeshBuilder
                     bool top = GetAir(FaceSide.TOP);
                     bool bottom = GetAir(FaceSide.BOTTOM);
 
-                    if (!voxelInfo.Transparent)
-                    {
-                        front |= GetTransperency(FaceSide.FRONT);
-                        left |= GetTransperency(FaceSide.LEFT);
-                        back |= GetTransperency(FaceSide.BACK);
-                        right |= GetTransperency(FaceSide.RIGHT);
-                        top |= GetTransperency(FaceSide.TOP);
-                        bottom |= GetTransperency(FaceSide.BOTTOM);
-                    }
+                    front |= GetTransperency(FaceSide.FRONT);
+                    left |= GetTransperency(FaceSide.LEFT);
+                    back |= GetTransperency(FaceSide.BACK);
+                    right |= GetTransperency(FaceSide.RIGHT);
+                    top |= GetTransperency(FaceSide.TOP);
+                    bottom |= GetTransperency(FaceSide.BOTTOM);
+
 
                     if (front)
                         faces.Add(new Quad()
@@ -130,8 +128,8 @@ public class MeshBuilder
                         faces.Add(new Quad()
                         {
                             p = pos,
-                            v = GetVertices(FaceSide.BOTTOM, pos),
                             n = Vector3Int.down,
+                            v = GetVertices(FaceSide.BOTTOM, pos),
                             uv = GetUVs(voxelInfo.VoxelTexture.bottom),
                             c = GetColor(1)
                         });
@@ -150,9 +148,9 @@ public class MeshBuilder
         Vector2[] uvs = new Vector2[faces.Count * 4];
         Color32[] colors = new Color32[faces.Count * 4];
         int[] tris = new int[faces.Count * 6];
-
         int vertIndex = 0;
         int triIndex = 0;
+
         foreach (Quad quad in faces)
         {
             tris[triIndex++] = vertIndex;
@@ -198,6 +196,17 @@ public class MeshBuilder
         });
     }
 
+    Voxel[] GetAdjacents(Vector3Int _p)
+    {
+        return new Voxel[] {
+            parent.GetLocalVoxel(_p + Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.left),
+            parent.GetLocalVoxel(_p + Vector3Int.back),
+            parent.GetLocalVoxel(_p + Vector3Int.right),
+            parent.GetLocalVoxel(_p + Vector3Int.up),
+            parent.GetLocalVoxel(_p + Vector3Int.down)};
+    }
+
     bool GetTransperency(FaceSide _s)
     {
         Voxel v = adjVoxels[(int)_s];
@@ -207,7 +216,7 @@ public class MeshBuilder
     bool GetAir(FaceSide _s)
     {
         Voxel v = adjVoxels[(int)_s];
-        return v is null ? true : v.ID == -1;
+        return v is null ? true : v.ID == (short)VoxelType.AIR;
     }
 
     Vector2[] GetUVs(int id)
@@ -248,10 +257,10 @@ public class MeshBuilder
         {
             case FaceSide.FRONT:
                 vec = new Vector3Int[] {
-                    new Vector3Int(0, 1, 0) + _p,
-                    new Vector3Int(1, 1, 0) + _p,
-                    new Vector3Int(1, 0, 0) + _p,
-                    new Vector3Int(0, 0, 0) + _p};
+                    new Vector3Int(1, 1, 1) + _p,
+                    new Vector3Int(0, 1, 1) + _p,
+                    new Vector3Int(0, 0, 1) + _p,
+                    new Vector3Int(1, 0, 1) + _p};
                 break;
             case FaceSide.LEFT:
                 vec = new Vector3Int[] {
@@ -262,10 +271,10 @@ public class MeshBuilder
                 break;
             case FaceSide.BACK:
                 vec = new Vector3Int[] {
-                    new Vector3Int(1, 1, 1) + _p,
-                    new Vector3Int(0, 1, 1) + _p,
-                    new Vector3Int(0, 0, 1) + _p,
-                    new Vector3Int(1, 0, 1) + _p};
+                    new Vector3Int(0, 1, 0) + _p,
+                    new Vector3Int(1, 1, 0) + _p,
+                    new Vector3Int(1, 0, 0) + _p,
+                    new Vector3Int(0, 0, 0) + _p};
                 break;
             case FaceSide.RIGHT:
                 vec = new Vector3Int[] {
@@ -294,16 +303,6 @@ public class MeshBuilder
         return vec;
     }
 
-    Voxel[] GetAdjacents(Vector3Int _p)
-    {
-        return new Voxel[] {
-            parent.GetVoxel(_p + Vector3Int.forward),
-            parent.GetVoxel(_p + Vector3Int.left),
-            parent.GetVoxel(_p + Vector3Int.back),
-            parent.GetVoxel(_p + Vector3Int.right),
-            parent.GetVoxel(_p + Vector3Int.up),
-            parent.GetVoxel(_p + Vector3Int.down)};
-    }
 
     Color32 GetColor(byte _d)
     {
@@ -562,5 +561,4 @@ public class MeshBuilder
 
     static int FastFloor(float f) { return f >= 0.0f ? (int)f : (int)f - 1; }
     static int FastRound(float f) { return (f >= 0.0f) ? (int)(f + 0.5f) : (int)(f - 0.5f); }
-
 }
