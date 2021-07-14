@@ -649,12 +649,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d026d7adc383bb046a80cb2086672fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderTexture: {fileID: 8400000, guid: 6044434f13f3a7e47b9e83d1f35a13c0, type: 2}
   breakParticleFX: {fileID: 743422593553872357, guid: bc2a30a1a5edd804998218dd026296b4, type: 3}
   cube: {fileID: 7937981732514112774, guid: 73732de5b69dc054988d79bfe77634c1, type: 3}
   radial: {fileID: 8650136263548348028}
   selected: {fileID: 8650136263778611972}
   icons:
-  - {fileID: -7334784544504608990, guid: 2f1d48077dc18f44fb91ee81b74d165b, type: 3}
+  - {fileID: -3296067468393564203, guid: 2f1d48077dc18f44fb91ee81b74d165b, type: 3}
   - {fileID: 182266143747272837, guid: 2f1d48077dc18f44fb91ee81b74d165b, type: 3}
   - {fileID: -8453560932960806746, guid: 2f1d48077dc18f44fb91ee81b74d165b, type: 3}
   - {fileID: 7085994992148943478, guid: 2f1d48077dc18f44fb91ee81b74d165b, type: 3}

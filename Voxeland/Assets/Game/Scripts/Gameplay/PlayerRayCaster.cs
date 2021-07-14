@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerRayCaster : MonoBehaviour
 {
+    [SerializeField] RenderTexture renderTexture;
     [SerializeField] GameObject breakParticleFX;
     [SerializeField] GameObject cube;
     [SerializeField] VoxelMaster master { get => GameManager.Instance.m_VoxelMaster; }
@@ -21,7 +22,7 @@ public class PlayerRayCaster : MonoBehaviour
     {
         if (GameManager.Instance.LOCKED) return;
         if (!GameManager.Instance.m_MainCamera) return;
-        
+
         DoVoxelSelectedID();
 
         RaycastHit hit = GameManager.Instance.HitRayCast(8);
@@ -65,7 +66,7 @@ public class PlayerRayCaster : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
             if (NotInPlayer(_airPos))
             {
-                AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockPlaced[0].clips)).outputAudioMixerGroup = AudioManager.Instance.m_AudioMixer;
+                AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockPlaced[0].clips)).outputAudioMixerGroup = AudioManager.Instance.m_FXMixer;
 
                 master.SetVoxelID(_airPos, (short)currentID);
                 master.FastRefresh();
@@ -101,8 +102,24 @@ public class PlayerRayCaster : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
 
-            AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockRemoved[0].clips), AudioManager.Instance.m_AudioMixer).outputAudioMixerGroup = AudioManager.Instance.m_AudioMixer;
-            Destroy(Instantiate(breakParticleFX, _pos, Quaternion.identity), 3);
+            AudioManager.Instance.Play(AudioManager.PlayRandomFromList(ref AudioManager.Instance.m_AudioInfo.BlockRemoved[0].clips)).outputAudioMixerGroup = AudioManager.Instance.m_FXMixer;
+            GameObject gobj = Instantiate(breakParticleFX, _pos, Quaternion.identity);
+
+            var ps = gobj.GetComponent<ParticleSystemRenderer>();
+            var main = ps.material;
+
+            var sprite = icons[master.GetVoxelID(_pos)];
+            var size =  1;
+            var croppedTexture = new Texture2D((int)(sprite.rect.width * size), (int)(sprite.rect.height * size));
+            var pixels = sprite.texture.GetPixels((int)(sprite.textureRect.x),
+                                                  (int)(sprite.textureRect.y),
+                                                  (int)(sprite.textureRect.width * size),
+                                                  (int)(sprite.textureRect.height * size));
+            croppedTexture.SetPixels(pixels);
+            croppedTexture.Apply();
+            main.SetTexture("_BaseMap", croppedTexture);
+
+            Destroy(gobj, 6);
             master.RemoveVoxelAt(_pos);
             master.FastRefresh();
         }
