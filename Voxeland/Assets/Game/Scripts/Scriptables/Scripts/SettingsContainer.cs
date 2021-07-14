@@ -29,6 +29,7 @@ public class SettingsContainer : ScriptableObject
     public bool DepthOfField;
     [Space]
     public float AmbientVolume;
+    public float EffectsVolume;
     [Space]
     public Font BlockFont;
     public Texture2D[] SkinHeadTextures;
