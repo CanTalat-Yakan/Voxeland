@@ -33,7 +33,6 @@ public class LocalPlayerOnly : Mirror.NetworkBehaviour
             MonoBehaviour[] comps = GetComponents<MonoBehaviour>();
             foreach (MonoBehaviour c in comps)
                 c.enabled = false;
-            GameManager.Instance.m_MainCamera.gameObject.SetActive(false);
 
             GetComponent<NetworkTransform>().enabled = true;
             GetComponent<PlayerInputHandler>().enabled = true;
