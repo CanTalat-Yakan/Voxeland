@@ -15,17 +15,16 @@ public class BaseGeneration : MonoBehaviour
         float surface = 0f;
 
         // Height data, regardless of biome
-        float mountainContrib = NoiseS3D.Noise(x / 150f, z / 150f).Remap(-0.33f, 0.66f, 0, 1) * 40f;
+        float mountainContrib = NoiseS3D.Noise(x * 0.00666666f, z * 0.00666666f) * 40f;
         float desertContrib = 0.3f;
         float oceanContrib = 0.3f;
-        float detailContrib = NoiseS3D.Noise(x / 20f, z / 20f) * 5f;
+        float detailContrib = NoiseS3D.Noise(x * 0.05f, z * 0.05f) * 5f;
 
         // Biomes
-        float detailMult = NoiseS3D.Noise(x / 30f, z / 30f).Remap(-0.33f, 0.66f, 0, 1);
-        float mountainBiome = NoiseS3D.Noise(x / 100f, z / 100f).Remap(-0.33f, 0.66f, 0, 1);
-        float Biome = NoiseS3D.Noise(x / 100f, z / 100f).Remap(-0.33f, 0.66f, 0, 1);
-        float desertBiome = NoiseS3D.Noise(x / 300f, z / 300f).Remap(-0.33f, 0.66f, 0, 1) * NoiseS3D.Noise(x / 25f, z / 25f).Remap(-0.33f, 0.66f, 0.95f, 1.05f);
-        float oceanBiome = NoiseS3D.Noise(x / 500f, z / 500f).Remap(-0.33f, 0.66f, 0, 1);
+        float detailMult = NoiseS3D.Noise(x * 0.033333f, z * 0.033333f);
+        float mountainBiome = NoiseS3D.Noise(x * 0.01f, z * 0.01f);
+        float desertBiome = NoiseS3D.Noise(x * 0.003333f, z * 0.003333f) * NoiseS3D.Noise(x * 0.04f, z * 0.04f).Remap(-0.33f, 0.66f, 0.95f, 1.05f);
+        float oceanBiome = NoiseS3D.Noise(x * 0.002f, z * 0.002f).Remap(-0.33f, 0.66f, 0, 1);
 
         // Add biome contrib
         float mountainFinal = (mountainContrib * mountainBiome) + (detailContrib * detailMult) + 20;
@@ -38,43 +37,51 @@ public class BaseGeneration : MonoBehaviour
 
         surface = Mathf.Floor(surface);
 
-        // Trees!
-        float treeTrunk = Mathf.Pow(2, NoiseS3D.Noise(x / 0.3543f, z / 0.3543f)) - 1;
-        float treeLeaves = NoiseS3D.Noise(x / 5f, z / 5f) - (1 - treeTrunk) * 0.2f;
+        float treeTrunk = 0;
+        float treeLeaves = 0;
+        float caveValue = 0;
+        float skyValue = 0;
 
-        float ndValue = (float)NoiseS3D.Noise(x * 0.2f, y * 0.2f, z * 0.2f);
-        // float ndValue2 = (float)NoiseS3D.Noise(x * 5f, y * 5f, z * 5f);
-        float caveValue = ndValue - GameManager.Map(y, 35, 0, 0, 1);
-        // float skyValue = ndValue2 - GameManager.Map(y, 55, 0, 0, 0.2f);
-
-        //Surface
-        if (y <= surface)
+        if (lod == 0)
+            caveValue = (float)NoiseS3D.Noise(x * 0.1f, y * 0.1f, z * 0.1f) * 2;
+        if (lod <= 2)
         {
-            {
-                if (y == surface && surface > 2)
-                    if (oceanBiome >= 0.1f && surface < 16)
-                        voxel = VoxelType.SAND;
-                    else
-                        voxel = desertBiome >= 0.5f
-                            ? VoxelType.SAND
-                            : VoxelType.GRASS;
-                else if (y >= surface - 8 && surface > 6)
-                    voxel = desertBiome >= 0.5f
-                        ? VoxelType.SAND
-                        : VoxelType.DIRT;
-                else
-                    voxel = VoxelType.STONE;
-            }
-            if (caveValue > 0.65f)
-                voxel = VoxelType.AIR;
+            //Trees
+            treeTrunk = NoiseS3D.Noise(x * 2, z * 3) * 2 - 1;
+            treeLeaves = NoiseS3D.Noise(x * 0.2f, z * 0.2f) - (1 - treeTrunk) * 0.2f;
+
+            //Sky
+            skyValue = (float)NoiseS3D.Noise(x * 0.01f, y * 0.013f, z * 0.01f);
         }
 
-        // if (y > surface * 4 + 40)
-        //     if (skyValue > 0.65f)
-        //         voxel = VoxelType.DIRT;
+        //Surface and underground
+        if (y <= surface)
+        {
+            if (y == surface && surface > 2)
+                if (oceanBiome >= 0.1f && surface < 16)
+                    voxel = VoxelType.SAND;
+                else
+                    voxel = desertBiome >= 0.5f
+                        ? VoxelType.SAND
+                        : VoxelType.GRASS;
+            else if (y >= surface - 8 && surface > 6)
+                voxel = desertBiome >= 0.5f
+                    ? VoxelType.SAND
+                    : VoxelType.DIRT;
+            else if (y > detailMult * 10)
+                voxel = VoxelType.CLAY;
+            else if (caveValue < 0.45 && !((y < -17 + detailMult * 5) && (y > surface - 41)))
+                voxel = (y == surface - 41) ? VoxelType.CLAY : VoxelType.STONE;
+        }
 
-        //trees
+
+        //trees and sky
         if (lod <= 2)
+        {
+            if (y > surface + 40 && y < 120 && oceanBiome >= 0.1f)
+                if (skyValue > 0.8f + detailMult * 0.2f + mountainFinal * 0.2f)
+                    voxel = VoxelType.DIRT;
+
             if (y > surface)
                 if (oceanBiome < 0.4f && desertBiome < 0.4f && surface > 15)
                 {
@@ -85,34 +92,9 @@ public class BaseGeneration : MonoBehaviour
                     if (y > surface + 5 && treeTrunk <= 0.925f && treeTrunk >= 0.475f && treeLeaves * Mathf.Clamp01(1 - Vector2.Distance(new Vector2(y, 0), new Vector2(surface + 7, 0)) / 5f) >= 0.25f)
                         voxel = VoxelType.LEAVE;
                 }
+        }
 
 
         return (short)voxel;
-    }
-
-    public float Perlin3D(float x, float y, float z)
-    {
-        float AB = Mathf.PerlinNoise(x, y);
-        float BC = Mathf.PerlinNoise(y, z);
-        float AC = Mathf.PerlinNoise(x, z);
-
-        float BA = Mathf.PerlinNoise(y, x);
-        float CB = Mathf.PerlinNoise(z, y);
-        float CA = Mathf.PerlinNoise(z, x);
-
-        float ABC = AB + BC + AC + BA + CB + CA;
-        return ABC / 6f;
-    }
-
-    public float Perlin3DLight(float x, float y, float z)
-    {
-        float AB = Mathf.PerlinNoise(x, y);
-        float BC = Mathf.PerlinNoise(y, z);
-
-        float BA = Mathf.PerlinNoise(y, x);
-        float CA = Mathf.PerlinNoise(z, x);
-
-        float ABC = BC + AB + BA + CA;
-        return ABC / 4f;
     }
 }
