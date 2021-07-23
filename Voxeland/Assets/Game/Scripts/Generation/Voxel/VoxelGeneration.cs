@@ -28,17 +28,12 @@ public class VoxelGeneration : MonoBehaviour
     Vector3 renderPos;
     [SerializeField] int targetFPS = 100;
     [SerializeField] int chunksPerFrame = 4;
-    [SerializeField] int maxThreadsCount = 8;
     int meshesLastFrame = 0;
-    int updateTimerLastFrame = 0;
-    float averageFPS = 0.0f;
-    float deltaTimeFPS = 0.0f;
 
 
     void Start()
     {
         TryAssign();
-        averageFPS = targetFPS;
         StartCoroutine(UpdateGeneration());
     }
     void Update()
@@ -46,25 +41,19 @@ public class VoxelGeneration : MonoBehaviour
         if (mainCamera != null)
             if (Vector3.Distance(renderPos, mainCamera.transform.position) >= updateDistance)
                 renderPos = mainCamera.transform.position;
-
-        deltaTimeFPS += (Time.deltaTime - deltaTimeFPS) * 0.1f;
-
-        averageFPS = Mathf.Lerp(averageFPS, 1f / deltaTimeFPS, 0.05f);
     }
 
     void TryAssign()
     {
-        if (GenerationAction is null) GenerationAction = GetComponent<BaseGeneration>().Generation;
-        if (mainCamera is null) mainCamera = GameManager.Instance.m_MainCamera;
+        if (GenerationAction is null)
+            GenerationAction = GetComponent<BaseGeneration>().Generation;
+
+        if (mainCamera is null)
+            mainCamera = GameManager.Instance.m_MainCamera;
     }
 
-    IEnumerator UpdateGeneration() // Takes cares of generating chunks, rendering them, etc...
+    IEnumerator UpdateGeneration()
     {
-        yield return new WaitUntil(() => mainCamera != null);
-
-        System.Diagnostics.Stopwatch updateTimer = new System.Diagnostics.Stopwatch();
-
-
         Vector3 lastPos = renderPos + Vector3.one * updateDistance;
         Vector3[] chunkGrid = null;
 
@@ -73,61 +62,44 @@ public class VoxelGeneration : MonoBehaviour
             if (lastPos != renderPos || UpdateNow)
             {
                 meshesLastFrame = 0;
-                int milliMax = Mathf.RoundToInt(averageFPS - targetFPS);
 
                 lastPos = renderPos;
                 UpdateNow = false;
 
-                for (byte lod = 0; lod < master.LevelOfDetailsCount + 1; lod++)
+                for (byte lod = 0; lod <= master.LevelOfDetailsCount; lod++)
                 {
                     if (Application.platform == RuntimePlatform.WebGLPlayer)
                         chunkGrid = GetChunkGrid(lastPos, lod);
                     else
                     {
-                        Thread t = new Thread(() =>
-                        chunkGrid = GetChunkGrid(lastPos, lod))
-                        { Priority = System.Threading.ThreadPriority.AboveNormal };
+                        Thread t = new Thread(new ThreadStart(() => chunkGrid = GetChunkGrid(lastPos, lod)))
+                        { Priority = System.Threading.ThreadPriority.Normal };
+                        t.IsBackground = true;
                         t.Start();
                     }
 
-                    yield return new WaitUntil(() => chunkGrid != null);
+                    yield return new WaitWhile(() => chunkGrid is null);
 
                     foreach (Vector3 chunkPos in chunkGrid)
                     {
+                        yield return new WaitForEndOfFrame();
+
                         if (lastPos != renderPos) break;
                         if (master.ChunkExists(chunkPos, lod)) continue;
 
                         GenerateChunk(chunkPos, lod);
                         meshesLastFrame++;
-
-                        if (chunksPerFrame != 0)
-                            if (meshesLastFrame % chunksPerFrame == 0)
-                                yield return new WaitForEndOfFrame();
-
-                        if (updateTimer.ElapsedMilliseconds >= milliMax)
-                        {
-                            updateTimer.Stop();
-                            updateTimer.Reset();
-                            updateTimer.Start();
-                            yield return new WaitForEndOfFrame();
-                            milliMax = Mathf.RoundToInt(averageFPS - targetFPS);
-                        }
                     }
 
                     yield return null;
                 }
             }
 
-            updateTimerLastFrame = (int)updateTimer.ElapsedMilliseconds;
-
             yield return null;
         }
     }
     void GenerateChunk(Vector3 _p, byte _l)
     {
-        System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-        watch.Start();
-
         Voxel[,,] nodes = new Voxel[Chunk.SIZE, Chunk.SIZE, Chunk.SIZE];
         bool isEmpty = true;
         bool isFilled = true;
@@ -146,15 +118,18 @@ public class VoxelGeneration : MonoBehaviour
 
                     if (id != -1)
                     {
-                        if (x == -1 || x == ChunkSize) continue;
-                        if (y == -1 || y == ChunkSize) continue;
-                        if (z == -1 || z == ChunkSize) continue;
+                        if ((x & Chunk.MASK) != x ||
+                            (y & Chunk.MASK) != y ||
+                            (z & Chunk.MASK) != z)
+                            continue;
+
                         isEmpty = false;
                         nodes[x, y, z] = new Voxel(chunk, (byte)id);
                     }
                     else
                         isFilled = false;
                 }
+
         if (_l == 0)
             isFilled = false;
 
@@ -188,10 +163,7 @@ public class VoxelGeneration : MonoBehaviour
                         grid.Add(new Pair(distance, pos));
                 }
 
-        // if (_l == 0)
         return grid.OrderBy(o => o.distance).Select(o => o.pos).ToArray();
-        // else
-        // return grid.Select(o => o.pos).ToArray();
     }
 
     static int ChunkRound(float v, int ChunkSize) { return Mathf.FloorToInt(v / ChunkSize) * ChunkSize; }

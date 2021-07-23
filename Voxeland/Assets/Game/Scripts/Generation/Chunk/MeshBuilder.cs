@@ -66,12 +66,25 @@ public class MeshBuilder
                     bool top = GetAir(FaceSide.TOP);
                     bool bottom = GetAir(FaceSide.BOTTOM);
 
-                    front |= GetTransperency(FaceSide.FRONT);
-                    left |= GetTransperency(FaceSide.LEFT);
-                    back |= GetTransperency(FaceSide.BACK);
-                    right |= GetTransperency(FaceSide.RIGHT);
-                    top |= GetTransperency(FaceSide.TOP);
-                    bottom |= GetTransperency(FaceSide.BOTTOM);
+                    {
+                        front |= GetTransperency(FaceSide.FRONT);
+                        left |= GetTransperency(FaceSide.LEFT);
+                        back |= GetTransperency(FaceSide.BACK);
+                        right |= GetTransperency(FaceSide.RIGHT);
+                        top |= GetTransperency(FaceSide.TOP);
+                        bottom |= GetTransperency(FaceSide.BOTTOM);
+                    }
+
+                    bool b = true;
+                    if (true)
+                    {
+                        if (x == Chunk.SIZE - 1) right = b;
+                        if (y == Chunk.SIZE - 1) top = b;
+                        if (z == Chunk.SIZE - 1) front = b;
+                        if (x == 0) left = b;
+                        if (y == 0) bottom = b;
+                        if (z == 0) back = b;
+                    }
 
 
                     if (front)
@@ -173,7 +186,6 @@ public class MeshBuilder
 
         VoxelMaster.MainThread.Enqueue(() =>
         {
-            parent.info.Mesh = null;
             parent.info.Mesh = new Mesh
             {
                 vertices = verts,
@@ -182,15 +194,10 @@ public class MeshBuilder
                 colors32 = colors,
                 uv = uvs
             };
-
-            parent.info.Filter.sharedMesh = null;
             parent.info.Filter.sharedMesh = parent.info.Mesh;
 
-            VoxelMaster.ColliderBuffer.Enqueue(() =>
-            {
-                parent.info.Collider.sharedMesh = null;
-                parent.info.Collider.sharedMesh = parent.info.Mesh;
-            });
+            if (parent.LOD == 0)
+                VoxelMaster.ColliderBuffer.Enqueue(() => parent.info.Collider.sharedMesh = parent.info.Mesh);
 
             parent.Dirty = false;
         });
