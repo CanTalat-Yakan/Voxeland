@@ -163,8 +163,8 @@ public class GameManager : MonoBehaviour
 }
 public static class ExtensionMethods
 {
-    public static float Remap(this float value, float from1, float to1, float from2, float to2)
+    public static float Remap(this float _value, float _oldMin, float _oldMax, float _newMin, float _newMax)
     {
-        return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+        return (_value - _oldMin) / (_oldMax - _oldMin) * (_newMax - _newMin) + _newMin;
     }
 }

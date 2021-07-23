@@ -22,6 +22,11 @@ public class PrefabPool : MonoBehaviour
         Debug.Log($"Instanced  {poolSize} GameObjects");
     }
 
+    public void Add(MeshInfo obj)
+    {
+        pool.Push(obj);
+    }
+
     public MeshInfo Get()
     {
         if (pool.Count == 0)

@@ -9,7 +9,7 @@ public class ChunkManager : MonoBehaviour
     internal bool Dirty { get; set; }
 
     Camera mainCamera;
-    float tick = 0.5f;
+    float tick = 0.75f;
     float timer = 0f;
 
     void Start() { mainCamera = GameManager.Instance.m_MainCamera; }

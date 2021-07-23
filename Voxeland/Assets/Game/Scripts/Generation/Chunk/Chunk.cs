@@ -15,7 +15,7 @@ public class Chunk
     internal bool SetVisible
     {
         get { return m_visible; }
-        set { if (value == m_visible) return; m_visible = value; info.Renderer.enabled = m_visible; if (m_visible && Dirty) Refresh(); }
+        set { if (value == m_visible) return; m_visible = value; info.Renderer.enabled = m_visible; FastRefresh(); }
     }
     internal bool Dirty { get; set; }
     internal bool Empty { get; private set; }
@@ -73,6 +73,7 @@ public class Chunk
 
         ThisGameObject.transform.SetParent(_p.transform);
         ThisGameObject.isStatic = true;
+        ThisGameObject.SetActive(true);
         Dirty = false;
 
         nodes = new Voxel[SIZE, SIZE, SIZE];
@@ -113,6 +114,7 @@ public class Chunk
         {
             Thread t = new Thread(new ThreadStart(() => builder.GenerateMesh()))
             { Priority = System.Threading.ThreadPriority.Normal };
+
             t.IsBackground = true;
             t.Start();
         }
@@ -123,7 +125,8 @@ public class Chunk
         if ((_x & MASK) != _x ||
             (_y & MASK) != _y ||
             (_z & MASK) != _z)
-            return Master.GetLocalVoxelID(new Vector3(_x, _y, _z) + Pos);
+            return Master.GetVoxelID(new Vector3(_x, _y, _z) + Pos);
+        // return -1;
 
         Voxel v = nodes[_x, _y, _z];
         return v != null ? v.ID : (short)-1;
@@ -139,6 +142,7 @@ public class Chunk
             (_y & MASK) != _y ||
             (_z & MASK) != _z)
             return Master.GetVoxel(new Vector3(_x, _y, _z) + Pos);
+        // return null;
 
         return nodes[_x, _y, _z];
     }

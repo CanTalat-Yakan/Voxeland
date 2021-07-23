@@ -61,7 +61,7 @@ public class VoxelMaster : MonoBehaviour
 
         c.SetLocalVoxelID(pos - c.Pos, _id);
     }
-    internal short GetLocalVoxelID(Vector3 _pos)
+    internal short GetVoxelID(Vector3 _pos)
     {
         Vector3Int pos = Vector3Int.FloorToInt(_pos);
 
@@ -124,7 +124,8 @@ public class VoxelMaster : MonoBehaviour
     }
     internal void RemoveChunk(Chunk _c, byte _l)
     {
-        Destroy(_c.ThisGameObject);
+        _c.info.ResetAll();
+        PrefabPool.Add(_c.info);
         Collection[_l].Remove(_c.Pos);
     }
 
