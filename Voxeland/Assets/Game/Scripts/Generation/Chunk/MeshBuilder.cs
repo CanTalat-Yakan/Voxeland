@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Jobs;
 using UnityEngine;
 
 public struct Quad
@@ -15,12 +16,7 @@ public struct Quad
 }
 public enum FaceSide
 {
-    FRONT,
-    LEFT,
-    BACK,
-    RIGHT,
-    TOP,
-    BOTTOM
+    FRONT, LEFT, BACK, RIGHT, TOP, BOTTOM
 }
 
 public class MeshBuilder
@@ -34,6 +30,9 @@ public class MeshBuilder
         parent = _p;
     }
 
+    internal void Process(object callback)
+    {
+    }
     internal void GenerateMesh()
     {
         Vector3Int pos;

@@ -11,6 +11,7 @@ public class FadeSprite : MonoBehaviour
     void Start()
     {
         img = GetComponent<Image>();
+        StartCoroutine(StarFade(2, 0.33f));
     }
 
     // Update is called once per frame

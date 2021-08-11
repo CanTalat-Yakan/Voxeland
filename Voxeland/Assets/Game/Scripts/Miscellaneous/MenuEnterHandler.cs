@@ -12,7 +12,6 @@ public class MenuEnterHandler : MonoBehaviour
     [SerializeField] private NetworkManager manager;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         input.interactable = true;
@@ -21,12 +20,10 @@ public class MenuEnterHandler : MonoBehaviour
         host.SetActive(Application.platform != RuntimePlatform.WebGLPlayer);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!Input.GetKeyDown(KeyCode.Return)) return;
-
-        JoinServer();
+        if (Input.GetKeyDown(KeyCode.Return))
+            JoinServer();
     }
 
     public void JoinServer()

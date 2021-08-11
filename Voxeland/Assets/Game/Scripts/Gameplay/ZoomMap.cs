@@ -13,6 +13,6 @@ public class ZoomMap : MonoBehaviour
         if (Input.GetKey(KeyCode.PageUp))
             m_cam.orthographicSize -= 40 * Time.deltaTime;
 
-        m_cam.orthographicSize = Mathf.Clamp(m_cam.orthographicSize, 15, 230);
+        m_cam.orthographicSize = Mathf.Clamp(m_cam.orthographicSize, 15, 330);
     }
 }

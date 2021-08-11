@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Mirror
 {
     [AddComponentMenu("")]
-    public class ChatNetworkManager : NetworkManager
+    public class CustomNetworkManager : NetworkManager
     {
         // Set by UI element UsernameInput OnValueChanged
         private string m_playername;

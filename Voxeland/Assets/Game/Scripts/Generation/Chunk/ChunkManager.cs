@@ -8,11 +8,10 @@ public class ChunkManager : MonoBehaviour
     internal int RenderDistance { get => 1 << Chunk.Master.RenderDistance + Chunk.LOD; }
     internal bool Dirty { get; set; }
 
-    Camera mainCamera;
+    Camera mainCamera { get => GameManager.Instance.m_MainCamera; }
     float tick = 0.75f;
     float timer = 0f;
 
-    void Start() { mainCamera = GameManager.Instance.m_MainCamera; }
     void Update()
     {
         if (timer < tick)

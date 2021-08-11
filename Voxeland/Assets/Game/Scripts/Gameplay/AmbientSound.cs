@@ -17,15 +17,15 @@ public class AmbientSound : MonoBehaviour
         if (!GameManager.Instance.m_MainCamera) return;
         float pos = GameManager.Instance.m_MainCamera.transform.position.y;
 
-        if (pos > 37)
+        if (pos > 38)
             SetSound(AmbientTypes.SKY);
-        else if (pos > -0.7)
+        else if (pos > 0.3f)
             SetSound(AmbientTypes.SURFACE);
-        else if (pos > -16)
+        else if (pos > -15)
             SetSound(AmbientTypes.WATER);
-        else if (pos > -20.7)
+        else if (pos > -19.7)
             SetSound(AmbientTypes.LAVA);
-        else if (pos > -46)
+        else if (pos > -45)
             SetSound(AmbientTypes.UNDERGROUND);
         else
             SetSound(AmbientTypes.CAVE);

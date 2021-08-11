@@ -2,40 +2,16 @@ using UnityEngine;
 
 public enum VoxelType { AIR = -1, GRASS = 0, STONE = 1, DIRT = 2, SAND = 3, CLAY = 4, WOOD = 5, LEAVE = 6 }
 [RequireComponent(typeof(VoxelGeneration))]
-public class BaseGeneration : MonoBehaviour
+public class NodeGeneration : MonoBehaviour
 {
+    float surface, detailMult, mountainBiome, desertBiome, oceanBiome;
+
     public virtual short Generation(int x, int y, int z, byte lod)
     {
-        // return y <= 0 ? (short)1 : (short)-1;
-        y += 15;
-
         VoxelType voxel = VoxelType.AIR;
-
-
-        float surface = 0f;
-
-        // Height data, regardless of biome
-        float mountainContrib = NoiseS3D.Noise(x * 0.00666666f, z * 0.00666666f) * 40f;
-        float desertContrib = 0.3f;
-        float oceanContrib = 0.0f;
-        float detailContrib = NoiseS3D.Noise(x * 0.05f, z * 0.05f, false) * 5f;
-
-        // Biomes
-        float detailMult = NoiseS3D.Noise(x * 0.033333f, z * 0.033333f);
-        float mountainBiome = NoiseS3D.Noise(x * 0.005f, z * 0.005f);
-        float desertBiome = NoiseS3D.Noise(x * 0.003333f, z * 0.003333f) * NoiseS3D.Noise(x * 0.04f, z * 0.04f, false).Remap(-0.33f, 0.66f, 0.95f, 1.05f);
-        float oceanBiome = NoiseS3D.Noise(x * 0.0002f, z * 0.0002f);
-
-        // Add biome contrib
-        float mountainFinal = (mountainContrib * mountainBiome) + (detailContrib * detailMult) + 20;
-        float desertFinal = (desertContrib * desertBiome) + (detailContrib * detailMult) + 20;
-        float oceanFinal = (oceanContrib * oceanBiome);
-
-        // Final contrib
-        surface = Mathf.Lerp(mountainFinal, desertFinal, desertBiome); // Decide between mountain biome or desert biome
-        surface = Mathf.Lerp(surface, oceanFinal, oceanBiome); // Decide between the previous biome or ocean biome (aka ocean biome overrides all biomes)
-
-        surface = Mathf.Floor(surface);
+        y += 15;
+        
+        GetSurfaceHeigth(x, z);
 
 
         //Surface and underground
@@ -70,7 +46,7 @@ public class BaseGeneration : MonoBehaviour
             float skyValue = (float)NoiseS3D.Noise(x * 0.01f, y * 0.013f, z * 0.01f);
 
             if (y > surface + 40 && y < 120 && oceanBiome >= 0.1f)
-                if (skyValue > 0.8f + detailMult * 0.2f + mountainFinal * 0.2f)
+                if (skyValue > 0.8f + detailMult * 0.2f + mountainBiome * 0.2f)
                     voxel = VoxelType.DIRT;
 
 
@@ -93,5 +69,33 @@ public class BaseGeneration : MonoBehaviour
 
 
         return (short)voxel;
+    }
+
+    public float GetSurfaceHeigth(float x, float z)
+    {
+        surface = 0f;
+
+        // Height data, regardless of biome
+        float mountainContrib = NoiseS3D.Noise(x * 0.00666666f, z * 0.00666666f) * 40f;
+        float desertContrib = 0.3f;
+        float oceanContrib = 0.0f;
+        float detailContrib = NoiseS3D.Noise(x * 0.05f, z * 0.05f, false) * 5f;
+
+        // Biomes
+        detailMult = NoiseS3D.Noise(x * 0.033333f, z * 0.033333f);
+        mountainBiome = NoiseS3D.Noise(x * 0.005f, z * 0.005f);
+        desertBiome = NoiseS3D.Noise(x * 0.003333f, z * 0.003333f) * NoiseS3D.Noise(x * 0.04f, z * 0.04f, false).Remap(-0.33f, 0.66f, 0.95f, 1.05f);
+        oceanBiome = NoiseS3D.Noise(x * 0.0002f, z * 0.0002f);
+
+        // Add biome contrib
+        float mountainFinal = (mountainContrib * mountainBiome) + (detailContrib * detailMult) + 20;
+        float desertFinal = (desertContrib * desertBiome) + (detailContrib * detailMult) + 20;
+        float oceanFinal = (oceanContrib * oceanBiome);
+
+        // Final contrib
+        surface = Mathf.Lerp(mountainFinal, desertFinal, desertBiome); // Decide between mountain biome or desert biome
+        surface = Mathf.Lerp(surface, oceanFinal, oceanBiome); // Decide between the previous biome or ocean biome (aka ocean biome overrides all biomes)
+
+        return surface = Mathf.Floor(surface);
     }
 }

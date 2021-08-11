@@ -24,6 +24,12 @@ public class BuildScript
         BuildWindowsServer();
         BuildLinuxServer();
     }
+    [MenuItem("Build/Build Windows Only", false, 102)]
+    public static void BuildWindowsOnly()
+    {
+        BuildWindowsServer();
+        BuildWindowsClient();
+    }
     [MenuItem("Build/Build All", false, 200)]
     public static void BuildAll()
     {
@@ -39,8 +45,6 @@ public class BuildScript
     {
         if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.WebGL, BuildTarget.WebGL);
-
-        SetVersion();
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
         buildPlayerOptions.scenes = GetBuildScenes();
@@ -95,6 +99,8 @@ public class BuildScript
     }
     static void BuildPlayer(BuildPlayerOptions _bpo, string _buildType = "Client")
     {
+        SetVersion();
+        
         BuildReport report = BuildPipeline.BuildPlayer(_bpo);
         BuildSummary summary = report.summary;
 

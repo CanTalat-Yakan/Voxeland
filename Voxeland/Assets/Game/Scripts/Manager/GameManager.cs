@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Mirror;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public List<Player> ClientList { get; private set; }
+    public bool IsClient { get; private set; }
+    public bool IsServer { get; private set; }
+    public bool IsHost { get => IsClient && IsServer; }
 
+    [SerializeField] internal NodeGeneration m_generation;
     [SerializeField] internal VoxelMaster m_VoxelMaster;
     [SerializeField] internal GameObject m_LoadingScreen;
     [SerializeField] internal bool LOCKED = false;
@@ -26,43 +32,40 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        ClientList = new List<Player>();
+        IsClient = isClient;
+        IsServer = isServer;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         LOCKED = false;
 
         if (m_MainCamera is null)
             m_MainCamera = Camera.main;
-
-        StartCoroutine(SpawnPlayer());
     }
 
-    IEnumerator SpawnPlayer()
+    internal void SpawnPlayer(GameObject _player)
+    {
+        StartCoroutine(SpawnPlayerCoroutine(_player));
+    }
+    IEnumerator SpawnPlayerCoroutine(GameObject _player)
     {
         m_LoadingScreen.SetActive(true);
-        int startPos = 35;
-        int yCoord = 0;
-
-        yield return new WaitWhile(() => VoxelGeneration.GenerationAction is null);
-
-        while (VoxelGeneration.GenerationAction(0, startPos + yCoord, 0, 0) == (short)VoxelType.AIR)
-        { yCoord--; }
-
-        Vector3 spawnPositin = Vector3.zero + Vector3.up * (startPos + yCoord + 2);
-
-        yield return new WaitWhile(() => m_Player is null);
-
+        m_Player = _player;
         m_Player.SetActive(false);
 
-        yield return new WaitUntil(() => BoolRayCast(3, new Ray(spawnPositin + Vector3.up, Vector3.down)));
-
+        Vector3 spawnPositin = Vector3.zero + Vector3.one * 0.5f + Vector3.up * (m_generation.GetSurfaceHeigth(0, 0) - 15 + 2);
         m_Player.transform.position = spawnPositin;
+
+        yield return new WaitWhile(() => !BoolRayCast(3, new Ray(spawnPositin, Vector3.down)));
+
         m_VoxelMaster.FastRefresh();
         m_Player.SetActive(true);
         m_LoadingScreen.SetActive(false);
 
         yield return null;
     }
-    
+
     void OnDestroy()
     {
         SceneHandler.UnloadScene("Chat");
@@ -104,7 +107,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    
+
     void OptionsOverlay()
     {
         LOCKED = !LOCKED;
@@ -127,6 +130,21 @@ public class GameManager : MonoBehaviour
             if (SceneHandler.IsSceneLoaded("Options"))
                 SceneHandler.UnloadScene("Options");
         }
+    }
+
+    internal void AddClient(Player _p)
+    {
+        if (IsClient) ClientList.Add(_p);
+
+        foreach (var item in ClientList)
+            Debug.Log(item);
+    }
+    internal void RemoveClient(Player _p)
+    {
+        if (IsClient) if (ClientList.Contains(_p)) ClientList.Remove(_p);
+
+        foreach (var item in ClientList)
+            Debug.Log(item);
     }
 
     internal RaycastHit HitRayCast(float _maxDistance, Ray? _ray = null)

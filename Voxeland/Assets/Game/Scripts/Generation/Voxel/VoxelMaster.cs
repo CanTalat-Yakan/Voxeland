@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,8 @@ public class VoxelMaster : MonoBehaviour
 {
     public static readonly Queue<UnityAction> MainThread = new Queue<UnityAction>();
     public static readonly Queue<UnityAction> ColliderBuffer = new Queue<UnityAction>();
+    internal static ObjectPool<Thread> ThreadPool = new ObjectPool<Thread>(8);
+
     [SerializeField] internal byte LevelOfDetailsCount { get => (byte)Settings.LOD; }
     [SerializeField] internal byte RenderDistance { get => (byte)(6 + Settings.RenderDistance); }
     [SerializeField] public PrefabPool PrefabPool;
@@ -18,8 +21,12 @@ public class VoxelMaster : MonoBehaviour
     [SerializeField] internal Material TerrainMaterial;
     [SerializeField] internal int Tiling;
     [Range(0, 0.4999f)] [SerializeField] internal float UVPadding;
-    internal Dictionary<byte, Dictionary<Vector3, Chunk>> Collection = new Dictionary<byte, Dictionary<Vector3, Chunk>>();
+
+    internal Dictionary<Vector3, Chunk> MainCollection = new Dictionary<Vector3, Chunk>();
+    internal Dictionary<byte, List<Vector3Int>> LODCollection = new Dictionary<byte, List<Vector3Int>>();
     internal Mesh DefaultCubeMesh;
+    Chunk tmpChunk;
+
 
     void OnValidate() { VoxelGeneration.UpdateNow = true; }
     void Awake()
@@ -29,7 +36,7 @@ public class VoxelMaster : MonoBehaviour
         Destroy(gob);
 
         for (byte i = 0; i < LevelOfDetailsCount + 1; i++)
-            Collection.Add(i, new Dictionary<Vector3, Chunk>());
+            LODCollection.Add(i, new List<Vector3Int>());
     }
     void Update()
     {
@@ -54,18 +61,23 @@ public class VoxelMaster : MonoBehaviour
     {
         Vector3Int pos = Vector3Int.FloorToInt(_pos);
 
-        Chunk c = FindChunk(pos, 0);
+        if (tmpChunk != null && tmpChunk.Pos == FloorToIntChunk(_pos))
+            tmpChunk.SetLocalVoxelID(pos - tmpChunk.Pos, _id);
+        {
+            Chunk c = FindChunk(pos);
 
-        if (c is null)
-            return;
+            if (c is null)
+                c = CreateChunk(_pos, 0);
 
-        c.SetLocalVoxelID(pos - c.Pos, _id);
+            c.SetLocalVoxelID(pos - c.Pos, _id);
+        }
+
     }
     internal short GetVoxelID(Vector3 _pos)
     {
         Vector3Int pos = Vector3Int.FloorToInt(_pos);
 
-        Chunk c = FindChunk(pos, 0);
+        Chunk c = FindChunk(pos);
 
         if (c is null)
             return -1;
@@ -77,7 +89,7 @@ public class VoxelMaster : MonoBehaviour
     {
         Vector3Int pos = Vector3Int.FloorToInt(_pos);
 
-        Chunk c = FindChunk(pos, 0);
+        Chunk c = FindChunk(pos);
 
         if (c is null)
             return null;
@@ -86,50 +98,49 @@ public class VoxelMaster : MonoBehaviour
     }
     internal void FastRefresh()
     {
-        foreach (Chunk c in Collection[0].Values)
+        foreach (Chunk c in MainCollection.Values)
             c.FastRefresh();
     }
     internal bool ChunkExists(Vector3 _p, byte _l)
     {
-        CheckCollectionContainsLOD(_l);
-        Chunk c = null; Collection[_l].TryGetValue(FloorToInt(_p), out c);
-        return c != null;
+        if (_l == 0)
+            return MainCollection.TryGetValue(FloorToIntChunk(_p), out _);
+        else
+            CheckCollectionContainsLOD(_l);
+        return LODCollection[_l].Contains(FloorToIntChunk(_p));
     }
-    internal Chunk FindChunk(Vector3 _p, byte _l)
+    internal Chunk FindChunk(Vector3 _p)
     {
-        CheckCollectionContainsLOD(_l);
         Chunk c = null;
-        Collection[_l].TryGetValue(FloorToInt(_p), out c);
+        MainCollection.TryGetValue(FloorToIntChunk(_p), out c);
         return c;
     }
     internal Chunk CreateChunk(Vector3 _p, byte _l)
     {
         CheckCollectionContainsLOD(_l);
-        Vector3Int pos = FloorToInt(_p);
-        Chunk newChunk = new Chunk(this, _l, pos.x, pos.y, pos.z);
+        Vector3Int pos = FloorToIntChunk(_p);
+        Chunk newChunk = new Chunk(this, _l, pos);
+        newChunk.Master = this;
         AddChunk(newChunk, _l);
         return newChunk;
     }
-    void AddChunk(Chunk c, byte _l)
+    void AddChunk(Chunk _c, byte _l)
     {
         CheckCollectionContainsLOD(_l);
-        if (Collection.Count - 1 < _l)
-            Collection.Add(_l, new Dictionary<Vector3, Chunk>());
-
-        if (Collection[_l].ContainsKey(c.Pos))
-            return;
-
-        c.Master = this;
-        Collection[_l].Add(c.Pos, c);
+        if (!MainCollection.TryGetValue(_c.Pos, out _))
+            MainCollection.Add(_c.Pos, _c);
     }
     internal void RemoveChunk(Chunk _c, byte _l)
     {
         _c.info.ResetAll();
         PrefabPool.Add(_c.info);
-        Collection[_l].Remove(_c.Pos);
+        if (_l == 0)
+            MainCollection.Remove(_c.Pos);
+        else
+            LODCollection[_l].Remove(_c.Pos);
     }
 
-    internal static Vector3Int FloorToInt(Vector3 _p)
+    internal static Vector3Int FloorToIntChunk(Vector3 _p)
     {
         Vector3Int v = Vector3Int.FloorToInt(_p);
         v = Vector3Int.FloorToInt((Vector3)v / Chunk.SIZE);
@@ -139,7 +150,7 @@ public class VoxelMaster : MonoBehaviour
     }
     void CheckCollectionContainsLOD(byte _l)
     {
-        if (Collection.Count - 1 < _l)
-            Collection.Add(_l, new Dictionary<Vector3, Chunk>());
+        if (LODCollection.Count - 1 < _l)
+            LODCollection.Add(_l, new List<Vector3Int>());
     }
 }

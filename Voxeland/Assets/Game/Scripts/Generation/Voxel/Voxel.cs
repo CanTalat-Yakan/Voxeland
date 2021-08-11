@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class Voxel
 {
-    internal Chunk Parent { get; set; }
     internal VoxelInfo Info { get; private set; }
     internal short ID { get; private set; }
     internal byte Density { get; private set; }
 
-    internal Voxel(Chunk _p, short _id = 0, byte _d = 1)
+    internal Voxel(short _id = 0, byte _d = 1)
     {
         ID = _id;
-        Parent = _p;
-
-        if (_p != null && _p.Master != null)
-            SetVoxelInfo(_p.Master.VoxelDictionary);
+        if (GameManager.Instance)
+            SetVoxelInfo(GameManager.Instance.m_VoxelMaster.VoxelDictionary);
     }
     void SetVoxelInfo(VoxelDictionary _dic)
     {

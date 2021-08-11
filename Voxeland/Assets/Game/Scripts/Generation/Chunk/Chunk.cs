@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Unity.Jobs;
 using UnityEngine;
 
 
@@ -20,8 +21,7 @@ public class Chunk
     internal bool Dirty { get; set; }
     internal bool Empty { get; private set; }
     internal GameObject ThisGameObject { get; private set; }
-    int m_x, m_y, m_z;
-    internal Vector3Int Pos { get { return new Vector3Int(m_x, m_y, m_z); } }
+    internal Vector3Int Pos { get; private set; }
     internal Vector3 CenteredPosition { get { return Pos + Vector3.one * HalfDiameter; } }
     internal float Diameter { get { return Chunk.SIZE << LOD; } }
     internal float HalfDiameter { get { return Diameter * 0.5f; } }
@@ -45,17 +45,14 @@ public class Chunk
 
     internal MeshInfo info;
     internal Voxel[,,] nodes;
-    MeshBuilder builder;
 
 
-    internal Chunk(VoxelMaster _p, byte _l, int _x, int _y, int _z)
+    internal Chunk(VoxelMaster _p, byte _l, Vector3Int _pos)
     {
         ID = curID; curID++;
         Master = _p;
         LOD = _l;
-        m_x = _x;
-        m_y = _y;
-        m_z = _z;
+        Pos = _pos;
 
         info = Master.PrefabPool.Get();
         info.Mesh = new Mesh();
@@ -64,7 +61,7 @@ public class Chunk
         info.Manager.Chunk = this;
 
         ThisGameObject = info.gameObject;
-        ThisGameObject.name = ($"ID:{ID}_{LOD} ({_x},{_y},{_z})");
+        ThisGameObject.name = ($"ID:{ID}_{LOD} ({Pos})");
         ThisGameObject.tag = LOD.ToString();
         ThisGameObject.transform.position = Pos;
         ThisGameObject.transform.localScale *= (1 << LOD);
@@ -104,20 +101,18 @@ public class Chunk
         if (Master.TerrainMaterial == null || Master.VoxelDictionary == null || Master.VoxelDictionary.VoxelInfo.Length <= 0)
             return;
 
-        builder = new MeshBuilder(this);
+        MeshBuilder builder = new MeshBuilder(this);
 
         info.Renderer.sharedMaterial = Master.TerrainMaterial;
 
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-            builder.GenerateMesh();
-        else
-        {
-            Thread t = new Thread(new ThreadStart(() => builder.GenerateMesh()))
-            { Priority = System.Threading.ThreadPriority.Normal };
-
-            t.IsBackground = true;
-            t.Start();
-        }
+        // if (Application.platform == RuntimePlatform.WebGLPlayer)
+        builder.GenerateMesh();
+        //     else
+        //     {
+        //         Thread t = new Thread(new ThreadStart(() => builder.GenerateMesh()))
+        //         { Priority = System.Threading.ThreadPriority.BelowNormal };
+        //         t.Start();
+        //     }
     }
 
     internal short GetLocalVoxelID(int _x, int _y, int _z)
@@ -161,7 +156,7 @@ public class Chunk
         if (_id == -1)
             nodes[_x, _y, _z] = null;
         else
-            nodes[_x, _y, _z] = new Voxel(this, (byte)_id);
+            nodes[_x, _y, _z] = new Voxel((byte)_id);
 
         info.Manager.Dirty = true;
         Dirty = true;

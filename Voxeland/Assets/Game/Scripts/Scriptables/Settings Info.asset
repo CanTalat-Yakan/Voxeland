@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FOV: 90
   MouseSensitivity: 1
-  RenderDistance: 1
-  LOD: 3
+  RenderDistance: 0
+  LOD: 0
   RenderScale: 35
   AA: 0
   CurrentPipelineAssetIndex: 2

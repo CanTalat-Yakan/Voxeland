@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -10,6 +10,7 @@ public class PlayerInputHandler : Mirror.NetworkBehaviour
     [SerializeField] NetworkAnimator anim;
     public bool run = false;
     public bool walk = false;
+    VoxelMaster master { get => GameManager.Instance.m_VoxelMaster; }
     AudioSource runSound;
 
     void Start() { run = false; runSound = gameObject.AddComponent<AudioSource>(); runSound.spatialBlend = 0; }
@@ -48,10 +49,10 @@ public class PlayerInputHandler : Mirror.NetworkBehaviour
     }
 
     // this is called on the server
-    [Command]
-    void CmdAnim() { RpcOnAnim(); }
+    [Command] void CmdAnim() { RpcOnAnim(); }
+    [Command] public void CmdSetVoxel(short _voxelType, Vector3 _pos) { RpcOnSetVoxel(_voxelType, _pos); }
 
     // this is called for all observers
-    [ClientRpc]
-    void RpcOnAnim() { anim.animator.SetBool("Run", run); }
+    [ClientRpc] void RpcOnAnim() { anim.animator.SetBool("Run", run); anim.animator.SetBool("Walk", walk); }
+    [ClientRpc] void RpcOnSetVoxel(short _v, Vector3 _p) { if (_v == (short)VoxelType.AIR) master.RemoveVoxelAt(_p); else master.SetVoxelID(_p, _v); master.FastRefresh(); }
 }
