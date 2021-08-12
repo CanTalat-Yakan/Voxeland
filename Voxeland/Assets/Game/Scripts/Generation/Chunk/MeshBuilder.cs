@@ -12,11 +12,15 @@ public struct Quad
     public Vector2[] uv;
     public Color32 c;
     int[] index;
-    public int[] i { get => index is null ? index = MeshBuilder.GetLightLevel(n, c, v, p) : index; }
+    public int[] i { get => index; set => index = value; }
 }
 public enum FaceSide
 {
-    FRONT, LEFT, BACK, RIGHT, TOP, BOTTOM
+    FRONT, LEFT, BACK, RIGHT, TOP, BOTTOM,
+    YCORNERXZ, YCORNER_XZ, YCORNER_X_Z, YCORNERX_Z,
+    _YCORNERXZ, _YCORNER_XZ, _YCORNER_X_Z, _YCORNERX_Z,
+    YSIDEX, YSIDEZ, YSIDE_X, YSIDE_Z,
+    _YSIDEX, _YSIDEZ, _YSIDE_X, _YSIDE_Z
 }
 
 public class MeshBuilder
@@ -30,9 +34,6 @@ public class MeshBuilder
         parent = _p;
     }
 
-    internal void Process(object callback)
-    {
-    }
     internal void GenerateMesh()
     {
         Vector3Int pos;
@@ -93,7 +94,8 @@ public class MeshBuilder
                             n = Vector3Int.forward,
                             v = GetVertices(FaceSide.FRONT, pos),
                             uv = GetUVs(voxelInfo.VoxelTexture.front),
-                            c = GetColor(1)
+                            c = GetColor(1),
+                            i = GetLightLevel(Vector3Int.forward)
                         });
 
                     if (left)
@@ -103,7 +105,8 @@ public class MeshBuilder
                             n = Vector3Int.left,
                             v = GetVertices(FaceSide.LEFT, pos),
                             uv = GetUVs(voxelInfo.VoxelTexture.left),
-                            c = GetColor(1)
+                            c = GetColor(1),
+                            i = GetLightLevel(Vector3Int.left)
                         });
 
                     if (back)
@@ -113,7 +116,8 @@ public class MeshBuilder
                             n = Vector3Int.back,
                             v = GetVertices(FaceSide.BACK, pos),
                             uv = GetUVs(voxelInfo.VoxelTexture.back),
-                            c = GetColor(1)
+                            c = GetColor(1),
+                            i = GetLightLevel(Vector3Int.back)
                         });
 
                     if (right)
@@ -123,7 +127,8 @@ public class MeshBuilder
                             n = Vector3Int.right,
                             v = GetVertices(FaceSide.RIGHT, pos),
                             uv = GetUVs(voxelInfo.VoxelTexture.right),
-                            c = GetColor(1)
+                            c = GetColor(1),
+                            i = GetLightLevel(Vector3Int.right)
                         });
 
                     if (top)
@@ -133,7 +138,8 @@ public class MeshBuilder
                             n = Vector3Int.up,
                             v = GetVertices(FaceSide.TOP, pos),
                             uv = GetUVs(voxelInfo.VoxelTexture.top),
-                            c = GetColor(1)
+                            c = GetColor(1),
+                            i = GetLightLevel(Vector3Int.up)
                         });
 
                     if (bottom)
@@ -143,7 +149,8 @@ public class MeshBuilder
                             n = Vector3Int.down,
                             v = GetVertices(FaceSide.BOTTOM, pos),
                             uv = GetUVs(voxelInfo.VoxelTexture.bottom),
-                            c = GetColor(1)
+                            c = GetColor(1),
+                            i = GetLightLevel(Vector3Int.down)
                         });
                 }
 
@@ -176,7 +183,7 @@ public class MeshBuilder
             {
                 normals[vertIndex] = quad.n;
                 colors[vertIndex] = quad.c;
-                // colors[vertIndex] = MeshBuilder.GetLightColor(quad.c, quad.i[i]);
+                colors[vertIndex] = GetLightColor(quad.c, quad.i[i]);
                 uvs[vertIndex] = quad.uv[i];
                 verts[vertIndex] = quad.v[i];
                 vertIndex++;
@@ -210,7 +217,23 @@ public class MeshBuilder
             parent.GetLocalVoxel(_p + Vector3Int.back),
             parent.GetLocalVoxel(_p + Vector3Int.right),
             parent.GetLocalVoxel(_p + Vector3Int.up),
-            parent.GetLocalVoxel(_p + Vector3Int.down)};
+            parent.GetLocalVoxel(_p + Vector3Int.down),
+            parent.GetLocalVoxel(_p + Vector3Int.up + Vector3Int.right + Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.up - Vector3Int.right + Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.up - Vector3Int.right - Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.up + Vector3Int.right - Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.down + Vector3Int.right + Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.down - Vector3Int.right + Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.down - Vector3Int.right - Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.down + Vector3Int.right - Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.up + Vector3Int.right),
+            parent.GetLocalVoxel(_p + Vector3Int.up + Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.up - Vector3Int.right),
+            parent.GetLocalVoxel(_p + Vector3Int.up - Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.down + Vector3Int.right),
+            parent.GetLocalVoxel(_p + Vector3Int.down + Vector3Int.forward),
+            parent.GetLocalVoxel(_p + Vector3Int.down - Vector3Int.right),
+            parent.GetLocalVoxel(_p + Vector3Int.down - Vector3Int.forward)};
     }
 
     bool GetTransperency(FaceSide _s)
@@ -223,6 +246,11 @@ public class MeshBuilder
     {
         Voxel v = adjVoxels[(int)_s];
         return v is null ? true : v.ID == (short)VoxelType.AIR;
+    }
+
+    bool GetSolid(FaceSide _s)
+    {
+        return !GetAir(_s);
     }
 
     Vector2[] GetUVs(int id)
@@ -309,7 +337,6 @@ public class MeshBuilder
         return vec;
     }
 
-
     Color32 GetColor(byte _d)
     {
         return new Color32(255, 255, 255, 255);
@@ -325,11 +352,11 @@ public class MeshBuilder
         // return stoneColor;
     }
 
-    static Color32 GetLightColor(Color32 color, int lightLevel)
+    Color32 GetLightColor(Color32 color, int lightLevel)
     {
         if (lightLevel != 0)
         {
-            float lightModifier = 1.0f - lightLevel * 0.24f;
+            float lightModifier = 1.0f - lightLevel * 0.18f;
 
             color.r = (byte)(color.r * lightModifier);
             color.g = (byte)(color.g * lightModifier);
@@ -339,232 +366,152 @@ public class MeshBuilder
         return color;
     }
 
-    internal static int[] GetLightLevel(Vector3 _n, Color32 _c, Vector3Int[] _v, Vector3Int _p)
+    internal int[] GetLightLevel(Vector3 _n)
     {
         int[] lightLevels = new int[4];
 
-        // if (_n.Equals(Vector3.forward))
-        //     for (int i = 0; i < 4; i++)
-        //         lightLevels[i] = LightLevelZ(_v[i], _c, _p.x, _p.y, 0.25f);
+        if (_n.Equals(Vector3.forward))
+            for (int i = 0; i < 4; i++)
+                lightLevels[i] = LightLevelZ(i, true); //1
 
-        // else if (_n.Equals(Vector3.left))
-        //     for (int i = 0; i < 4; i++)
-        //         lightLevels[i] = LightLevelX(_v[i], _c, _p.y, _p.z, -0.25f);
+        else if (_n.Equals(Vector3.left))
+            for (int i = 0; i < 4; i++)
+                lightLevels[i] = LightLevelX(i, false); //-1
 
-        // else if (_n.Equals(Vector3.back))
-        //     for (int i = 0; i < 4; i++)
-        //         lightLevels[i] = LightLevelZ(_v[i], _c, _p.x, _p.y, -0.25f);
+        else if (_n.Equals(Vector3.back))
+            for (int i = 0; i < 4; i++)
+                lightLevels[i] = LightLevelZ(i, false); //-1
 
-        // else if (_n.Equals(Vector3.right))
-        //     for (int i = 0; i < 4; i++)
-        //         lightLevels[i] = LightLevelX(_v[i], _c, _p.y, _p.z, 0.25f);
+        else if (_n.Equals(Vector3.right))
+            for (int i = 0; i < 4; i++)
+                lightLevels[i] = LightLevelX(i, true); //1
 
-        // else if (_n.Equals(Vector3.up))
-        //     for (int i = 0; i < 4; i++)
-        //         lightLevels[i] = LightLevelY(_v[i], _c, _p.x, _p.z, 0.25f);
+        else if (_n.Equals(Vector3.up))
+            for (int i = 0; i < 4; i++)
+                lightLevels[i] = LightLevelY(i, true); //1
 
-        // else if (_n.Equals(Vector3.down))
-        //     for (int i = 0; i < 4; i++)
-        //         lightLevels[i] = LightLevelY(_v[i], _c, _p.x, _p.z, -0.25f);
+        else if (_n.Equals(Vector3.down))
+            for (int i = 0; i < 4; i++)
+                lightLevels[i] = LightLevelY(i, false); //-1
 
         return lightLevels;
     }
 
-    // static int LightLevelX(Vector3Int vert, Color32 color, int localY, int localZ, float xOffset)
-    // {
-    //     int lightLevel = 0;
-    //     vert.x += xOffset;
+    int LightLevelX(int _i, bool _n)
+    {
+        int lightLevel = 0;
 
-    //     if (!lightLevels.TryGetValue(vert, out lightLevel))
-    //     {
-    //         int sides = 0;
-    //         int corner = 0;
+        int sides = 0;
+        int corner = 0;
 
-    //         if (localY == iy)
-    //         {
-    //             if (localZ == iz)
-    //             {
-    //                 if (Parent(ix, iy + 1, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz + 1).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy + 1, iz + 1).IsSolid())
-    //                     corner++;
-    //             }
-    //             else
-    //             {
-    //                 if (GetAdjVoxel(ix, iy + 1, iz + 1).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy + 1, iz).IsSolid())
-    //                     corner++;
-    //             }
-    //         }
-    //         else
-    //         {
-    //             if (localZ == iz)
-    //             {
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy + 1, iz + 1).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz + 1).IsSolid())
-    //                     corner++;
-    //             }
-    //             else
-    //             {
-    //                 if (GetAdjVoxel(ix, iy, iz + 1).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy + 1, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     corner++;
-    //             }
-    //         }
+        if (_i == 0)
+        {
+            if (GetSolid(_n ? FaceSide.YSIDEX : FaceSide.YSIDE_X)) sides++;
+            if (GetSolid(_n ? FaceSide.YSIDE_Z : FaceSide.YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide.YCORNERX_Z : FaceSide.YCORNER_XZ)) corner++;
+        }
+        else if (_i == 1)
+        {
+            if (GetSolid(_n ? FaceSide.YSIDEX : FaceSide.YSIDE_X)) sides++;
+            if (GetSolid(_n ? FaceSide.YSIDEZ : FaceSide.YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide.YCORNERXZ : FaceSide.YCORNER_X_Z)) corner++;
+        }
+        else if (_i == 2)
+        {
+            if (GetSolid(_n ? FaceSide._YSIDEX : FaceSide._YSIDE_X)) sides++;
+            if (GetSolid(_n ? FaceSide._YSIDE_Z : FaceSide._YSIDEZ)) sides++;
+            if (GetSolid(_n ? FaceSide._YCORNERX_Z : FaceSide._YCORNER_XZ)) corner++;
+        }
+        else if (_i == 3)
+        {
+            if (GetSolid(_n ? FaceSide._YSIDEX : FaceSide._YSIDE_X)) sides++;
+            if (GetSolid(_n ? FaceSide._YSIDEZ : FaceSide._YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide._YCORNERXZ : FaceSide._YCORNER_X_Z)) corner++;
+        }
 
-    //         if (sides == 2)
-    //             lightLevel = 3;
-    //         else
-    //             lightLevel = sides + corner;
+        if (sides == 2)
+            lightLevel = 3;
+        else
+            lightLevel = sides + corner;
 
-    //         lightLevels.Add(vert, lightLevel);
-    //     }
-    //     return lightLevel;
-    // }
+        return lightLevel;
+    }
+    int LightLevelY(int _i, bool _n)
+    {
+        int lightLevel = 0;
 
-    // static int LightLevelY(Vector3Int vert, Color32 color, int localX, int localZ, float yOffset)
-    // {
-    //     int lightLevel = 0;
-    //     vert.y += yOffset;
+        int sides = 0;
+        int corner = 0;
 
-    //     if (!lightLevels.TryGetValue(vert, out lightLevel))
-    //     {
-    //         int ix = FastFloor(vert.x);
-    //         int iy = FastRound(vert.y);
-    //         int iz = FastFloor(vert.z);
-    //         int sides = 0;
-    //         int corner = 0;
+        if (_i == 0)
+        {
+            if (GetSolid(_n ? FaceSide.YSIDE_X : FaceSide.YSIDE_X)) sides++;
+            if (GetSolid(_n ? FaceSide.YSIDEZ : FaceSide.YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide.YCORNER_XZ : FaceSide.YCORNER_X_Z)) corner++;
+        }
+        else if (_i == 1)
+        {
+            if (GetSolid(_n ? FaceSide.YSIDEX : FaceSide.YSIDEX)) sides++;
+            if (GetSolid(_n ? FaceSide.YSIDEZ : FaceSide.YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide.YCORNERXZ : FaceSide.YCORNERX_Z)) corner++;
+        }
+        else if (_i == 2)
+        {
+            if (GetSolid(_n ? FaceSide.YSIDEX : FaceSide.YSIDEX)) sides++;
+            if (GetSolid(_n ? FaceSide.YSIDE_Z : FaceSide.YSIDEZ)) sides++;
+            if (GetSolid(_n ? FaceSide.YCORNERX_Z : FaceSide.YCORNERXZ)) corner++;
+        }
+        else if (_i == 3)
+        {
+            if (GetSolid(_n ? FaceSide.YSIDE_X : FaceSide.YSIDE_X)) sides++;
+            if (GetSolid(_n ? FaceSide.YSIDE_Z : FaceSide.YSIDEZ)) sides++;
+            if (GetSolid(_n ? FaceSide.YCORNER_X_Z : FaceSide.YCORNER_XZ)) corner++;
+        }
 
-    //         if (localX == ix)
-    //         {
-    //             if (localZ == iz)
-    //             {
-    //                 if (GetAdjVoxel(ix + 1, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz + 1).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix + 1, iy, iz + 1).IsSolid())
-    //                     corner++;
-    //             }
-    //             else
-    //             {
-    //                 if (GetAdjVoxel(ix + 1, iy, iz + 1).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix + 1, iy, iz).IsSolid())
-    //                     corner++;
-    //             }
-    //         }
-    //         else
-    //         {
-    //             if (localZ == iz)
-    //             {
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix + 1, iy, iz + 1).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz + 1).IsSolid())
-    //                     corner++;
-    //             }
-    //             else
-    //             {
-    //                 if (GetAdjVoxel(ix, iy, iz + 1).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix + 1, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     corner++;
-    //             }
-    //         }
+        if (sides == 2)
+            lightLevel = 3;
+        else
+            lightLevel = sides + corner;
 
-    //         if (sides == 2)
-    //             lightLevel = 3;
-    //         else
-    //             lightLevel = sides + corner;
+        return lightLevel;
+    }
+    int LightLevelZ(int _i, bool _n)
+    {
+        int lightLevel = 0;
 
-    //         lightLevels.Add(vert, lightLevel);
-    //     }
-    //     return lightLevel;
-    // }
+        int sides = 0;
+        int corner = 0;
 
-    // static int LightLevelZ(Vector3Int vert, Color32 color, int localX, int localY, float zOffset)
-    // {
-    //     int lightLevel = 0;
-    //     vert.z += zOffset;
+        if (_i == 0)
+        {
+            if (GetSolid(_n ? FaceSide.YSIDEX : FaceSide.YSIDE_X)) sides++;
+            if (GetSolid(_n ? FaceSide.YSIDEZ : FaceSide.YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide.YCORNERXZ : FaceSide.YCORNER_X_Z)) corner++;
+        }
+        else if (_i == 1)
+        {
+            if (GetSolid(_n ? FaceSide.YSIDE_X : FaceSide.YSIDEX)) sides++;
+            if (GetSolid(_n ? FaceSide.YSIDEZ : FaceSide.YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide.YCORNER_XZ : FaceSide.YCORNERX_Z)) corner++;
+        }
+        else if (_i == 2)
+        {
+            if (GetSolid(_n ? FaceSide._YSIDE_X : FaceSide._YSIDEX)) sides++;
+            if (GetSolid(_n ? FaceSide._YSIDEZ : FaceSide._YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide._YCORNER_XZ : FaceSide._YCORNERX_Z)) corner++;
+        }
+        else if (_i == 3)
+        {
+            if (GetSolid(_n ? FaceSide._YSIDEX : FaceSide._YSIDE_X)) sides++;
+            if (GetSolid(_n ? FaceSide._YSIDEZ : FaceSide._YSIDE_Z)) sides++;
+            if (GetSolid(_n ? FaceSide._YCORNERXZ : FaceSide._YCORNER_X_Z)) corner++;
+        }
 
-    //     if (!lightLevels.TryGetValue(vert, out lightLevel))
-    //     {
-    //         int ix = FastFloor(vert.x);
-    //         int iy = FastFloor(vert.y);
-    //         int iz = FastRound(vert.z);
-    //         int sides = 0;
-    //         int corner = 0;
+        if (sides == 2)
+            lightLevel = 3;
+        else
+            lightLevel = sides + corner;
 
-    //         if (localX == ix)
-    //         {
-    //             if (localY == iy)
-    //             {
-    //                 if (GetAdjVoxel(ix + 1, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy + 1, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix + 1, iy + 1, iz).IsSolid())
-    //                     corner++;
-    //             }
-    //             else
-    //             {
-    //                 if (GetAdjVoxel(ix + 1, iy + 1, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix + 1, iy, iz).IsSolid())
-    //                     corner++;
-    //             }
-    //         }
-    //         else
-    //         {
-    //             if (localY == iy)
-    //             {
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix + 1, iy + 1, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy + 1, iz).IsSolid())
-    //                     corner++;
-    //             }
-    //             else
-    //             {
-    //                 if (GetAdjVoxel(ix, iy + 1, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix + 1, iy, iz).IsSolid())
-    //                     sides++;
-    //                 if (GetAdjVoxel(ix, iy, iz).IsSolid())
-    //                     corner++;
-    //             }
-    //         }
-
-    //         if (sides == 2)
-    //             lightLevel = 3;
-    //         else
-    //             lightLevel = sides + corner;
-
-    //         lightLevels.Add(vert, lightLevel);
-    //     }
-    //     return lightLevel;
-    // }
-
-    static int FastFloor(float f) { return f >= 0.0f ? (int)f : (int)f - 1; }
-    static int FastRound(float f) { return (f >= 0.0f) ? (int)(f + 0.5f) : (int)(f - 0.5f); }
+        return lightLevel;
+    }
 }
