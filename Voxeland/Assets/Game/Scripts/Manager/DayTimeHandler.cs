@@ -14,6 +14,7 @@ public class DayTimeHandler : MonoBehaviour
     [SerializeField] double m_dayTime = 846;
     bool m_day = false;
 
+    //Creates Simulation of Day Time Night Cycle using the real world time. Using Dot of Directional light the day and night is calculated
     void Update()
     {
         if (!GameManager.Instance) return;
@@ -25,7 +26,7 @@ public class DayTimeHandler : MonoBehaviour
 
         if (!m_custom)
             m_dayTime = System.DateTime.Now.TimeOfDay.TotalMinutes + m_timeOffset;
-        m_directionalLight.transform.rotation = Quaternion.Euler((float)(m_dayTime - 360 ) * 0.25f, -30, 0);
+        m_directionalLight.transform.rotation = Quaternion.Euler((float)(m_dayTime - 360) * 0.25f, -30, 0);
 
         SetIntensityOfSun();
 

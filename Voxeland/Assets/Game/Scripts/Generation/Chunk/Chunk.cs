@@ -46,7 +46,7 @@ public class Chunk
     internal MeshInfo info;
     internal Voxel[,,] nodes;
 
-
+    //Initializes the Chunk with according LOD Factor and given Position
     internal Chunk(VoxelMaster _p, byte _l, Vector3Int _pos)
     {
         ID = curID; curID++;
@@ -105,6 +105,8 @@ public class Chunk
 
         info.Renderer.sharedMaterial = Master.TerrainMaterial;
 
+        //Threading set of because unperforment and pool not working
+
         // if (Application.platform == RuntimePlatform.WebGLPlayer)
         builder.GenerateMesh();
         //     else
@@ -115,8 +117,17 @@ public class Chunk
         //     }
     }
 
+
+
+
+
+    //Incoming - Helper Function used in Chunk
+
+
+
     internal short GetLocalVoxelID(int _x, int _y, int _z)
     {
+        //BitMask gets safeInput
         if ((_x & MASK) != _x ||
             (_y & MASK) != _y ||
             (_z & MASK) != _z)

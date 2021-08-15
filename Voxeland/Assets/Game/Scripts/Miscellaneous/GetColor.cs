@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class GetColor : MonoBehaviour
 {
-    Image image;
+    Image m_image;
 
     void Start()
     {
-        image = GetComponent<Image>();
+        m_image = GetComponent<Image>();
         StartCoroutine(SetImageColor());
     }
 
@@ -21,7 +21,7 @@ public class GetColor : MonoBehaviour
 
         string colString = GameManager.Instance.m_Player.GetComponent<Player>().playerColor;
         ColorUtility.TryParseHtmlString(colString, out Color col);
-        image.color = col;
+        m_image.color = col;
 
         yield return null;
     }

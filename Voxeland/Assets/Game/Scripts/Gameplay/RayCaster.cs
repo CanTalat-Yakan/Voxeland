@@ -24,20 +24,24 @@ public class RayCaster : MonoBehaviour
         if (!GameManager.Instance.m_MainCamera) return;
         if (selectionCube is null) selectionCube = GameObject.Instantiate(cube, Vector3.zero, Quaternion.identity);
 
+        //For Item Selection of Voxeltype in Hud you can build on
         DoVoxelSelectedID();
 
+        //Sets SelectionFramebox for aimed voxel abd displays it with radial indicator when destorying
         RaycastHit hit = GameManager.Instance.HitRayCast(8);
         bool b = GameManager.Instance.BoolRayCast(8);
         selectionCube.SetActive(b);
         radial.gameObject.SetActive(b);
         if (!b) return;
 
+        //Chechs input of placing or removing blocks in parameters are of aimed block and the voxel you would place one
         DoVoxelManipulation(
             hit.point - hit.normal * 0.5f,
             hit.point + hit.normal * 0.5f);
 
     }
 
+    //Iterates through the gui sprite sheet of the terrain texture atlas
     void DoVoxelSelectedID()
     {
         currentID += Mathf.FloorToInt(Input.mouseScrollDelta.y);
@@ -47,6 +51,7 @@ public class RayCaster : MonoBehaviour
         lastID = currentID;
     }
 
+    //Handles removing and placing of voxel
     void DoVoxelManipulation(Vector3 _voxelPos, Vector3 _airPos)
     {
         Vector3Int VoxelPosInt = Vector3Int.FloorToInt(_voxelPos);
@@ -69,7 +74,7 @@ public class RayCaster : MonoBehaviour
                 StartCoroutine(PlaceVoxel(_airPos));
     }
 
-
+    //Checks if player or clients are not inside bounds of placing block
     bool NotInPlayer(Vector3 _p, bool _crouching = false)
     {
         Vector3 camPos = Vector3Int.FloorToInt(GameManager.Instance.m_MainCamera.gameObject.transform.position);
@@ -87,6 +92,7 @@ public class RayCaster : MonoBehaviour
         return true;
     }
 
+    //Coroutine of Placing a Voxel playing sound and setting type Voxel of Chunk with VoxelMaster Class. Also Fastrefresh for updating dirty chunks
     IEnumerator PlaceVoxel(Vector3 _pos)
     {
         //Audio
@@ -100,6 +106,7 @@ public class RayCaster : MonoBehaviour
 
         yield return null;
     }
+    //Coroutine for Removing a Voxel holding duration of Voxeltype and plays sound and partiicle effect with update chunk
     IEnumerator RemoveVoxel(Vector3 _pos)
     {
         Voxel voxel = master.GetVoxel(_pos);

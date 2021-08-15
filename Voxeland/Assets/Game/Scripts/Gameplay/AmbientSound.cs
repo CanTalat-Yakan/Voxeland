@@ -11,6 +11,8 @@ public class AmbientSound : MonoBehaviour
 
     void Start() { m_ambient = GetComponent<AudioSource>(); m_info = AudioManager.Instance.m_AudioInfo; }
 
+    ///Different Heigths play different Ambient Sounds
+    ///Main Music lowers till mute of Volume when underground
     void Update()
     {
         if (!GameManager.Instance) return;
@@ -35,6 +37,7 @@ public class AmbientSound : MonoBehaviour
         AudioManager.Instance.SetMainMusicVolumeOffset(GameManager.Map(pos, -40, -20, 0, 100));
     }
 
+///Helper that get the according Clio from an Enum and plays it
     void SetSound(AmbientTypes _types)
     {
         switch (_types)

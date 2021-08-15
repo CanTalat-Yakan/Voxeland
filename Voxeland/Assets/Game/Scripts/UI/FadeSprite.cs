@@ -6,28 +6,30 @@ using UnityEngine.UI;
 
 public class FadeSprite : MonoBehaviour
 {
-    Image img;
-    Sprite lastTexture;
+    Image m_img;
+    Sprite m_lastTexture;
+
     void Start()
     {
-        img = GetComponent<Image>();
+        m_img = GetComponent<Image>();
         StartCoroutine(StarFade(2, 0.33f));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (img.sprite != lastTexture)
+        if (m_img.sprite != m_lastTexture)
         {
             StopAllCoroutines();
             StartCoroutine(StarFade(2, 0.33f));
         }
-        lastTexture = img.sprite;
+        m_lastTexture = m_img.sprite;
     }
 
+    //Fades Sprite in GUI away when not changed;
     IEnumerator StarFade(float _duration, float _fadeOutDuration)
     {
-        img.color = Color.white;
+        m_img.color = Color.white;
 
         float startTime = Time.time;
         float endTime = startTime + _duration;
@@ -38,10 +40,10 @@ public class FadeSprite : MonoBehaviour
         while (Time.time < endTime)
         {
             float value = (Time.time - startTime) / _fadeOutDuration;
-            img.color = new Color(1, 1, 1, Mathf.Lerp(1, 0, value));
+            m_img.color = new Color(1, 1, 1, Mathf.Lerp(1, 0, value));
             yield return new WaitForEndOfFrame();
         }
-        img.color = new Color(1, 1, 1, 0);
+        m_img.color = new Color(1, 1, 1, 0);
 
         yield return null;
     }

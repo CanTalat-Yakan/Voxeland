@@ -480,10 +480,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21aff0b35c8c4a144995b93baa847759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 5748708887301480122}
-  ip: {fileID: 1232254442}
-  host: {fileID: 698498268}
-  manager: {fileID: 1018043807}
+  m_input: {fileID: 5748708887301480122}
+  m_ip: {fileID: 1232254442}
+  m_host: {fileID: 928098483}
+  m_manager: {fileID: 1018043807}
 --- !u!4 &160331079
 Transform:
   m_ObjectHideFlags: 0

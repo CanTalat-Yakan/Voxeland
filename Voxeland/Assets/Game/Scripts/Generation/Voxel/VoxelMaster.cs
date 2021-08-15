@@ -52,6 +52,16 @@ public class VoxelMaster : MonoBehaviour
             if (action != null) action();
         }
     }
+    
+    
+    
+    
+    
+    
+    //Incoming - Helper Function for Placing Calling or Removing Voxels used in Chunk, MeshBuilder and PlayerRayCaster
+    
+    
+    
 
     internal void RemoveVoxelAt(Vector3 _pos)
     {

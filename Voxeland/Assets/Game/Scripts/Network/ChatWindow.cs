@@ -42,6 +42,7 @@ namespace Mirror
             HandleInput();
         }
 
+        //Is called by the player when receiving or sending a message
         void OnPlayerMessage(Player player, string message)
         {
             string prettyMessage = player.isLocalPlayer ?
@@ -51,12 +52,14 @@ namespace Mirror
 
             // Debug.Log(message);
         }
+        //For Server Calls
         public void OnServerMessage(string message)
         {
             string prettyMessage = $"Server: {message}";
             AppendMessage(prettyMessage);
         }
 
+        //Is used for sending a Chatmessage with given UI Elements Information
         public void OnSend()
         {
             if (chatMessage.text.Trim() == "")
@@ -73,9 +76,9 @@ namespace Mirror
             chatMessage.text = "";
 
             // Debug.Log("OnSend");
-
         }
 
+        //Checks Input if now writing in input field, sending, defocus or hide
         void HandleInput()
         {
             if ((!chatMessage.interactable && Input.GetKeyDown(KeyCode.Y)))
@@ -127,6 +130,7 @@ namespace Mirror
             StartCoroutine(AppendAndScroll(message));
         }
 
+        //Sets the TMPro of the Protocol by appending and updating the ui
         IEnumerator AppendAndScroll(string message)
         {
             chatHistory.text += message + "\n";

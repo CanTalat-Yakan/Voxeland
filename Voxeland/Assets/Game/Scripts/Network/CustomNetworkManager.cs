@@ -28,9 +28,9 @@ namespace Mirror
 
         public struct CreatePlayerMessage : NetworkMessage
         {
-            public string name;
-            public string color;
-            public int texture;
+            public string name; //Player holds information of his given name : if not given then Guest_XXXX
+            public string color; //Holds random color above a certain hue value
+            public int texture; //Player skin that gets saved as an int and called in an array safed in scriptable
         }
 
         public override void OnStartServer()

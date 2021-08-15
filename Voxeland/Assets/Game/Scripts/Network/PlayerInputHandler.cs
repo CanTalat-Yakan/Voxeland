@@ -19,6 +19,9 @@ public class PlayerInputHandler : Mirror.NetworkBehaviour
     bool tmpGrounded;
     bool tmpFalling;
     float tmpVelocity;
+
+
+    //Handles input for animation and manipulating chunks
     void Update()
     {
         // movement for local player

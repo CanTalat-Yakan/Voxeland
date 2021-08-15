@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
             PlayMainMusic(0.14f);
     }
 
+    //Initialy used to download big Main Music file in runtime, but not used anymore. Still present because of functionality
     IEnumerator StreamMainMusic(string _link, AudioType _type = AudioType.OGGVORBIS)
     {
         using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(_link, _type))
@@ -66,6 +67,8 @@ public class AudioManager : MonoBehaviour
 
         return audioSource;
     }
+    
+    //Easy to use Play audioClip you can get of the Info holder field in this class Manager
     internal static AudioSource Play(AudioSource _source, AudioClip _clip, bool? _loop = null, float? _volume = null, float? _pitch = null)
     {
         _source.clip = _clip;

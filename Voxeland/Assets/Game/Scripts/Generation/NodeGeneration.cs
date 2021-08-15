@@ -6,11 +6,12 @@ public class NodeGeneration : MonoBehaviour
 {
     float surface, detailMult, mountainBiome, desertBiome, oceanBiome;
 
+    //Generates Nodes according to given World Position and LOD using efficient Noise and the remap functions.
     public virtual short Generation(int x, int y, int z, byte lod)
     {
         VoxelType voxel = VoxelType.AIR;
         y += 15;
-        
+
         GetSurfaceHeigth(x, z);
 
 

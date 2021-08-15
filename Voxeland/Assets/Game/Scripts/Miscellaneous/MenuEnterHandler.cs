@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class MenuEnterHandler : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField input;
-    [SerializeField] private TMP_InputField ip;
-    [SerializeField] private GameObject host;
-    [SerializeField] private NetworkManager manager;
+    [SerializeField] private TMP_InputField m_input;
+    [SerializeField] private TMP_InputField m_ip;
+    [SerializeField] private GameObject m_host;
+    [SerializeField] private NetworkManager m_manager;
 
 
     void Start()
     {
-        input.interactable = true;
-        input.Select();
-        input.ActivateInputField();
-        host.SetActive(Application.platform != RuntimePlatform.WebGLPlayer);
+        m_input.interactable = true;
+        m_input.Select();
+        m_input.ActivateInputField();
+        m_host.SetActive(Application.platform != RuntimePlatform.WebGLPlayer);
     }
 
     void Update()
@@ -28,18 +28,18 @@ public class MenuEnterHandler : MonoBehaviour
 
     public void JoinServer()
     {
-        manager.networkAddress = "18.159.34.101";
-        manager.StartClient();
+        m_manager.networkAddress = "18.159.34.101";
+        m_manager.StartClient();
     }
 
     public void JoinAsClient()
     {
-        manager.networkAddress = string.IsNullOrEmpty(ip.text) ? "localhost" : ip.text;
-        manager.StartClient();
+        m_manager.networkAddress = string.IsNullOrEmpty(m_ip.text) ? "localhost" : m_ip.text;
+        m_manager.StartClient();
     }
 
     public void JoinAsHost()
     {
-        manager.StartHost();
+        m_manager.StartHost();
     }
 }

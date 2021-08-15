@@ -14,6 +14,7 @@ public class Zoom : MonoBehaviour
         m_mouseLook = GetComponent<ECM.Components.MouseLook>();
     }
 
+    //Handles Input for Zooming FOV of Camera
     void LateUpdate()
     {
         if (m_camera is null)

@@ -36,6 +36,7 @@ public class VoxelGeneration : MonoBehaviour
                 renderPos = mainCamera.transform.position;
     }
 
+    //Voxelgeneration begins the TerrainCreation. First Get Position and if not updating then create Grid for all LODs and Generating Chunks according
     IEnumerator UpdateGeneration()
     {
         if (GenerationAction is null)

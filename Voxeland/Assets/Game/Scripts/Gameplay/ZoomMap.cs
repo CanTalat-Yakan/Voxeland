@@ -6,6 +6,7 @@ public class ZoomMap : MonoBehaviour
 {
     [SerializeField] Camera m_cam;
 
+//Handles Camera Rendersize of MiniMap displayed in HUD
     void Update()
     {
         if (Input.GetKey(KeyCode.PageDown))

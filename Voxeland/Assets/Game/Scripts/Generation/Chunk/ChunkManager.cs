@@ -23,6 +23,7 @@ public class ChunkManager : MonoBehaviour
         }
     }
 
+    //Culls Chunk if not in Range and sets dirty every x Tick
     void UpdateChunk()
     {
         if (mainCamera is null || Chunk is null || Chunk.Master is null) return;

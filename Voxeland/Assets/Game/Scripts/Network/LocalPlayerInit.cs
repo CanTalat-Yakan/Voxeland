@@ -6,6 +6,7 @@ public class LocalPlayerInit : NetworkBehaviour
     [SerializeField] private GameObject m_cameraPivot;
     Player m_player;
 
+    //Initializes the Player or Client according to IsLocalPlayer and setsup Components 
     void Start()
     {
         m_player = GetComponent<Player>();
@@ -28,7 +29,7 @@ public class LocalPlayerInit : NetworkBehaviour
             m_player.SetupCanvas();
             m_player.SetupMaterial();
             m_player.SetupPointLight();
-            
+
             GetComponent<Rigidbody>().Sleep();
             GetComponent<CapsuleCollider>().enabled = false;
 

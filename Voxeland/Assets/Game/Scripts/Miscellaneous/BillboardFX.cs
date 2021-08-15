@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class BillboardFX : MonoBehaviour
 {
-    Quaternion originalRotation;
+    Quaternion m_originalRotation;
 
     void Start()
     {
-        originalRotation = transform.localRotation;
+        m_originalRotation = transform.localRotation;
     }
 
     void Update()
     {
         if (GameManager.Instance)
             if (GameManager.Instance.m_MainCamera)
-                transform.rotation = Quaternion.LookRotation(transform.position - GameManager.Instance.m_MainCamera.transform.position) * originalRotation;
+                transform.rotation = Quaternion.LookRotation(transform.position - GameManager.Instance.m_MainCamera.transform.position) * m_originalRotation;
     }
 }

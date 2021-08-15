@@ -34,6 +34,7 @@ public class MeshBuilder
         parent = _p;
     }
 
+    //Generates mesh by iterating through all Voxels inside Chunk that is same size three dimensional grid with a unit of 1 meter. LOD scales up gameObject
     internal void GenerateMesh()
     {
         Vector3Int pos;
@@ -57,8 +58,10 @@ public class MeshBuilder
 
                     pos = new Vector3Int(x, y, z);
 
+                    //All adjucent Blocks called one time to be used in generation and AO
                     adjVoxels = GetAdjacents(pos);
 
+                    //Checks for Air Blocks to draw Quads
                     bool front = GetAir(FaceSide.FRONT);
                     bool left = GetAir(FaceSide.LEFT);
                     bool back = GetAir(FaceSide.BACK);
@@ -66,6 +69,7 @@ public class MeshBuilder
                     bool top = GetAir(FaceSide.TOP);
                     bool bottom = GetAir(FaceSide.BOTTOM);
 
+                    //Checks for Transparent Voxel, like Leaves and displays the adjucent Voxel inside facing Quads
                     {
                         front |= GetTransperency(FaceSide.FRONT);
                         left |= GetTransperency(FaceSide.LEFT);
@@ -75,6 +79,7 @@ public class MeshBuilder
                         bottom |= GetTransperency(FaceSide.BOTTOM);
                     }
 
+                    //If the outside walls of the Chunks should be created, for seamless experience enable. Updating neighbour chunks not available
                     bool b = true;
                     if (true)
                     {
@@ -86,7 +91,7 @@ public class MeshBuilder
                         if (z == 0) back = b;
                     }
 
-
+                    //Checks if Side is Visible and then creates Quad and adds it to List to be added in the Mesh buffer in the last step
                     if (front)
                         faces.Add(new Quad()
                         {
@@ -159,7 +164,7 @@ public class MeshBuilder
 
         SetMesh();
     }
-
+    //Sets the Mesh Buffer with given Information of Quads and AO
     void SetMesh()
     {
         Vector3[] verts = new Vector3[faces.Count * 4];
@@ -183,14 +188,14 @@ public class MeshBuilder
             {
                 normals[vertIndex] = quad.n;
                 colors[vertIndex] = quad.c;
-                colors[vertIndex] = GetLightColor(quad.c, quad.i[i]);
+                colors[vertIndex] = GetLightColor(quad.c, quad.i[i]);//AO
                 uvs[vertIndex] = quad.uv[i];
                 verts[vertIndex] = quad.v[i];
                 vertIndex++;
             }
         }
 
-        VoxelMaster.MainThread.Enqueue(() =>
+        VoxelMaster.MainThread.Enqueue(() => //Enques to MainThread because settings mesh is not possible in threading solutions
         {
             parent.info.Mesh = new Mesh
             {
@@ -336,6 +341,12 @@ public class MeshBuilder
 
         return vec;
     }
+
+
+
+
+    //Incoming AO Calculations
+    //Checks existens ambient Voxels and calculates  if 2 sides and 1 Corner are there the sets the lightlevel accordingly
 
     Color32 GetColor(byte _d)
     {

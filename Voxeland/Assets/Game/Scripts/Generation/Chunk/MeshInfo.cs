@@ -8,6 +8,7 @@ public class MeshInfo : MonoBehaviour
     public ChunkManager Manager;
     public Mesh Mesh;
 
+    //Holds References of MeshInformation to not call GetComponent
     public void ResetAll()
     {
         gameObject.SetActive(false);

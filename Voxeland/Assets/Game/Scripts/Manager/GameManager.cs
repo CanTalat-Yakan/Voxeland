@@ -44,6 +44,7 @@ public class GameManager : NetworkBehaviour
             m_MainCamera = Camera.main;
     }
 
+    //Spawns player when Chunk is generated on surface heigth given from NodeGenerator
     internal void SpawnPlayer(GameObject _player)
     {
         StartCoroutine(SpawnPlayerCoroutine(_player));
@@ -132,6 +133,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    //For Inside Bounds Check in RayCaster and future server client List on tab
     internal void AddClient(Player _p)
     {
         if (IsClient) ClientList.Add(_p);
@@ -146,6 +148,9 @@ public class GameManager : NetworkBehaviour
         foreach (var item in ClientList)
             Debug.Log(item);
     }
+
+
+    // incoming - functionality for simplicity
 
     internal RaycastHit HitRayCast(float _maxDistance, Ray? _ray = null)
     {
