@@ -1,8 +1,9 @@
 # Voxeland
-A Minecraft/Cubeworld-like WebGL-Game on HTML5 created with Unity 2020.3 URP.  Accessible on https://www.Voxeland.xyz (hosted via Hostinger) you can join a Server (running via Amazon AWS Lightsail) using the Network-API from Mirror 
+~~A Minecraft/Cubeworld-like WebGL-Game on HTML5 created with Unity 2020.3 URP.  Accessible on https://www.Voxeland.xyz (hosted via Hostinger) you can join a Server (running via Amazon AWS Lightsail) using the Network-API from Mirror.~~
+
 (Not anymore)
 
-Download on [Itch.io](https://can-talat-yakan.itch.io/voxeland)
+Download on instead: [Itch.io](https://can-talat-yakan.itch.io/voxeland)
 
 [![Video Title](https://img.youtube.com/vi/OUJqYngQETU/0.jpg)](https://www.youtube.com/watch?v=OUJqYngQETU)
 
