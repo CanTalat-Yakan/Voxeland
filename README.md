@@ -5,7 +5,7 @@
 
 (Not anymore)
 
-Download on instead: [Itch.io](https://can-talat-yakan.itch.io/voxeland)
+Download here instead: [Itch.io](https://can-talat-yakan.itch.io/voxeland)
 
 [![Video Title](https://img.youtube.com/vi/OUJqYngQETU/0.jpg)](https://www.youtube.com/watch?v=OUJqYngQETU)
 
